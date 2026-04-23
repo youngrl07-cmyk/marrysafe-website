@@ -224,6 +224,19 @@
             <input type="text" id="popup-btn-link" placeholder="#contact 또는 https://...">
             <div class="form-hint">섹션 이동: #contact / #pricing / #faq</div>
           </div>
+          <div class="form-group">
+            <label class="form-label">팝업 이미지 <span style="font-size:.72rem;color:var(--light);font-weight:400;">(선택 · 이미지 설정 시 제목/내용 위에 표시)</span></label>
+            <div class="upload-zone" id="popup-img-zone" onclick="document.getElementById('popup-img-file').click()">
+              <input type="file" id="popup-img-file" accept="image/*" onchange="handlePopupImg(this)">
+              <div class="upload-zone-icon">🖼</div>
+              <p>클릭하여 이미지 업로드</p>
+              <span>JPG, PNG, WEBP · 권장 비율 4:3 또는 1:1</span>
+            </div>
+            <div class="hero-preview-box" id="popup-img-preview">
+              <img id="popup-img-thumb" src="" alt="팝업 이미지 미리보기">
+              <button class="hero-prev-remove" onclick="removePopupImg()">✕ 이미지 삭제</button>
+            </div>
+          </div>
           <button class="btn-save" onclick="savePopup()">저장</button>
         </div>
       </div>
@@ -515,6 +528,11 @@
       document.getElementById('popup-body').value = d.popup.body || '';
       document.getElementById('popup-btn-text').value = d.popup.btnText || '';
       document.getElementById('popup-btn-link').value = d.popup.btnLink || '';
+      if (d.popup.imgSrc) {
+        document.getElementById('popup-img-thumb').src = d.popup.imgSrc;
+        document.getElementById('popup-img-preview').style.display = 'block';
+        document.getElementById('popup-img-zone').style.display = 'none';
+      }
       refreshBadge('popup');
     }
 
@@ -556,6 +574,24 @@
     }
   }
 
+  // ─ 팝업 이미지 ─
+  function handlePopupImg(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('popup-img-thumb').src = e.target.result;
+      document.getElementById('popup-img-preview').style.display = 'block';
+      document.getElementById('popup-img-zone').style.display = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+  function removePopupImg() {
+    document.getElementById('popup-img-thumb').src = '';
+    document.getElementById('popup-img-preview').style.display = 'none';
+    document.getElementById('popup-img-zone').style.display = 'block';
+    document.getElementById('popup-img-file').value = '';
+  }
+
   // ─ 팝업 ─
   function savePopup() {
     const d = getData();
@@ -565,6 +601,7 @@
       body: document.getElementById('popup-body').value,
       btnText: document.getElementById('popup-btn-text').value,
       btnLink: document.getElementById('popup-btn-link').value,
+      imgSrc: document.getElementById('popup-img-thumb').src || '',
     };
     setData(d); refreshBadge('popup'); toast('팝업 설정이 저장되었습니다.');
   }

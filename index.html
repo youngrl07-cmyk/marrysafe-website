@@ -57,7 +57,10 @@
     /* ── POPUP ── */
     #popup-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; }
     #popup-overlay.active { display:flex; }
-    #popup-box { background:#fff; max-width:420px; width:90%; padding:3rem 2.5rem 2.5rem; text-align:center; position:relative; }
+    #popup-box { background:#fff; max-width:420px; width:90%; padding:0 0 2.5rem; text-align:center; position:relative; overflow:hidden; }
+    #popup-box-content { padding:2.5rem 2.5rem 0; }
+    #popup-img-wrap { display:none; width:100%; }
+    #popup-img-wrap img { width:100%; max-height:240px; object-fit:cover; display:block; }
     #popup-box h3 { font-family:'Cormorant',serif; font-size:1.9rem; font-weight:400; margin-bottom:.85rem; }
     #popup-box p { font-size:.85rem; color:var(--mid); line-height:1.9; margin-bottom:1.75rem; font-weight:300; }
     #popup-box .popup-btn { display:inline-block; background:var(--dark); color:#fff; padding:.8rem 2rem; font-size:.8rem; letter-spacing:.1em; border:none; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
@@ -414,11 +417,14 @@
 <!-- 팝업 -->
 <div id="popup-overlay" role="dialog" aria-modal="true">
   <div id="popup-box">
-    <button id="popup-close" aria-label="닫기">✕</button>
+    <button id="popup-close" aria-label="닫기" style="position:absolute;top:1.25rem;right:1.25rem;z-index:1;">✕</button>
+    <div id="popup-img-wrap"><img id="popup-img" src="" alt="팝업 이미지"></div>
+    <div id="popup-box-content">
     <h3 id="popup-title"></h3>
     <p id="popup-body"></p>
     <a id="popup-btn" class="popup-btn" href="#contact">자세히 보기</a>
     <button id="popup-no-show">오늘 하루 보지 않기</button>
+    </div>
   </div>
 </div>
 
@@ -860,6 +866,10 @@
       document.getElementById('popup-body').textContent = d.popup.body || '';
       if (d.popup.btnText) document.getElementById('popup-btn').textContent = d.popup.btnText;
       if (d.popup.btnLink) document.getElementById('popup-btn').href = d.popup.btnLink;
+      if (d.popup.imgSrc) {
+        document.getElementById('popup-img').src = d.popup.imgSrc;
+        document.getElementById('popup-img-wrap').style.display = 'block';
+      }
       document.getElementById('popup-overlay').classList.add('active');
     }
     if (d.heroImage) document.getElementById('hero-img').src = d.heroImage;
