@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MARRYSAFE 관리자 페이지</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --dark:#1A1A1A; --mid:#4A4A4A; --light:#888;
+      --border:#E0E0E0; --bg:#F5F5F5; --white:#fff;
+      --gold:#C4A882; --gold-dark:#9A7D5A;
+      --success:#27AE60; --danger:#E74C3C; --info:#2980B9;
+    }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--dark); font-size:14px; }
+
+    /* ─ LOGIN ─ */
+    #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    .login-box { background:var(--white); padding:3rem 2.5rem; width:360px; box-shadow:0 4px 24px rgba(0,0,0,.1); }
+    .login-logo { font-size:1.4rem; font-weight:300; letter-spacing:.15em; text-align:center; margin-bottom:.4rem; }
+    .login-sub { font-size:.75rem; color:var(--light); text-align:center; margin-bottom:2rem; }
+    .login-box input { width:100%; border:1px solid var(--border); padding:.75rem 1rem; font-size:.88rem; font-family:inherit; margin-bottom:1rem; outline:none; transition:border-color .2s; }
+    .login-box input:focus { border-color:var(--gold-dark); }
+    .login-box button { width:100%; background:var(--dark); color:#fff; border:none; padding:.85rem; font-size:.88rem; letter-spacing:.08em; cursor:pointer; font-family:inherit; transition:background .2s; }
+    .login-box button:hover { background:var(--gold-dark); }
+    .login-error { font-size:.8rem; color:var(--danger); margin-top:.75rem; text-align:center; display:none; }
+
+    /* ─ ADMIN LAYOUT ─ */
+    #admin-screen { display:none; min-height:100vh; }
+    .admin-nav {
+      background:var(--dark); color:#fff; padding:0 2rem;
+      display:flex; align-items:center; justify-content:space-between; height:56px;
+      position:sticky; top:0; z-index:100;
+    }
+    .admin-nav-logo { font-size:1rem; letter-spacing:.15em; font-weight:400; }
+    .admin-nav-right { display:flex; gap:1rem; align-items:center; }
+    .admin-nav-right a, .admin-nav-right button { font-size:.78rem; color:rgba(255,255,255,.7); background:none; border:none; cursor:pointer; font-family:inherit; text-decoration:none; transition:color .2s; }
+    .admin-nav-right a:hover, .admin-nav-right button:hover { color:#fff; }
+    .preview-btn { background:var(--gold-dark) !important; color:#fff !important; padding:.35rem .9rem; border-radius:2px; }
+
+    .admin-body { display:flex; min-height:calc(100vh - 56px); }
+
+    /* ─ SIDEBAR ─ */
+    .sidebar { width:220px; background:var(--white); border-right:1px solid var(--border); padding:1.5rem 0; flex-shrink:0; position:sticky; top:56px; height:calc(100vh - 56px); overflow-y:auto; }
+    .sidebar-section { font-size:.68rem; color:var(--light); letter-spacing:.12em; text-transform:uppercase; padding:.75rem 1.5rem .3rem; }
+    .sidebar-item { display:block; padding:.65rem 1.5rem; font-size:.84rem; color:var(--mid); cursor:pointer; border:none; background:none; width:100%; text-align:left; font-family:inherit; transition:all .15s; border-left:3px solid transparent; }
+    .sidebar-item:hover { background:var(--bg); color:var(--dark); }
+    .sidebar-item.active { background:var(--bg); color:var(--dark); font-weight:500; border-left-color:var(--gold-dark); }
+
+    /* ─ MAIN ─ */
+    .admin-main { flex:1; padding:2rem; overflow-y:auto; max-width:860px; }
+    .admin-panel { display:none; }
+    .admin-panel.active { display:block; }
+    .panel-title { font-size:1.15rem; font-weight:600; margin-bottom:.35rem; }
+    .panel-desc { font-size:.82rem; color:var(--light); margin-bottom:2rem; line-height:1.7; }
+
+    .card { background:var(--white); border:1px solid var(--border); padding:1.5rem; margin-bottom:1.25rem; }
+    .card-title { font-size:.88rem; font-weight:600; margin-bottom:1.25rem; padding-bottom:.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+    .badge { font-size:.65rem; padding:.15rem .5rem; border-radius:10px; font-weight:400; }
+    .badge-on { background:#e8f5e9; color:var(--success); }
+    .badge-off { background:#fef0f0; color:var(--danger); }
+
+    /* ─ FORM ─ */
+    .form-group { margin-bottom:1rem; }
+    .form-label { display:block; font-size:.8rem; font-weight:500; color:var(--mid); margin-bottom:.4rem; }
+    .form-hint { font-size:.72rem; color:var(--light); margin-top:.3rem; line-height:1.6; }
+    input[type=text], input[type=password], input[type=url], input[type=number], textarea, select {
+      width:100%; border:1px solid var(--border); padding:.65rem .85rem;
+      font-size:.84rem; font-family:inherit; outline:none; background:#fff;
+      transition:border-color .2s; border-radius:2px;
+    }
+    input:focus, textarea:focus { border-color:var(--gold-dark); }
+    textarea { resize:vertical; min-height:80px; }
+
+    .price-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+    .toggle-wrap { display:flex; align-items:center; gap:.75rem; }
+    .toggle { position:relative; width:44px; height:24px; }
+    .toggle input { opacity:0; width:0; height:0; }
+    .toggle-slider { position:absolute; inset:0; background:#ccc; cursor:pointer; border-radius:24px; transition:.3s; }
+    .toggle-slider::before { content:''; position:absolute; width:18px; height:18px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.3s; }
+    .toggle input:checked + .toggle-slider { background:var(--gold-dark); }
+    .toggle input:checked + .toggle-slider::before { transform:translateX(20px); }
+    .toggle-label { font-size:.84rem; color:var(--mid); }
+
+    /* ─ BUTTONS ─ */
+    .btn-save { background:var(--dark); color:#fff; border:none; padding:.7rem 1.5rem; font-size:.82rem; letter-spacing:.06em; cursor:pointer; font-family:inherit; transition:background .2s; }
+    .btn-save:hover { background:var(--gold-dark); }
+    .btn-sm { background:var(--dark); color:#fff; border:none; padding:.4rem .85rem; font-size:.76rem; cursor:pointer; font-family:inherit; border-radius:2px; transition:background .2s; }
+    .btn-sm:hover { background:var(--gold-dark); }
+    .btn-danger { background:var(--danger); color:#fff; border:none; padding:.4rem .85rem; font-size:.76rem; cursor:pointer; font-family:inherit; border-radius:2px; }
+
+    /* ─ UPLOAD ─ */
+    .upload-zone {
+      border:2px dashed var(--border); padding:2.5rem 1.5rem; text-align:center;
+      cursor:pointer; transition:all .2s; background:#fafafa; border-radius:4px;
+    }
+    .upload-zone:hover, .upload-zone.dragover { border-color:var(--gold-dark); background:#fdf8f2; }
+    .upload-zone-icon { font-size:2rem; margin-bottom:.75rem; }
+    .upload-zone p { font-size:.84rem; color:var(--mid); margin-bottom:.4rem; }
+    .upload-zone span { font-size:.75rem; color:var(--light); }
+    .upload-zone input[type=file] { display:none; }
+
+    /* ─ GALLERY GRID ─ */
+    .img-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:.75rem; margin-bottom:1rem; }
+    .img-card { position:relative; aspect-ratio:4/3; overflow:hidden; border:1px solid var(--border); background:var(--bg); border-radius:3px; }
+    .img-card img { width:100%; height:100%; object-fit:cover; display:block; }
+    .img-card-overlay { position:absolute; inset:0; background:rgba(0,0,0,0); transition:background .2s; display:flex; align-items:flex-end; justify-content:flex-end; padding:.4rem; }
+    .img-card:hover .img-card-overlay { background:rgba(0,0,0,.3); }
+    .img-del { background:rgba(231,76,60,.9); color:#fff; border:none; border-radius:50%; width:26px; height:26px; font-size:.8rem; cursor:pointer; opacity:0; transition:opacity .2s; display:flex; align-items:center; justify-content:center; }
+    .img-card:hover .img-del { opacity:1; }
+    .img-count { font-size:.78rem; color:var(--light); margin-bottom:.75rem; }
+    .storage-bar-wrap { margin-top:.75rem; }
+    .storage-bar { height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .storage-bar-fill { height:100%; background:var(--gold-dark); border-radius:3px; transition:width .3s; }
+    .storage-label { font-size:.72rem; color:var(--light); margin-top:.3rem; }
+
+    /* ─ HERO PREVIEW ─ */
+    .hero-preview-box { margin-top:.75rem; border:1px solid var(--border); overflow:hidden; display:none; border-radius:3px; }
+    .hero-preview-box img { width:100%; max-height:220px; object-fit:cover; display:block; }
+    .hero-preview-box .hero-prev-remove { display:block; width:100%; background:#fef0f0; border:none; padding:.55rem; font-size:.78rem; color:var(--danger); cursor:pointer; font-family:inherit; }
+
+    /* ─ STATS GRID ─ */
+    .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+    /* ─ PW ─ */
+    .pw-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+    /* ─ INFO TABLE ─ */
+    .info-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    .info-table td { padding:.6rem 0; color:var(--light); }
+    .info-table td:last-child { color:var(--dark); font-weight:500; }
+    .info-table tr { border-bottom:1px solid var(--border); }
+    .info-table tr:last-child { border-bottom:none; }
+
+    /* ─ TOAST ─ */
+    #toast { position:fixed; bottom:2rem; right:2rem; background:var(--dark); color:#fff; padding:.85rem 1.5rem; font-size:.84rem; border-radius:3px; opacity:0; transform:translateY(8px); transition:all .3s; pointer-events:none; z-index:9999; max-width:320px; }
+    #toast.show { opacity:1; transform:translateY(0); }
+
+    /* ─ HELP BOX ─ */
+    .help-box { background:#f0f7ff; border:1px solid #bcd4f0; padding:1rem 1.25rem; border-radius:3px; font-size:.81rem; color:#1a4a7a; line-height:1.75; margin-bottom:1.25rem; }
+    .help-box strong { font-weight:600; }
+
+    @media(max-width:640px) {
+      .admin-body { flex-direction:column; }
+      .sidebar { width:100%; height:auto; position:static; display:flex; flex-wrap:wrap; padding:.5rem; }
+      .sidebar-section { display:none; }
+      .sidebar-item { width:auto; padding:.45rem .85rem; font-size:.78rem; border-left:none; border-bottom:2px solid transparent; }
+      .sidebar-item.active { border-bottom-color:var(--gold-dark); border-left-color:transparent; }
+      .price-row, .stats-grid, .pw-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 로그인 -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">MARRYSAFE</div>
+    <div class="login-sub">관리자 페이지</div>
+    <input type="password" id="pw-input" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
+    <button onclick="doLogin()">로그인</button>
+    <p class="login-error" id="login-error">비밀번호가 올바르지 않습니다.</p>
+    <p style="font-size:.72rem;color:var(--light);text-align:center;margin-top:1rem;">초기 비밀번호: admin1234</p>
+  </div>
+</div>
+
+<!-- 어드민 -->
+<div id="admin-screen">
+  <nav class="admin-nav">
+    <div class="admin-nav-logo">MARRYSAFE 관리자</div>
+    <div class="admin-nav-right">
+      <a href="index.html" target="_blank" class="preview-btn">홈페이지 보기 →</a>
+      <button onclick="doLogout()">로그아웃</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+    <aside class="sidebar">
+      <div class="sidebar-section">홈페이지 관리</div>
+      <button class="sidebar-item active" onclick="showPanel('popup',this)">📢 이벤트 팝업</button>
+      <button class="sidebar-item" onclick="showPanel('banner',this)">🎀 상단 배너</button>
+      <button class="sidebar-item" onclick="showPanel('hero',this)">🖼 메인 배경 사진</button>
+      <button class="sidebar-item" onclick="showPanel('gallery',this)">📷 현장 갤러리</button>
+      <button class="sidebar-item" onclick="showPanel('pricing',this)">💰 가격 안내</button>
+      <button class="sidebar-item" onclick="showPanel('stats',this)">📊 신뢰 지표</button>
+      <div class="sidebar-section">설정</div>
+      <button class="sidebar-item" onclick="showPanel('contact',this)">📌 연락처 정보</button>
+      <button class="sidebar-item" onclick="showPanel('password',this)">🔐 비밀번호</button>
+    </aside>
+
+    <main class="admin-main">
+
+      <!-- ① 이벤트 팝업 -->
+      <div class="admin-panel active" id="panel-popup">
+        <div class="panel-title">이벤트 팝업 관리</div>
+        <p class="panel-desc">홈페이지 접속 시 팝업창을 표시합니다. 할인 이벤트, 마감 임박 공지 등에 활용하세요.</p>
+        <div class="card">
+          <div class="card-title">팝업 표시 여부 <span class="badge badge-off" id="popup-badge">OFF</span></div>
+          <div class="toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="popup-active" onchange="refreshBadge('popup')"><span class="toggle-slider"></span></label>
+            <span class="toggle-label">팝업 켜기</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">팝업 내용</div>
+          <div class="form-group">
+            <label class="form-label">제목 *</label>
+            <input type="text" id="popup-title" placeholder="예: 🎉 6월 한정 할인 이벤트">
+          </div>
+          <div class="form-group">
+            <label class="form-label">내용</label>
+            <textarea id="popup-body" placeholder="예: 6월 예약 고객에게 10% 할인 혜택을 드립니다. 지금 바로 문의해 주세요!"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">버튼 텍스트</label>
+            <input type="text" id="popup-btn-text" placeholder="자세히 보기 (기본값)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">버튼 링크</label>
+            <input type="text" id="popup-btn-link" placeholder="#contact 또는 https://...">
+            <div class="form-hint">섹션 이동: #contact / #pricing / #faq</div>
+          </div>
+          <button class="btn-save" onclick="savePopup()">저장</button>
+        </div>
+      </div>
+
+      <!-- ② 상단 배너 -->
+      <div class="admin-panel" id="panel-banner">
+        <div class="panel-title">상단 배너 관리</div>
+        <p class="panel-desc">홈페이지 최상단에 한 줄 배너를 표시합니다. 짧은 이벤트 안내에 활용하세요.</p>
+        <div class="card">
+          <div class="card-title">배너 표시 여부 <span class="badge badge-off" id="banner-badge">OFF</span></div>
+          <div class="toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="banner-active" onchange="refreshBadge('banner')"><span class="toggle-slider"></span></label>
+            <span class="toggle-label">배너 켜기</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">배너 문구</div>
+          <div class="form-group">
+            <label class="form-label">배너 텍스트 *</label>
+            <input type="text" id="banner-text" placeholder="예: 🎉 6월 예약 특가 진행 중! 지금 문의하세요">
+          </div>
+          <button class="btn-save" onclick="saveBanner()">저장</button>
+        </div>
+      </div>
+
+      <!-- ③ 메인 배경 사진 (히어로) -->
+      <div class="admin-panel" id="panel-hero">
+        <div class="panel-title">메인 배경 사진</div>
+        <p class="panel-desc">홈페이지 첫 화면(가장 상단)의 배경 사진을 설정합니다. 사진을 넣지 않으면 기본 베이지 배경이 표시됩니다.</p>
+
+        <div class="help-box">
+          <strong>권장 사이즈:</strong> 가로 1920px 이상, 가로로 넓은 사진 (예: 예식장 전경, 웨딩 분위기 사진)<br>
+          <strong>파일 크기:</strong> 3MB 이하 권장 (자동으로 압축됩니다)
+        </div>
+
+        <div class="card">
+          <div class="card-title">배경 사진 업로드</div>
+
+          <!-- 현재 이미지 -->
+          <div class="hero-preview-box" id="hero-preview-box">
+            <img id="hero-preview-img" src="" alt="메인 배경 미리보기">
+            <button class="hero-prev-remove" onclick="removeHeroImage()">✕ 사진 제거 (기본 배경으로 변경)</button>
+          </div>
+
+          <!-- 업로드 존 -->
+          <div class="upload-zone" id="hero-drop-zone" onclick="document.getElementById('hero-file').click()">
+            <div class="upload-zone-icon">📁</div>
+            <p>클릭하거나 사진을 여기에 끌어다 놓으세요</p>
+            <span>JPG, PNG, WEBP · 최대 5MB</span>
+            <input type="file" id="hero-file" accept="image/*" onchange="handleHeroUpload(this.files[0])">
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ 현장 갤러리 -->
+      <div class="admin-panel" id="panel-gallery">
+        <div class="panel-title">현장 갤러리 사진 관리</div>
+        <p class="panel-desc">사진을 추가하면 홈페이지에 갤러리 섹션이 자동으로 나타납니다. 최대 6장까지 추가할 수 있습니다.</p>
+
+        <div class="help-box">
+          <strong>권장 사이즈:</strong> 정사각형 또는 4:3 비율 사진 (예: 축의대 현장, 운영 모습)<br>
+          사진은 브라우저에 저장되므로 <strong>총 6장 이내, 장당 1MB 이하</strong>를 권장합니다.
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            현재 갤러리
+            <span style="font-size:.78rem;font-weight:400;color:var(--light);" id="gallery-count-text">0 / 6장</span>
+          </div>
+
+          <!-- 스토리지 표시 -->
+          <div class="storage-bar-wrap">
+            <div class="storage-bar"><div class="storage-bar-fill" id="storage-fill" style="width:0%"></div></div>
+            <div class="storage-label" id="storage-label">브라우저 저장공간 사용량: 계산 중...</div>
+          </div>
+
+          <div style="height:.75rem;"></div>
+
+          <div class="img-grid" id="gallery-grid"></div>
+          <p id="gallery-empty" style="font-size:.82rem;color:var(--light);padding:.5rem 0;">아직 추가된 사진이 없습니다.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">사진 추가</div>
+          <div class="upload-zone" id="gallery-drop-zone" onclick="document.getElementById('gallery-file').click()">
+            <div class="upload-zone-icon">📸</div>
+            <p>클릭하거나 사진을 여기에 끌어다 놓으세요</p>
+            <span>JPG, PNG, WEBP · 여러 장 동시 선택 가능</span>
+            <input type="file" id="gallery-file" accept="image/*" multiple onchange="handleGalleryUpload(this.files)">
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑤ 가격 안내 -->
+      <div class="admin-panel" id="panel-pricing">
+        <div class="panel-title">가격 안내 수정</div>
+        <p class="panel-desc">서비스 가격을 수정합니다. 저장하면 홈페이지에 바로 반영됩니다.</p>
+        <div class="card">
+          <div class="card-title">서비스 가격</div>
+          <div class="price-row">
+            <div class="form-group">
+              <label class="form-label">2인 1팀 가격 (만원)</label>
+              <input type="number" id="price-basic" placeholder="40">
+              <div class="form-hint">숫자만 입력. 예: 40 → '40만원'으로 표시</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">4인 2팀 가격 (만원)</label>
+              <input type="number" id="price-standard" placeholder="70">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">2인 1팀 — 기준 하객 수 설명</label>
+            <input type="text" id="price-basic-desc" placeholder="기본 하객 200명 이하 기준">
+          </div>
+          <div class="form-group">
+            <label class="form-label">4인 2팀 — 기준 하객 수 설명</label>
+            <input type="text" id="price-standard-desc" placeholder="기본 양가 합산 350명 이하 기준">
+          </div>
+          <button class="btn-save" onclick="savePricing()">저장</button>
+        </div>
+        <div class="card">
+          <div class="card-title">추가 옵션 안내 문구</div>
+          <div class="form-group">
+            <label class="form-label">옵션 안내</label>
+            <textarea id="price-option" placeholder="2부 예식 등 서비스 시간 초과 또는 기준 하객 수 초과 시 추가 요금이 발생할 수 있습니다. 예약 상담 시 별도 문의해 주세요."></textarea>
+          </div>
+          <button class="btn-save" onclick="savePricing()">저장</button>
+        </div>
+      </div>
+
+      <!-- ⑥ 신뢰 지표 -->
+      <div class="admin-panel" id="panel-stats">
+        <div class="panel-title">신뢰 지표 수치</div>
+        <p class="panel-desc">홈페이지 상단 검은 바에 표시되는 수치와 설명을 변경합니다.</p>
+        <div class="card">
+          <div class="card-title">수치 설정</div>
+          <div class="stats-grid">
+            <div class="form-group"><label class="form-label">지표 1 — 수치</label><input type="text" id="s1v" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">지표 1 — 설명</label><input type="text" id="s1l" placeholder="분실 사고 건수"></div>
+            <div class="form-group"><label class="form-label">지표 2 — 수치</label><input type="text" id="s2v" placeholder="3대"></div>
+            <div class="form-group"><label class="form-label">지표 2 — 설명</label><input type="text" id="s2l" placeholder="카메라 전 과정 녹화"></div>
+            <div class="form-group"><label class="form-label">지표 3 — 수치</label><input type="text" id="s3v" placeholder="3단계"></div>
+            <div class="form-group"><label class="form-label">지표 3 — 설명</label><input type="text" id="s3l" placeholder="인수인계 본인 확인"></div>
+            <div class="form-group"><label class="form-label">지표 4 — 수치</label><input type="text" id="s4v" placeholder="서울·수도권"></div>
+            <div class="form-group"><label class="form-label">지표 4 — 설명</label><input type="text" id="s4l" placeholder="주요 지역 출장비 무료"></div>
+          </div>
+          <button class="btn-save" onclick="saveStats()">저장</button>
+        </div>
+      </div>
+
+      <!-- ⑦ 연락처 -->
+      <div class="admin-panel" id="panel-contact">
+        <div class="panel-title">연락처 정보</div>
+        <p class="panel-desc">이메일, 카카오채널 등 문의처 정보를 수정합니다.</p>
+        <div class="card">
+          <div class="card-title">연락처 수정</div>
+          <div class="form-group">
+            <label class="form-label">이메일 주소</label>
+            <input type="text" id="contact-email" placeholder="pickyglobal@gmail.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">카카오채널 링크</label>
+            <input type="text" id="contact-kakao" placeholder="https://pf.kakao.com/xxxxx/chat">
+            <div class="form-hint">카카오채널 URL을 입력하면 버튼이 자동으로 활성화됩니다. 비워두면 '준비 중' 상태로 표시됩니다.</div>
+          </div>
+          <button class="btn-save" onclick="saveContact()">저장</button>
+        </div>
+      </div>
+
+      <!-- ⑧ 비밀번호 -->
+      <div class="admin-panel" id="panel-password">
+        <div class="panel-title">비밀번호 변경</div>
+        <p class="panel-desc">관리자 페이지 로그인 비밀번호를 변경합니다. 초기 비밀번호는 <strong>admin1234</strong>입니다.</p>
+        <div class="card">
+          <div class="card-title">비밀번호 변경</div>
+          <div class="pw-grid">
+            <div class="form-group"><label class="form-label">현재 비밀번호</label><input type="password" id="pw-cur" placeholder="현재 비밀번호"></div>
+            <div></div>
+            <div class="form-group"><label class="form-label">새 비밀번호</label><input type="password" id="pw-new" placeholder="6자 이상"></div>
+            <div class="form-group"><label class="form-label">새 비밀번호 확인</label><input type="password" id="pw-cf" placeholder="다시 입력"></div>
+          </div>
+          <button class="btn-save" onclick="changePw()">변경하기</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ─ 유틸 ─
+  const DEFAULT_PW = 'admin1234';
+  function getData() { try { return JSON.parse(localStorage.getItem('ms_admin') || '{}'); } catch(e) { return {}; } }
+  function setData(d) { localStorage.setItem('ms_admin', JSON.stringify(d)); }
+  function getPw() { return localStorage.getItem('ms_admin_pw') || DEFAULT_PW; }
+
+  let toastTimer;
+  function toast(msg, type='success') {
+    clearTimeout(toastTimer);
+    const t = document.getElementById('toast');
+    t.textContent = (type==='success'?'✓ ':'✕ ') + msg;
+    t.style.background = type==='success' ? '#27AE60' : '#E74C3C';
+    t.classList.add('show');
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ─ 이미지 압축 ─
+  function compressImage(file, maxW=1400, quality=0.82) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) return reject('이미지 파일만 업로드할 수 있습니다.');
+      const reader = new FileReader();
+      reader.onerror = () => reject('파일을 읽을 수 없습니다.');
+      reader.onload = e => {
+        const img = new Image();
+        img.onerror = () => reject('이미지를 불러올 수 없습니다.');
+        img.onload = () => {
+          let { width: w, height: h } = img;
+          if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ─ 스토리지 용량 ─
+  function updateStorageBar() {
+    try {
+      const used = JSON.stringify(localStorage).length * 2; // bytes (approx)
+      const total = 5 * 1024 * 1024; // 5MB
+      const pct = Math.min(Math.round(used / total * 100), 100);
+      document.getElementById('storage-fill').style.width = pct + '%';
+      document.getElementById('storage-fill').style.background = pct > 80 ? '#E74C3C' : '#9A7D5A';
+      const usedKB = Math.round(used / 1024);
+      document.getElementById('storage-label').textContent = `브라우저 저장공간: 약 ${usedKB}KB / 5,120KB 사용 중`;
+    } catch(e) {}
+  }
+
+  // ─ 로그인 ─
+  function doLogin() {
+    if (document.getElementById('pw-input').value === getPw()) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'block';
+      loadAll();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+  function doLogout() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-screen').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('login-error').style.display = 'none';
+  }
+
+  // ─ 패널 전환 ─
+  function showPanel(name, btn) {
+    document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    btn.classList.add('active');
+    if (name === 'gallery') updateStorageBar();
+  }
+
+  // ─ 배지 ─
+  function refreshBadge(type) {
+    const on = document.getElementById(type + '-active').checked;
+    const b = document.getElementById(type + '-badge');
+    b.textContent = on ? 'ON' : 'OFF';
+    b.className = 'badge ' + (on ? 'badge-on' : 'badge-off');
+  }
+
+  // ─ 전체 데이터 로드 ─
+  function loadAll() {
+    const d = getData();
+
+    // 팝업
+    if (d.popup) {
+      document.getElementById('popup-active').checked = !!d.popup.active;
+      document.getElementById('popup-title').value = d.popup.title || '';
+      document.getElementById('popup-body').value = d.popup.body || '';
+      document.getElementById('popup-btn-text').value = d.popup.btnText || '';
+      document.getElementById('popup-btn-link').value = d.popup.btnLink || '';
+      refreshBadge('popup');
+    }
+
+    // 배너
+    if (d.banner) {
+      document.getElementById('banner-active').checked = !!d.banner.active;
+      document.getElementById('banner-text').value = d.banner.text || '';
+      refreshBadge('banner');
+    }
+
+    // 히어로
+    if (d.heroImage) {
+      document.getElementById('hero-preview-img').src = d.heroImage;
+      document.getElementById('hero-preview-box').style.display = 'block';
+    }
+
+    // 갤러리
+    renderGallery(d.gallery || []);
+
+    // 가격
+    if (d.pricing) {
+      document.getElementById('price-basic').value = d.pricing.basic || '';
+      document.getElementById('price-standard').value = d.pricing.standard || '';
+      document.getElementById('price-basic-desc').value = d.pricing.basicDesc || '';
+      document.getElementById('price-standard-desc').value = d.pricing.standardDesc || '';
+      document.getElementById('price-option').value = d.pricing.option || '';
+    }
+
+    // 통계
+    ['1','2','3','4'].forEach(n => {
+      if (d['stat-'+n]) document.getElementById('s'+n+'v').value = d['stat-'+n];
+      if (d['stat-'+n+'_label']) document.getElementById('s'+n+'l').value = d['stat-'+n+'_label'];
+    });
+
+    // 연락처
+    if (d.contact) {
+      document.getElementById('contact-email').value = d.contact.email || '';
+      document.getElementById('contact-kakao').value = d.contact.kakao || '';
+    }
+  }
+
+  // ─ 팝업 ─
+  function savePopup() {
+    const d = getData();
+    d.popup = {
+      active: document.getElementById('popup-active').checked,
+      title: document.getElementById('popup-title').value,
+      body: document.getElementById('popup-body').value,
+      btnText: document.getElementById('popup-btn-text').value,
+      btnLink: document.getElementById('popup-btn-link').value,
+    };
+    setData(d); refreshBadge('popup'); toast('팝업 설정이 저장되었습니다.');
+  }
+
+  // ─ 배너 ─
+  function saveBanner() {
+    const d = getData();
+    d.banner = { active: document.getElementById('banner-active').checked, text: document.getElementById('banner-text').value };
+    setData(d); refreshBadge('banner'); toast('배너가 저장되었습니다.');
+  }
+
+  // ─ 히어로 이미지 ─
+  async function handleHeroUpload(file) {
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) return toast('파일이 너무 큽니다. 8MB 이하 파일을 선택해 주세요.', 'error');
+    toast('사진 압축 중...', 'success');
+    try {
+      const b64 = await compressImage(file, 1600, 0.80);
+      const d = getData();
+      d.heroImage = b64;
+      setData(d);
+      document.getElementById('hero-preview-img').src = b64;
+      document.getElementById('hero-preview-box').style.display = 'block';
+      document.getElementById('hero-file').value = '';
+      toast('메인 배경 사진이 저장되었습니다.');
+    } catch(err) { toast(err || '오류가 발생했습니다.', 'error'); }
+  }
+  function removeHeroImage() {
+    if (!confirm('메인 배경 사진을 제거할까요?')) return;
+    const d = getData(); delete d.heroImage; setData(d);
+    document.getElementById('hero-preview-box').style.display = 'none';
+    document.getElementById('hero-preview-img').src = '';
+    toast('사진이 제거되었습니다.');
+  }
+
+  // ─ 드래그앤드롭 ─
+  function setupDrop(zoneId, handler) {
+    const zone = document.getElementById(zoneId);
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); handler(e.dataTransfer.files); });
+  }
+  setupDrop('hero-drop-zone', files => files[0] && handleHeroUpload(files[0]));
+  setupDrop('gallery-drop-zone', files => handleGalleryUpload(files));
+
+  // ─ 갤러리 ─
+  function renderGallery(images) {
+    const grid = document.getElementById('gallery-grid');
+    const empty = document.getElementById('gallery-empty');
+    const countText = document.getElementById('gallery-count-text');
+    countText.textContent = images.length + ' / 6장';
+    if (images.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    grid.innerHTML = images.map((src, i) => `
+      <div class="img-card">
+        <img src="${src}" alt="갤러리 ${i+1}">
+        <div class="img-card-overlay"><button class="img-del" onclick="removeGallery(${i})" title="삭제">✕</button></div>
+      </div>`).join('');
+    updateStorageBar();
+  }
+
+  async function handleGalleryUpload(files) {
+    const d = getData();
+    if (!d.gallery) d.gallery = [];
+    const remaining = 6 - d.gallery.length;
+    if (remaining <= 0) return toast('최대 6장까지 추가할 수 있습니다.', 'error');
+    const toAdd = Array.from(files).slice(0, remaining);
+    toast(`사진 ${toAdd.length}장 압축 중...`);
+    for (const file of toAdd) {
+      if (file.size > 8 * 1024 * 1024) { toast(file.name + '이 너무 큽니다. 건너뜁니다.', 'error'); continue; }
+      try {
+        const b64 = await compressImage(file, 1200, 0.78);
+        d.gallery.push(b64);
+      } catch(e) { toast('일부 파일 처리에 실패했습니다.', 'error'); }
+    }
+    try { setData(d); } catch(e) { return toast('저장 공간이 부족합니다. 기존 사진을 일부 삭제해 주세요.', 'error'); }
+    renderGallery(d.gallery);
+    document.getElementById('gallery-file').value = '';
+    toast('사진이 추가되었습니다.');
+  }
+
+  function removeGallery(idx) {
+    const d = getData();
+    d.gallery.splice(idx, 1);
+    setData(d); renderGallery(d.gallery); toast('사진이 삭제되었습니다.');
+  }
+
+  // ─ 가격 ─
+  function savePricing() {
+    const d = getData();
+    d.pricing = {
+      basic: document.getElementById('price-basic').value,
+      standard: document.getElementById('price-standard').value,
+      basicDesc: document.getElementById('price-basic-desc').value,
+      standardDesc: document.getElementById('price-standard-desc').value,
+      option: document.getElementById('price-option').value,
+    };
+    setData(d); toast('가격이 저장되었습니다.');
+  }
+
+  // ─ 통계 ─
+  function saveStats() {
+    const d = getData();
+    ['1','2','3','4'].forEach(n => {
+      const v = document.getElementById('s'+n+'v').value.trim();
+      const l = document.getElementById('s'+n+'l').value.trim();
+      if (v) d['stat-'+n] = v;
+      if (l) d['stat-'+n+'_label'] = l;
+    });
+    setData(d); toast('수치가 저장되었습니다.');
+  }
+
+  // ─ 연락처 ─
+  function saveContact() {
+    const d = getData();
+    d.contact = {
+      email: document.getElementById('contact-email').value.trim(),
+      kakao: document.getElementById('contact-kakao').value.trim(),
+    };
+    setData(d); toast('연락처가 저장되었습니다.');
+  }
+
+  // ─ 비밀번호 ─
+  function changePw() {
+    const cur = document.getElementById('pw-cur').value;
+    const nw = document.getElementById('pw-new').value;
+    const cf = document.getElementById('pw-cf').value;
+    if (cur !== getPw()) return toast('현재 비밀번호가 틀렸습니다.', 'error');
+    if (nw.length < 6) return toast('새 비밀번호는 6자 이상이어야 합니다.', 'error');
+    if (nw !== cf) return toast('새 비밀번호가 일치하지 않습니다.', 'error');
+    localStorage.setItem('ms_admin_pw', nw);
+    ['pw-cur','pw-new','pw-cf'].forEach(id => document.getElementById(id).value = '');
+    toast('비밀번호가 변경되었습니다.');
+  }
+</script>
+</body>
+</html>

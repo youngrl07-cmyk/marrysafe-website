@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매리세이프(MarrySafe) | 결혼식 축의금 대행 서비스 · 서울·수도권</title>
+  <meta name="description" content="결혼식 축의금 대행 전문 매리세이프. 서울·수도권 전 지역 운영. 이중 잠금 보관, 3대 카메라 녹화, 3단계 인수인계. 2인1팀 40만원 / 4인2팀 70만원.">
+  <meta name="keywords" content="축의금 대행, 축의금 대행 업체, 축의금 대행 서비스, 결혼식 축의금 대행, 축의대 대행, 축의금 접수 대행, 결혼식 접수 대행, 축의금 대행 가격, 축의금 대행 비용, 축의금 대행 추천, 서울 축의금 대행, 강남 축의금 대행, 매리세이프, MarrySafe">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://marrysafe.co.kr/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://marrysafe.co.kr/">
+  <meta property="og:title" content="매리세이프 | 결혼식 축의금 대행 서비스">
+  <meta property="og:description" content="축의금 접수부터 보관·인계까지. 이중 잠금·3대 카메라·3단계 인수인계. 서울·수도권.">
+  <meta property="og:locale" content="ko_KR">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"LocalBusiness","name":"매리세이프","alternateName":"MarrySafe","description":"결혼식 축의금 접수·보관·인계 전문 대행 서비스","url":"https://marrysafe.co.kr","email":"marrysafe.official@gmail.com","areaServed":[{"@type":"City","name":"서울"},{"@type":"AdministrativeArea","name":"경기도"},{"@type":"City","name":"인천"}],"serviceType":"축의금 대행 서비스","priceRange":"400,000원~700,000원"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"축의금 대행 서비스가 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"이중 잠금 박스, 3대 카메라 전 과정 녹화, 3단계 인수인계 확인으로 안전을 보장합니다."}},{"@type":"Question","name":"축의금 대행 비용은 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"한쪽(2인 1팀) 40만원, 양가(4인 2팀) 70만원입니다."}}]}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500;600&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --black:   #0D0D0D;
+      --dark:    #1C1C1C;
+      --mid:     #4A4A4A;
+      --muted:   #8A8A8A;
+      --faint:   #C0C0C0;
+      --border:  #E5E5E5;
+      --bg:      #F7F7F5;
+      --white:   #FFFFFF;
+    }
+
+    html { scroll-behavior:smooth; font-size:16px; }
+    body { font-family:'Noto Sans KR',sans-serif; color:var(--dark); background:var(--white); line-height:1.7; -webkit-font-smoothing:antialiased; }
+    .serif-en { font-family:'Cormorant',serif; }
+    .serif-kr { font-family:'Noto Serif KR',serif; }
+    .container { max-width:1160px; margin:0 auto; padding:0 2.5rem; }
+    a { text-decoration:none; color:inherit; }
+
+    /* ── BANNER ── */
+    #event-banner { display:none; background:var(--dark); color:#fff; text-align:center; padding:.6rem 3rem; font-size:.75rem; letter-spacing:.08em; position:relative; z-index:1001; }
+    #event-banner a { color:rgba(255,255,255,.7); text-decoration:underline; }
+    #banner-close { position:absolute; right:1.25rem; top:50%; transform:translateY(-50%); background:none; border:none; color:rgba(255,255,255,.5); font-size:1rem; cursor:pointer; }
+
+    /* ── POPUP ── */
+    #popup-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; }
+    #popup-overlay.active { display:flex; }
+    #popup-box { background:#fff; max-width:420px; width:90%; padding:3rem 2.5rem 2.5rem; text-align:center; position:relative; }
+    #popup-box h3 { font-family:'Cormorant',serif; font-size:1.9rem; font-weight:400; margin-bottom:.85rem; }
+    #popup-box p { font-size:.85rem; color:var(--mid); line-height:1.9; margin-bottom:1.75rem; font-weight:300; }
+    #popup-box .popup-btn { display:inline-block; background:var(--dark); color:#fff; padding:.8rem 2rem; font-size:.8rem; letter-spacing:.1em; border:none; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+    #popup-box .popup-btn:hover { background:var(--black); }
+    #popup-close { position:absolute; top:1.25rem; right:1.25rem; background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--muted); }
+    #popup-no-show { display:block; margin-top:1rem; font-size:.72rem; color:var(--muted); cursor:pointer; text-decoration:underline; background:none; border:none; font-family:'Noto Sans KR',sans-serif; }
+
+    /* ── NAV ── */
+    nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(255,255,255,.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); transition:box-shadow .3s; }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1160px; margin:0 auto; padding:0 2.5rem; }
+    .nav-logo { font-family:'Cormorant',serif; font-size:1.35rem; font-weight:400; letter-spacing:.22em; color:var(--black); text-transform:uppercase; }
+    .nav-menu { display:flex; gap:2.5rem; list-style:none; }
+    .nav-menu a { font-size:.78rem; font-weight:400; letter-spacing:.06em; color:var(--muted); transition:color .2s; cursor:pointer; }
+    .nav-menu a:hover { color:var(--black); }
+    .nav-cta { font-size:.75rem; letter-spacing:.1em; color:var(--white) !important; background:var(--dark); padding:.42rem 1.15rem; transition:background .2s !important; }
+    .nav-cta:hover { background:var(--black) !important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:22px; height:1px; background:var(--dark); }
+    .mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; background:#fff; border-bottom:1px solid var(--border); z-index:999; }
+    .mobile-menu.active { display:block; }
+    .mobile-menu ul { list-style:none; padding:.5rem 0; }
+    .mobile-menu a { display:block; padding:.85rem 2.5rem; font-size:.85rem; color:var(--mid); border-bottom:1px solid var(--border); cursor:pointer; }
+    .mobile-menu a:last-child { border-bottom:none; }
+
+    /* ── HERO (분할 레이아웃) ── */
+    #hero { min-height:100vh; display:flex; align-items:stretch; background:var(--dark); position:relative; overflow:hidden; }
+    .hero-left { flex:0 0 50%; display:flex; flex-direction:column; justify-content:center; padding:calc(64px + 3.5rem) 3.5rem 3.5rem max(2.5rem, calc((100vw - 1160px)/2 + 2.5rem)); position:relative; z-index:1; }
+    .hero-right { flex:0 0 50%; position:relative; overflow:hidden; background:var(--dark); }
+    .hero-right img {
+      position:absolute; top:50%; left:38%;
+      transform:translate(-50%, -50%);
+      width:80%; height:86%;
+      object-fit:cover; object-position:center 15%; display:block;
+      /* 신랑·신부 중심부만 선명하게, 사방이 완전히 블랙으로 녹아들도록 */
+      -webkit-mask-image:
+        radial-gradient(ellipse 52% 58% at 50% 42%,
+          black              0%,
+          black             22%,
+          rgba(0,0,0,.92)   34%,
+          rgba(0,0,0,.65)   46%,
+          rgba(0,0,0,.25)   57%,
+          rgba(0,0,0,.05)   65%,
+          transparent       72%);
+      mask-image:
+        radial-gradient(ellipse 52% 58% at 50% 42%,
+          black              0%,
+          black             22%,
+          rgba(0,0,0,.92)   34%,
+          rgba(0,0,0,.65)   46%,
+          rgba(0,0,0,.25)   57%,
+          rgba(0,0,0,.05)   65%,
+          transparent       72%);
+    }
+    #hero .hero-overlay { display:none; }
+
+    .hero-eyebrow { font-size:.7rem; letter-spacing:.3em; color:rgba(255,255,255,.45); font-weight:400; margin-bottom:2rem; text-transform:uppercase; }
+    .hero-title { font-family:'Cormorant',serif; font-size:clamp(4rem,8vw,8rem); font-weight:300; line-height:.92; color:#fff; letter-spacing:.04em; margin-bottom:2.5rem; }
+    .hero-title em { font-style:italic; font-weight:300; }
+    .hero-rule { width:48px; height:1px; background:rgba(255,255,255,.3); margin-bottom:2rem; }
+    .hero-sub { font-size:clamp(.85rem,1.4vw,.95rem); color:rgba(255,255,255,.65); font-weight:400; letter-spacing:.06em; line-height:1.9; margin-bottom:3rem; max-width:360px; }
+    .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+    .btn { display:inline-block; padding:.9rem 2.25rem; font-size:.75rem; letter-spacing:.12em; font-weight:400; transition:all .25s; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+    .btn-white { background:#fff; color:var(--dark); border:1px solid #fff; }
+    .btn-white:hover { background:transparent; color:#fff; }
+    .btn-ghost { background:transparent; color:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.3); }
+    .btn-ghost:hover { border-color:#fff; color:#fff; }
+    .btn-dark { background:var(--dark); color:#fff; border:1px solid var(--dark); }
+    .btn-dark:hover { background:var(--black); border-color:var(--black); }
+    .btn-outline-dark { background:transparent; color:var(--dark); border:1px solid var(--dark); }
+    .btn-outline-dark:hover { background:var(--dark); color:#fff; }
+    .hero-scroll { margin-top:auto; padding-top:3rem; display:flex; flex-direction:column; gap:.6rem; align-items:flex-start; }
+    .hero-scroll-line { width:1px; height:48px; background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent); animation:grow 2.5s ease infinite; }
+    .hero-scroll span { font-size:.62rem; letter-spacing:.25em; color:rgba(255,255,255,.3); }
+    @keyframes grow { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:.3;transform:scaleY(.7)} }
+
+    /* ── PHOTO STRIP ── */
+    #photo-strip { display:none; }
+    .strip-grid { display:grid; grid-template-columns:repeat(3,1fr); height:360px; }
+    .strip-cell { overflow:hidden; background:var(--bg); }
+    .strip-cell img { width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(20%); transition:filter .5s,transform .5s; }
+    .strip-cell:hover img { filter:grayscale(0%); transform:scale(1.04); }
+
+    /* ── STATS ── */
+    #stats { border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .stats-inner { display:grid; grid-template-columns:repeat(4,1fr); }
+    .stat-item { padding:2.25rem 2rem; text-align:center; border-right:1px solid var(--border); }
+    .stat-item:last-child { border-right:none; }
+    .stat-num { font-family:'Cormorant',serif; font-size:2.8rem; font-weight:300; color:var(--black); letter-spacing:.02em; line-height:1; }
+    .stat-label { font-size:.72rem; color:var(--muted); margin-top:.5rem; letter-spacing:.06em; font-weight:300; }
+
+    /* ── SECTION COMMON ── */
+    .section { padding:7rem 0; }
+    .section-bg { background:var(--bg); }
+    .section-header { margin-bottom:5rem; }
+    .section-header.center { text-align:center; }
+    .eyebrow { font-size:.68rem; letter-spacing:.3em; color:var(--muted); font-weight:400; text-transform:uppercase; margin-bottom:1.25rem; display:block; }
+    .section-title { font-family:'Cormorant',serif; font-size:clamp(2rem,4.5vw,3.2rem); font-weight:400; color:var(--black); line-height:1.2; letter-spacing:.02em; }
+    .section-title em { font-style:italic; }
+    .section-rule { width:32px; height:1px; background:var(--dark); margin:1.5rem 0; }
+    .section-rule.center { margin:1.5rem auto; }
+    .section-desc { font-size:.88rem; color:var(--mid); font-weight:400; max-width:520px; line-height:1.95; }
+
+    /* ── WHY ── */
+    .why-layout { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; margin-bottom:5rem; }
+    .why-left { position:sticky; top:100px; }
+    .why-intro { font-size:1rem; color:var(--mid); line-height:2; font-weight:400; margin-top:1.5rem; }
+    .why-intro strong { color:var(--black); font-weight:600; }
+    .why-right { display:flex; flex-direction:column; }
+    .pain-item { padding:2rem 0; border-bottom:1px solid var(--border); }
+    .pain-item:first-child { border-top:1px solid var(--border); }
+    .pain-num { font-family:'Cormorant',serif; font-size:1rem; color:var(--faint); font-weight:400; margin-bottom:.75rem; letter-spacing:.1em; }
+    .pain-title { font-size:.95rem; font-weight:600; color:var(--black); margin-bottom:.65rem; line-height:1.5; }
+    .pain-desc { font-size:.82rem; color:var(--mid); line-height:1.9; font-weight:400; }
+    .pain-quote { margin-top:1rem; padding:.85rem 1.1rem; background:#fff; border-left:2px solid var(--border); font-size:.78rem; color:var(--mid); line-height:1.8; font-style:italic; font-weight:400; }
+    .features-section { margin-top:5rem; padding-top:4rem; border-top:1px solid var(--border); }
+    .features-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2.5rem; }
+    .feat-num { font-family:'Cormorant',serif; font-size:1.5rem; font-weight:300; color:var(--faint); margin-bottom:1rem; }
+    .feat h4 { font-size:.88rem; font-weight:600; color:var(--black); margin-bottom:.6rem; }
+    .feat p { font-size:.79rem; color:var(--mid); line-height:1.85; font-weight:400; }
+
+    /* ── PRICING ── */
+    .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:4rem; background:var(--border); }
+    .pricing-card { background:#fff; padding:3.5rem 3rem; position:relative; }
+    .pricing-card.featured { background:#2D2D2D; color:#fff; position:relative; }
+    .pricing-badge {
+      position:absolute; top:1.25rem; right:1.25rem;
+      background:#fff; color:#2D2D2D;
+      font-size:.6rem; font-weight:700; letter-spacing:.18em;
+      padding:.3rem .75rem; text-transform:uppercase;
+    }
+    .pricing-rec { font-size:.65rem; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; margin-bottom:1.5rem; display:block; }
+    .pricing-card.featured .pricing-rec { color:rgba(255,255,255,.4); }
+    .pricing-card-name { font-family:'Cormorant',serif; font-size:1.6rem; font-weight:400; margin-bottom:.4rem; }
+    .pricing-card-target { font-size:.78rem; color:var(--mid); margin-bottom:2.5rem; font-weight:400; }
+    .pricing-card.featured .pricing-card-target { color:rgba(255,255,255,.6); }
+    .pricing-amount { font-family:'Cormorant',serif; font-size:4.5rem; font-weight:300; line-height:1; }
+    .pricing-amount sub { font-size:1.4rem; vertical-align:baseline; font-family:'Noto Sans KR',sans-serif; font-weight:300; }
+    .pricing-basis { font-size:.75rem; color:var(--muted); margin-top:.4rem; margin-bottom:2.5rem; font-weight:300; }
+    .pricing-card.featured .pricing-basis { color:rgba(255,255,255,.4); }
+    .pricing-divider { width:100%; height:1px; background:var(--border); margin-bottom:2rem; }
+    .pricing-card.featured .pricing-divider { background:rgba(255,255,255,.12); }
+    .pricing-list { list-style:none; }
+    .pricing-list li { font-size:.8rem; color:var(--mid); padding:.6rem 0; border-bottom:1px solid var(--border); display:flex; gap:.75rem; font-weight:400; align-items:center; }
+    .pricing-card.featured .pricing-list li { color:rgba(255,255,255,.85); border-bottom-color:rgba(255,255,255,.12); }
+    .pricing-list li::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--faint); flex-shrink:0; margin-top:2px; }
+    .pricing-card.featured .pricing-list li::before { background:rgba(255,255,255,.3); }
+    .travel-section { margin-bottom:3rem; }
+    .travel-title { font-family:'Cormorant',serif; font-size:1.3rem; font-weight:400; color:var(--black); margin-bottom:1.5rem; }
+    .table-wrap { overflow-x:auto; }
+    .fee-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+    .fee-table th { border-bottom:2px solid var(--dark); padding:.85rem 1rem; text-align:left; font-weight:500; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; }
+    .fee-table td { padding:.9rem 1rem; border-bottom:1px solid var(--border); color:var(--mid); font-weight:300; vertical-align:top; }
+    .fee-table tr:hover td { background:var(--bg); }
+    .fee-free { color:var(--black); font-weight:500; }
+    .pricing-note { border:1px solid var(--border); padding:1.25rem 1.5rem; font-size:.8rem; color:var(--muted); line-height:1.85; }
+    .pricing-note strong { color:var(--dark); }
+
+    /* ── PROCESS ── */
+    .process-layout { display:grid; grid-template-columns:1fr 1fr; gap:5rem; }
+    .process-col-head { font-family:'Cormorant',serif; font-size:1.1rem; font-weight:400; color:var(--black); margin-bottom:2.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:.75rem; }
+    .p-num { width:26px; height:26px; border:1px solid var(--dark); display:flex; align-items:center; justify-content:center; font-size:.68rem; font-family:'Noto Sans KR',sans-serif; flex-shrink:0; }
+    .step { display:flex; gap:1.25rem; padding-bottom:2rem; }
+    .step:last-child { padding-bottom:0; }
+    .step-l { display:flex; flex-direction:column; align-items:center; min-width:28px; }
+    .step-dot { width:8px; height:8px; border:1px solid var(--dark); border-radius:50%; flex-shrink:0; margin-top:5px; }
+    .step-line { width:1px; flex:1; background:var(--border); margin-top:4px; }
+    .step:last-child .step-line { display:none; }
+    .step-c { flex:1; }
+    .step-time { font-size:.65rem; color:var(--muted); letter-spacing:.15em; font-weight:400; margin-bottom:.3rem; text-transform:uppercase; }
+    .step-title { font-size:.88rem; font-weight:600; color:var(--black); margin-bottom:.35rem; }
+    .step-desc { font-size:.78rem; color:var(--mid); line-height:1.8; font-weight:400; }
+
+    /* ── GALLERY ── */
+    #gallery { display:none; }
+    .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .gallery-cell { aspect-ratio:4/3; overflow:hidden; background:var(--bg); }
+    .gallery-cell img { width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(15%); transition:transform .5s,filter .5s; }
+    .gallery-cell:hover img { transform:scale(1.04); filter:grayscale(0%); }
+
+    /* ── CONTACT ── */
+    .contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border); }
+    .contact-card { background:#fff; padding:3.5rem 3rem; }
+    .contact-icon-label { font-size:.68rem; letter-spacing:.25em; color:var(--muted); text-transform:uppercase; margin-bottom:1.5rem; display:block; }
+    .contact-channel { font-family:'Cormorant',serif; font-size:1.8rem; font-weight:400; color:var(--black); margin-bottom:1rem; }
+    .contact-badge { display:inline-block; font-size:.62rem; border:1px solid var(--border); color:var(--muted); padding:.18rem .65rem; letter-spacing:.1em; margin-bottom:1rem; }
+    .contact-desc { font-size:.82rem; color:var(--mid); line-height:1.95; margin-bottom:2rem; font-weight:400; }
+    .contact-link { display:inline-block; font-size:.75rem; letter-spacing:.1em; padding:.85rem 2rem; border:1px solid var(--dark); color:var(--dark); background:transparent; transition:all .22s; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+    .contact-link:hover { background:var(--dark); color:#fff; }
+    .contact-link.disabled { opacity:.35; cursor:not-allowed; border-color:var(--border); color:var(--muted); }
+    .contact-link.disabled:hover { background:transparent; color:var(--muted); }
+
+    /* ── FAQ ── */
+    .faq-wrap { max-width:760px; margin:0 auto; }
+    .faq-item { border-bottom:1px solid var(--border); }
+    .faq-q { width:100%; background:none; border:none; padding:1.5rem 0; text-align:left; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:1rem; font-size:.88rem; font-weight:500; color:var(--dark); font-family:'Noto Sans KR',sans-serif; transition:color .2s; }
+    .faq-q:hover { color:var(--black); }
+    .faq-icon { width:20px; height:20px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:.85rem; color:var(--muted); transition:all .25s; }
+    .faq-icon::after { content:'+'; }
+    .faq-item.active .faq-icon { background:var(--dark); border-color:var(--dark); color:#fff; }
+    .faq-item.active .faq-icon::after { content:'−'; }
+    .faq-a { overflow:hidden; max-height:0; transition:max-height .4s ease; }
+    .faq-a-inner { padding:0 0 1.5rem; font-size:.83rem; color:var(--mid); line-height:2; font-weight:400; }
+
+    /* ── 기업소개 모달 ── */
+    #about-modal {
+      display:none; position:fixed; inset:0; background:rgba(10,10,10,.88);
+      z-index:9998; overflow-y:auto; padding:4rem 2rem;
+      align-items:flex-start; justify-content:center;
+    }
+    #about-modal.active { display:flex; }
+    #about-inner {
+      background:#fff; max-width:760px; width:100%; margin:auto;
+      padding:5rem 4.5rem; position:relative;
+    }
+    #about-close {
+      position:absolute; top:1.75rem; right:1.75rem;
+      background:none; border:none; font-size:1.1rem; color:var(--muted);
+      cursor:pointer; line-height:1; transition:color .2s;
+    }
+    #about-close:hover { color:var(--black); }
+    .about-label { font-size:.65rem; letter-spacing:.3em; color:var(--muted); text-transform:uppercase; margin-bottom:2rem; display:block; }
+    .about-title { font-family:'Cormorant',serif; font-size:clamp(2rem,4vw,3rem); font-weight:400; color:var(--black); line-height:1.15; letter-spacing:.02em; margin-bottom:2.5rem; }
+    .about-rule { width:32px; height:1px; background:var(--dark); margin-bottom:2.5rem; }
+    .about-body { font-size:.9rem; color:var(--mid); line-height:2.1; font-weight:400; }
+    .about-body p { margin-bottom:1.4rem; }
+    .about-body p:last-child { margin-bottom:0; }
+    .about-body strong { color:var(--black); font-weight:500; }
+    .about-body .about-closing { margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--border); font-size:.88rem; color:var(--dark); line-height:1.95; font-weight:400; }
+
+    /* ── FOOTER ── */
+    footer { background:var(--black); color:rgba(255,255,255,.45); }
+    .footer-top { max-width:1160px; margin:0 auto; padding:4rem 2.5rem 3rem; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:2rem; }
+    .footer-logo { font-family:'Cormorant',serif; font-size:1.6rem; font-weight:300; letter-spacing:.2em; color:rgba(255,255,255,.75); margin-bottom:.35rem; }
+    .footer-tag { font-size:.7rem; color:rgba(255,255,255,.25); letter-spacing:.1em; }
+    .footer-info p { font-size:.75rem; line-height:1.95; font-weight:300; text-align:right; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,.08); max-width:1160px; margin:0 auto; padding:1.25rem 2.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.75rem; }
+    .footer-bottom p { font-size:.7rem; color:rgba(255,255,255,.2); }
+    .footer-admin { font-size:.68rem; color:rgba(255,255,255,.12); transition:color .2s; }
+    .footer-admin:hover { color:rgba(255,255,255,.35); }
+
+    /* ── 플로팅 문의 위젯 (2버튼) ── */
+    #cw-wrap {
+      position:fixed; bottom:2rem; right:2rem; z-index:9000;
+      display:flex; flex-direction:column; align-items:flex-end; gap:.5rem;
+    }
+
+    /* 패널 (웨딩/제휴 공용) */
+    .cw-panel {
+      width:300px; background:#fff;
+      border:1px solid var(--border);
+      box-shadow:0 8px 40px rgba(0,0,0,.14);
+      display:none; flex-direction:column; overflow:hidden;
+      margin-bottom:.25rem;
+    }
+    .cw-panel.open { display:flex; }
+    .cw-ph {
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--dark); padding:.8rem 1.1rem;
+    }
+    .cw-ph-title { font-size:.75rem; letter-spacing:.12em; color:#fff; font-weight:400; }
+    .cw-ph-close { background:none; border:none; color:rgba(255,255,255,.45); font-size:.95rem; cursor:pointer; line-height:1; padding:0; }
+    .cw-ph-close:hover { color:#fff; }
+    .cw-bd { padding:1.4rem 1.3rem; }
+
+    /* 웨딩문의 패널 내용 */
+    .cw-region { font-size:.63rem; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; margin-bottom:.7rem; display:block; }
+    .cw-kakao {
+      display:block; width:100%; padding:.8rem; text-align:center;
+      background:#FEE500; color:#191919; font-size:.8rem; font-weight:500;
+      border:none; cursor:pointer; font-family:'Noto Sans KR',sans-serif;
+      margin-bottom:1.1rem; transition:opacity .2s;
+    }
+    .cw-kakao:hover { opacity:.85; }
+    .cw-kakao.disabled { background:var(--bg); color:var(--muted); cursor:default; font-weight:300; }
+    .cw-kakao.disabled:hover { opacity:1; }
+    .cw-info { list-style:none; border-top:1px solid var(--border); }
+    .cw-info li { display:flex; justify-content:space-between; padding:.58rem 0; border-bottom:1px solid var(--border); font-size:.77rem; }
+    .cw-info li span:first-child { color:var(--muted); font-weight:300; }
+    .cw-info li span:last-child, .cw-info li a { color:var(--dark); }
+    .cw-info li a:hover { text-decoration:underline; }
+
+    /* 제휴문의 패널 내용 */
+    #cw-form { display:flex; flex-direction:column; gap:.65rem; }
+    #cw-form input, #cw-form textarea {
+      width:100%; padding:.65rem .85rem; border:1px solid var(--border);
+      font-size:.78rem; font-family:'Noto Sans KR',sans-serif; color:var(--dark);
+      outline:none; resize:none; transition:border-color .2s;
+    }
+    #cw-form input:focus, #cw-form textarea:focus { border-color:var(--dark); }
+    #cw-form textarea { height:82px; }
+    .cw-submit { width:100%; padding:.82rem; background:var(--dark); color:#fff; border:none; font-size:.76rem; letter-spacing:.1em; cursor:pointer; font-family:'Noto Sans KR',sans-serif; transition:background .2s; }
+    .cw-submit:hover { background:var(--black); }
+    #cw-sent { display:none; text-align:center; padding:.75rem 0; font-size:.8rem; color:var(--mid); line-height:1.8; }
+
+    /* 두 개 트리거 버튼 */
+    #cw-btns { display:flex; flex-direction:column; gap:.4rem; align-items:flex-end; }
+    .cw-btn {
+      padding:.7rem 1.35rem; font-size:.76rem; letter-spacing:.1em;
+      font-family:'Noto Sans KR',sans-serif; cursor:pointer;
+      box-shadow:0 3px 14px rgba(0,0,0,.15); transition:all .2s; white-space:nowrap; border:none;
+    }
+    .cw-btn-wedding { background:var(--dark); color:#fff; }
+    .cw-btn-wedding:hover { background:var(--black); }
+    .cw-btn-partner { background:#fff; color:var(--dark); border:1px solid rgba(0,0,0,.12); }
+    .cw-btn-partner:hover { background:var(--bg); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      #hero { flex-direction:column; }
+      .hero-left { flex:none; padding:calc(64px + 2.5rem) 2.5rem 3rem; }
+      .hero-right { flex:none; height:62vw; min-height:240px; background:var(--dark); }
+      .why-layout { grid-template-columns:1fr; gap:3rem; }
+      .why-left { position:static; }
+      .features-grid { grid-template-columns:repeat(2,1fr); gap:2rem; }
+      .pricing-grid { grid-template-columns:1fr; }
+      .process-layout { grid-template-columns:1fr; gap:3rem; }
+      .contact-layout { grid-template-columns:1fr; }
+      .stats-inner { grid-template-columns:repeat(2,1fr); }
+      .stat-item:nth-child(2) { border-right:none; }
+      .stat-item:nth-child(3) { border-top:1px solid var(--border); }
+      #about-inner { padding:3.5rem 2rem; }
+    }
+    @media(max-width:768px) {
+      .nav-menu { display:none; }
+      .hamburger { display:flex; }
+      .hero-title { font-size:clamp(3.5rem,14vw,6rem); }
+      .footer-top { flex-direction:column; align-items:flex-start; }
+      .footer-info p { text-align:left; }
+      .footer-bottom { flex-direction:column; align-items:flex-start; }
+      .hero-btns { flex-direction:column; }
+      .btn { width:fit-content; }
+      .cw-panel { width:calc(100vw - 2.5rem); }
+      #cw-wrap { bottom:1.25rem; right:1.25rem; }
+    }
+    @media(max-width:560px) {
+      .features-grid { grid-template-columns:1fr; }
+      .stats-inner { grid-template-columns:1fr 1fr; }
+      .section { padding:5rem 0; }
+      .gallery-grid { grid-template-columns:repeat(2,1fr); }
+      .strip-grid { grid-template-columns:1fr; height:auto; }
+      .strip-cell { height:240px; }
+      .hero-right { height:74vw; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 배너 -->
+<div id="event-banner">
+  <span id="banner-text"></span>
+  <button id="banner-close" aria-label="닫기">✕</button>
+</div>
+
+<!-- 팝업 -->
+<div id="popup-overlay" role="dialog" aria-modal="true">
+  <div id="popup-box">
+    <button id="popup-close" aria-label="닫기">✕</button>
+    <h3 id="popup-title"></h3>
+    <p id="popup-body"></p>
+    <a id="popup-btn" class="popup-btn" href="#contact">자세히 보기</a>
+    <button id="popup-no-show">오늘 하루 보지 않기</button>
+  </div>
+</div>
+
+<!-- 기업소개 모달 -->
+<div id="about-modal" role="dialog" aria-modal="true" aria-label="기업소개">
+  <div id="about-inner">
+    <button id="about-close" aria-label="닫기">✕</button>
+    <span class="about-label">About MarrySafe</span>
+    <h2 class="about-title serif-en">Marry<em>Safe</em></h2>
+    <div class="about-rule"></div>
+    <div class="about-body">
+      <p>결혼은 단 한 번의 순간이 아니라,<br>수많은 관계와 마음이 오가는 가장 중요한 의식입니다.</p>
+      <p>MarrySafe는 웨딩 업계에서 <strong>9년 이상 축적된 경험</strong>을 바탕으로 탄생한 축의금 관리 전문 브랜드입니다. 수많은 예식 현장을 직접 경험하며, 한국 웨딩 문화의 구조와 흐름을 깊이 이해해왔습니다.</p>
+      <p>오늘날의 결혼식은 달라지고 있습니다.<br>가족의 형태는 변화했고, 축의금 접수를 맡길 수 있는 전통적인 역할 역시 점점 사라지고 있습니다.</p>
+      <p>가장 가까운 사람에게 부탁하기엔 부담스럽고, 맡긴 이후에도 다양한 변수와 리스크가 존재합니다. 단순한 번거로움의 문제가 아니라, <strong>신뢰와 책임의 문제</strong>입니다.</p>
+      <p>그래서 이제, 많은 신랑·신부는 선택합니다.<br>개인이 아닌, 시스템과 경험을 기반으로 운영되는 전문 서비스를.</p>
+      <p>MarrySafe는 축의금 접수와 관리의 전 과정을 체계적으로 설계하고, 정확하고 투명하게 운영합니다.</p>
+      <div class="about-closing">
+        불필요한 걱정은 줄이고, 가장 중요한 순간에 온전히 집중할 수 있도록.<br>
+        가족은 가족으로서, 친구는 친구로서, 모두가 '축하'라는 본질에 머물 수 있도록.<br><br>
+        보이지 않는 자리에서, 가장 중요한 역할을 수행하는 브랜드.<br><br>
+        <strong>MarrySafe는 당신의 시작을 지키는 또 하나의 기준이 됩니다.</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 내비게이션 -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo serif-en">MARRYSAFE</a>
+    <ul class="nav-menu">
+      <li><a href="#" id="nav-about-btn">기업소개</a></li>
+      <li><a href="#why">서비스 소개</a></li>
+      <li><a href="#pricing">가격 안내</a></li>
+      <li><a href="#process">운영 프로세스</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact" class="nav-cta">예약 문의</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a id="mob-about-btn">기업소개</a></li>
+    <li><a href="#why">서비스 소개</a></li>
+    <li><a href="#pricing">가격 안내</a></li>
+    <li><a href="#process">운영 프로세스</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">예약 문의</a></li>
+  </ul>
+</div>
+
+<!-- 히어로 -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">당신이 빛나는 그날, 축의금 걱정은 저희에게 · 서울 및 수도권</p>
+    <h1 class="hero-title serif-en">Marry<br><em>Safe</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">
+      소중한 날, 소중한 분들 곁에 있으세요<br>
+      축의금은 전문가에게 맡기시면 됩니다
+    </p>
+    <div class="hero-btns">
+      <a href="#why" class="btn btn-white">서비스 알아보기</a>
+      <a href="#contact" class="btn btn-ghost">예약 문의</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>SCROLL</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="./hero.png" alt="매리세이프 웨딩 현장" id="hero-img">
+  </div>
+</section>
+
+<!-- 사진 스트립 -->
+<div id="photo-strip">
+  <div class="strip-grid" id="strip-grid"></div>
+</div>
+
+<!-- 신뢰 지표 -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num serif-en" id="stat-1">0</div>
+        <div class="stat-label" id="stat-1-label">분실 사고 건수</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num serif-en" id="stat-2">3대</div>
+        <div class="stat-label" id="stat-2-label">카메라 전 과정 녹화</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num serif-en" id="stat-3">3단계</div>
+        <div class="stat-label" id="stat-3-label">인수인계 본인 확인</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num serif-en" id="stat-4">무료</div>
+        <div class="stat-label" id="stat-4-label">서울·수도권 출장비</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 서비스 소개 -->
+<section id="why" class="section">
+  <div class="container">
+    <div class="why-layout">
+      <div class="why-left">
+        <div class="section-header">
+          <span class="eyebrow">Why MarrySafe</span>
+          <h2 class="section-title serif-en">Why<br><em>Professional</em></h2>
+          <div class="section-rule"></div>
+        </div>
+        <p class="why-intro">
+          요즘 결혼식 현장에는<br>
+          <strong>식권 사기, 봉투 바꿔치기</strong> 등<br>
+          다양한 사기 수법이 늘고 있습니다.<br><br>
+          소중한 지인에게 이것저것<br>
+          조심해달라 부탁하기 불편하셨다면,<br>
+          <strong>매리세이프가 해결해 드립니다.</strong>
+        </p>
+      </div>
+
+      <div class="why-right">
+        <div class="pain-item">
+          <p class="pain-num">01</p>
+          <h3 class="pain-title">지인에게 "이거 조심해달라"<br>부탁하기가 눈치 보여요</h3>
+          <p class="pain-desc">식권 사기, 봉투 바꿔치기, 현금 없이 식권만 요청하는 경우까지 — 이런 이슈를 일일이 설명하고 대응법을 부탁하는 것 자체가 부담입니다.</p>
+          <div class="pain-quote">"사기 유형이 워낙 다양해지다 보니 이거 조심해달라, 저거 조심해달라 부탁하기도 미안하고… 그냥 돈 주고 맡기는 게 깔끔할 것 같아서요." — 예비신부 후기</div>
+        </div>
+
+        <div class="pain-item">
+          <p class="pain-num">02</p>
+          <h3 class="pain-title">사례금 계산하면 전문 업체와<br>비용이 비슷하거나 더 비싸요</h3>
+          <p class="pain-desc">지인 2명에게 각 20~30만원 사례금이면 이미 40~60만원. 정산 실수나 이슈까지 감안하면 전문 업체가 오히려 더 확실하고 경제적입니다.</p>
+          <div class="pain-quote">"보통 2명씩 봐주면 인당 10만 원이라 해도 양가 합산 40만 원인데, 정산 이슈 없는 것까지 생각하면 10~20만 원 더 보태서 업체를 쓰는 게 나은 것 같아요." — 예비신부 후기</div>
+        </div>
+
+        <div class="pain-item">
+          <p class="pain-num">03</p>
+          <h3 class="pain-title">소중한 분들이 식을<br>제대로 못 보게 돼요</h3>
+          <p class="pain-desc">축의대를 맡은 가족과 친구들은 입장식, 서약, 축가 등 평생 한 번뿐인 순간들을 놓치게 됩니다. 매리세이프를 이용하면 모두가 자리를 지킬 수 있습니다.</p>
+        </div>
+
+        <div class="pain-item">
+          <p class="pain-num">04</p>
+          <h3 class="pain-title">양가 가족 수가 적어<br>맡길 인원 자체가 없어요</h3>
+          <p class="pain-desc">가족이 많지 않거나 먼 곳에 사는 경우, 처음부터 선택지 자체가 없습니다. 그런 분들을 위해 매리세이프가 존재합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="features-section">
+      <div class="features-grid">
+        <div class="feat">
+          <div class="feat-num serif-en">01</div>
+          <h4>이중 잠금 보관</h4>
+          <p>봉투 수령 즉시 밀봉 후 이중 잠금 박스에 보관합니다. 회사·고객 양측 자물쇠가 모두 있어야만 개봉 가능합니다.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-num serif-en">02</div>
+          <h4>3대 카메라 녹화</h4>
+          <p>클로즈업·미디엄·광각 3대가 접수부터 인계까지 전 과정을 기록합니다. 유튜브 비공개 링크로 영상을 제공합니다.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-num serif-en">03</div>
+          <h4>하객 명단 기록</h4>
+          <p>봉투 수령 즉시 하객 성명을 기록하고 엑셀 파일로 제공합니다. 식권 배부 보조도 사전 기준에 따라 수행합니다.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-num serif-en">04</div>
+          <h4>3단계 인수인계</h4>
+          <p>신분증 대조 + 유선 확인 + 확인서 서명. 사전 등록된 분에게만 전달하여 분실·분쟁 가능성을 원천 차단합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 갤러리 -->
+<section id="gallery">
+  <div class="gallery-grid" id="gallery-grid"></div>
+</section>
+
+<!-- 가격 안내 -->
+<section id="pricing" class="section section-bg">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Service Pricing</span>
+      <h2 class="section-title serif-en">Pricing</h2>
+      <div class="section-rule"></div>
+      <p class="section-desc">서울·수도권 주요 지역 출장비 무료. 모든 가격은 부가세 포함입니다.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <span class="pricing-rec">Basic Plan</span>
+        <h3 class="pricing-card-name serif-en">2인 1팀</h3>
+        <p class="pricing-card-target">신랑측 또는 신부측 단독 운영</p>
+        <div class="pricing-amount serif-en" id="price-basic-val">40<sub>만원</sub></div>
+        <p class="pricing-basis" id="price-basic-unit">기본 하객 200명 이하 기준</p>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-list">
+          <li>전문 인력 2인 배치</li>
+          <li>봉투 수령 즉시 밀봉 처리</li>
+          <li>하객 명단 기록 (엑셀 제공)</li>
+          <li>이중 잠금 박스 보관</li>
+          <li>3대 카메라 전 과정 녹화</li>
+          <li>식권 배부 보조</li>
+          <li>3단계 인수인계 확인</li>
+        </ul>
+      </div>
+      <div class="pricing-card featured">
+        <span class="pricing-badge">추천</span>
+        <span class="pricing-rec">Standard Plan · 양가 추천</span>
+        <h3 class="pricing-card-name serif-en">4인 2팀</h3>
+        <p class="pricing-card-target">신랑·신부 양측 동시 운영</p>
+        <div class="pricing-amount serif-en" id="price-standard-val">70<sub>만원</sub></div>
+        <p class="pricing-basis" id="price-standard-unit">기본 양가 합산 350명 이하 기준</p>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-list">
+          <li>전문 인력 4인 배치 (팀당 2인)</li>
+          <li>양측 동시 축의금 접수·관리</li>
+          <li>하객 명단 기록 (엑셀 제공)</li>
+          <li>이중 잠금 박스 보관</li>
+          <li>3대 카메라 전 과정 녹화</li>
+          <li>식권 배부 보조</li>
+          <li>3단계 인수인계 확인</li>
+        </ul>
+      </div>
+    </div>
+    <div class="travel-section">
+      <h3 class="travel-title serif-en">출장비 안내</h3>
+      <div class="table-wrap">
+        <table class="fee-table">
+          <thead><tr><th>지역</th><th>2인 1팀</th><th>4인 2팀</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>서울 전 지역 / 인천(영종·강화 제외) / 경기 주요 지역<br><small style="color:var(--muted);font-size:.73rem;">부천·시흥·김포·고양·의정부·구리·하남·성남·광명·안양·군포·별내</small></td>
+              <td class="fee-free">없음</td><td class="fee-free">없음</td>
+            </tr>
+            <tr>
+              <td>인천(영종·강화) / 경기 외곽<br><small style="color:var(--muted);font-size:.73rem;">안산·수원·용인·화성·파주·양주·광주·남양주 등</small></td>
+              <td>50,000원</td><td>100,000원</td>
+            </tr>
+            <tr>
+              <td>경기 원거리<br><small style="color:var(--muted);font-size:.73rem;">오산·평택·안성·이천·여주·양평·가평·포천·동두천·연천</small></td>
+              <td>100,000원</td><td>200,000원</td>
+            </tr>
+            <tr>
+              <td>그 외 지역</td>
+              <td colspan="2" style="color:var(--muted);">사전 협의 후 별도 책정</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="pricing-note">
+      <strong>추가 옵션</strong>&ensp;
+      <span id="pricing-option-text">2부 예식 등 서비스 시간 초과 또는 기준 하객 수 초과 시 추가 요금이 발생할 수 있습니다. 예약 상담 시 별도 문의해 주세요.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 운영 프로세스 -->
+<section id="process" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">How We Work</span>
+      <h2 class="section-title serif-en">Process</h2>
+      <div class="section-rule"></div>
+      <p class="section-desc">예식 당일 현장 도착부터 인계 완료까지 체계적으로 진행합니다.</p>
+    </div>
+    <div class="process-layout">
+      <div>
+        <h3 class="process-col-head"><span class="p-num">1</span>예식 당일 운영</h3>
+        <div class="steps">
+          <div class="step"><div class="step-l"><div class="step-dot"></div><div class="step-line"></div></div><div class="step-c"><p class="step-time">D-day — 80분 전</p><h4 class="step-title">현장 도착 및 장비 설치</h4><p class="step-desc">예식장에 도착하여 축의대 세팅, 3대 카메라 설치, 잠금 박스 점검을 완료합니다.</p></div></div>
+          <div class="step"><div class="step-l"><div class="step-dot"></div><div class="step-line"></div></div><div class="step-c"><p class="step-time">D-day — 60분 전</p><h4 class="step-title">양가 미팅</h4><p class="step-desc">사전 체크리스트를 바탕으로 양가 혼주와 최종 확인 미팅을 진행합니다.</p></div></div>
+          <div class="step"><div class="step-l"><div class="step-dot"></div><div class="step-line"></div></div><div class="step-c"><p class="step-time">예식 진행 중</p><h4 class="step-title">축의대 운영</h4><p class="step-desc">봉투 수령 즉시 현금 유무 확인 후 밀봉, 하객 명단 기록, 식권 배부를 진행합니다.</p></div></div>
+          <div class="step"><div class="step-l"><div class="step-dot"></div></div><div class="step-c"><p class="step-time">예식 종료 후</p><h4 class="step-title">마감 및 인계 준비</h4><p class="step-desc">봉투 수량과 명단 기록 일치 여부를 최종 확인하고 인계를 준비합니다.</p></div></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="process-col-head"><span class="p-num">2</span>서비스 마감</h3>
+        <div class="steps">
+          <div class="step"><div class="step-l"><div class="step-dot"></div><div class="step-line"></div></div><div class="step-c"><p class="step-time">Step 01</p><h4 class="step-title">단순 집계</h4><p class="step-desc">봉투 수량과 엑셀 명단 내역 일치 여부를 최종 확인합니다.</p></div></div>
+          <div class="step"><div class="step-l"><div class="step-dot"></div><div class="step-line"></div></div><div class="step-c"><p class="step-time">Step 02</p><h4 class="step-title">인수 대상자 본인 확인</h4><p class="step-desc">신분증 대조 및 사전 등록 유선 확인으로 본인임을 확인합니다.</p></div></div>
+          <div class="step"><div class="step-l"><div class="step-dot"></div><div class="step-line"></div></div><div class="step-c"><p class="step-time">Step 03</p><h4 class="step-title">축의금 전달</h4><p class="step-desc">상호 입회 하에 잠금 박스를 개봉하고 봉투를 인계합니다. 인수인계 확인서에 서명합니다.</p></div></div>
+          <div class="step"><div class="step-l"><div class="step-dot"></div></div><div class="step-c"><p class="step-time">Step 04</p><h4 class="step-title">기록물 전달</h4><p class="step-desc">하객 명단 엑셀 파일 및 유튜브 비공개 영상 링크를 전달하며 서비스가 완료됩니다.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 예약 문의 -->
+<section id="contact" class="section section-bg">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Reservation &amp; Inquiry</span>
+      <h2 class="section-title serif-en">Contact</h2>
+      <div class="section-rule"></div>
+      <p class="section-desc">궁금한 사항은 카카오톡 또는 이메일로 편하게 문의해 주세요.</p>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-card">
+        <span class="contact-icon-label">KakaoTalk Channel</span>
+        <h3 class="contact-channel serif-en">카카오톡</h3>
+        <span class="contact-badge" id="kakao-badge">준비 중</span>
+        <p class="contact-desc">카카오톡 채널을 통해 빠르게 상담받으실 수 있습니다.<br>채널 오픈 시 바로 업데이트 예정입니다.</p>
+        <a href="#" id="kakao-btn" class="contact-link disabled" onclick="return false;">카카오톡 문의 (준비 중)</a>
+      </div>
+      <div class="contact-card">
+        <span class="contact-icon-label">Email</span>
+        <h3 class="contact-channel serif-en">이메일</h3>
+        <p class="contact-desc" style="margin-top:.5rem;">
+          예약 문의, 날짜 확인, 상담 신청을 이메일로 하실 수 있습니다.<br>
+          24시간 이내 답변 드립니다.<br><br>
+          <strong style="font-weight:500;color:var(--black);" class="contact-email-text">pickyglobal@gmail.com</strong>
+        </p>
+        <a href="mailto:pickyglobal@gmail.com" class="contact-link contact-email-link">이메일 문의하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+  <div class="container">
+    <div class="section-header center" style="max-width:760px;margin-left:auto;margin-right:auto;">
+      <span class="eyebrow">Frequently Asked Questions</span>
+      <h2 class="section-title serif-en">FAQ</h2>
+      <div class="section-rule center"></div>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item"><button class="faq-q">결혼식 축의금 대행 서비스가 안전한가요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">이중 잠금 박스 보관, 3대 카메라 전 과정 녹화, 3단계 인수인계 확인으로 안전을 보장합니다. 회사 귀책으로 봉투 분실이 입증될 경우 봉투 1개당 150,000원을 배상합니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">지인에게 맡기는 것과 어떤 차이가 있나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">지인 2명 사례금(20~30만원 × 2인 = 40~60만원)을 생각하면 전문 업체 비용과 비슷하거나 오히려 더 저렴합니다. 더불어 지인은 식을 제대로 보지 못하고, 각종 사기 수법을 조심해달라 부탁하기도 불편합니다. 매리세이프를 이용하면 소중한 분들이 식에 온전히 집중할 수 있습니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">축의금 대행 비용(가격)은 얼마인가요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">한쪽(2인 1팀) 40만원, 양가(4인 2팀) 70만원입니다. 서울 전 지역 및 수도권 주요 지역은 출장비가 없습니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">예약은 언제까지 해야 하나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">최소 2주 전까지 예약해 주시기 바랍니다. 주말 웨딩 시즌에는 예약이 빨리 마감되므로 1~2개월 전 예약을 권장드립니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">취소 시 환불은 어떻게 되나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">· 예식일 30일 전까지 : 계약금 전액 환불<br>· 예식일 15~29일 전 : 계약금 50% 환불<br>· 예식일 7~14일 전 : 계약금 환불 불가 (잔금 미청구)<br>· 예식일 6일 전 이후 : 총 서비스 대금 100% 청구<br><br>계약 체결일로부터 7일 이내에는 위약금 없이 취소 가능합니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">예약 확정은 어떻게 되나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">상담 후 계약금(서비스 대금의 50%)을 입금하시면 예약이 확정됩니다. 잔금은 예식일 7일 전까지 납부해 주시면 됩니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">서울·강남·수도권 전 지역 서비스가 가능한가요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">서울 전 지역 및 수도권 주요 지역은 출장비 없이 서비스를 제공합니다. 수도권 외 지역은 출장비가 추가되며, 지역과 일정을 알려주시면 별도 견적을 안내해 드립니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">매니저는 몇 시간 전에 도착하나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">결혼식 시작 80분 전에 도착하여 축의대 세팅과 카메라 설치 등 모든 준비를 완료합니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">축의금은 어떻게 보관되나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">봉투 수령 즉시 현금 유무만 확인하고 그 자리에서 바로 밀봉합니다. 금액은 확인하지 않습니다. 밀봉된 봉투는 이중 잠금 박스에 보관되며, 회사·고객 양측 자물쇠가 모두 있어야만 개봉 가능합니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">영상 촬영은 어떻게 진행되나요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">클로즈업·미디엄·광각 3대의 카메라로 축의대 전 과정을 녹화합니다. 영상은 유튜브 비공개 링크로 제공되며 열람 기간 제한은 없습니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">어떤 패키지가 적합한지 모르겠어요. <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">한쪽만 운영하시면 2인 1팀(40만원), 양가 모두 운영하시면 4인 2팀(70만원)을 추천드립니다. 이메일 상담을 통해 자세히 안내해 드립니다.</div></div></div>
+      <div class="faq-item"><button class="faq-q">영수증 발급이 가능한가요? <span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner">네, 현금영수증 발급이 가능합니다. 잔금 납부 후 예식 다음 주 평일에 일괄 처리됩니다.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo serif-en">MARRYSAFE</div>
+      <p class="footer-tag">결혼식 축의금 접수·보관·인계 전문 대행</p>
+    </div>
+    <div class="footer-info">
+      <p>
+        <span class="contact-email-text">pickyglobal@gmail.com</span><br>
+        서비스 지역: 서울 및 수도권 전 지역
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 MarrySafe. All rights reserved.</p>
+    <a href="admin.html" class="footer-admin">관리자</a>
+  </div>
+</footer>
+
+<!-- ── 플로팅 문의 위젯 (2버튼) ── -->
+<div id="cw-wrap">
+
+  <!-- 웨딩문의 패널 -->
+  <div class="cw-panel" id="cw-panel-wedding">
+    <div class="cw-ph">
+      <span class="cw-ph-title">웨딩문의</span>
+      <button class="cw-ph-close" data-panel="wedding">✕</button>
+    </div>
+    <div class="cw-bd">
+      <span class="cw-region">서울 및 수도권</span>
+      <a href="#" id="cw-kakao-btn" class="cw-kakao disabled" onclick="return false;">💬 카카오톡 채널 상담</a>
+      <ul class="cw-info">
+        <li><span>CS 운영시간</span><span>평일 10:00 ~ 18:00</span></li>
+        <li><span>전화번호</span><span id="cw-phone">준비 중</span></li>
+        <li><span>인스타그램</span><a id="cw-insta" href="#" onclick="return false;" style="color:var(--muted);cursor:default;">준비 중</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 제휴문의 패널 -->
+  <div class="cw-panel" id="cw-panel-partner">
+    <div class="cw-ph">
+      <span class="cw-ph-title">제휴문의</span>
+      <button class="cw-ph-close" data-panel="partner">✕</button>
+    </div>
+    <div class="cw-bd">
+      <form id="cw-form" novalidate>
+        <input type="email" name="sender_email" placeholder="이메일 주소 *" required>
+        <input type="text" name="company" placeholder="업체명 *" required>
+        <input type="tel" name="tel" placeholder="연락 가능한 유선 번호 *" required>
+        <textarea name="message" placeholder="문의 내용을 입력해 주세요"></textarea>
+        <button type="submit" class="cw-submit">보내기</button>
+      </form>
+      <div id="cw-sent">
+        메일 앱이 열립니다.<br>
+        <small style="color:var(--muted);font-size:.7rem;">앱이 열리지 않으면<br>marrysafe.official@gmail.com 으로<br>직접 보내주세요.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- 버튼 2개 -->
+  <div id="cw-btns">
+    <button class="cw-btn cw-btn-partner" id="cw-btn-partner">제휴문의</button>
+    <button class="cw-btn cw-btn-wedding" id="cw-btn-wedding">웨딩문의</button>
+  </div>
+</div>
+
+<script>
+  // ── 어드민 데이터 로드 ──
+  function loadAdminData() {
+    const d = JSON.parse(localStorage.getItem('ms_admin') || '{}');
+    if (d.banner?.active && d.banner.text) {
+      const el = document.getElementById('event-banner');
+      document.getElementById('banner-text').innerHTML = d.banner.text;
+      el.style.display = 'block';
+      document.getElementById('navbar').style.top = el.offsetHeight + 'px';
+      document.querySelector('.mobile-menu').style.top = (64 + el.offsetHeight) + 'px';
+    }
+    const noShow = localStorage.getItem('ms_popup_no_show');
+    if (d.popup?.active && d.popup.title && noShow !== new Date().toDateString()) {
+      document.getElementById('popup-title').textContent = d.popup.title;
+      document.getElementById('popup-body').textContent = d.popup.body || '';
+      if (d.popup.btnText) document.getElementById('popup-btn').textContent = d.popup.btnText;
+      if (d.popup.btnLink) document.getElementById('popup-btn').href = d.popup.btnLink;
+      document.getElementById('popup-overlay').classList.add('active');
+    }
+    if (d.heroImage) document.getElementById('hero-img').src = d.heroImage;
+    if (d.gallery?.length > 0) {
+      document.getElementById('gallery').style.display = 'block';
+      document.getElementById('gallery-grid').innerHTML = d.gallery.map(src =>
+        `<div class="gallery-cell"><img src="${src}" alt="현장 사진" loading="lazy"></div>`).join('');
+      if (d.gallery.length >= 3) {
+        document.getElementById('photo-strip').style.display = 'block';
+        document.getElementById('strip-grid').innerHTML = d.gallery.slice(0,3).map(src =>
+          `<div class="strip-cell"><img src="${src}" alt="현장 사진" loading="lazy"></div>`).join('');
+      }
+    }
+    ['1','2','3','4'].forEach(n => {
+      if (d['stat-'+n]) document.getElementById('stat-'+n).textContent = d['stat-'+n];
+      if (d['stat-'+n+'_label']) document.getElementById('stat-'+n+'-label').textContent = d['stat-'+n+'_label'];
+    });
+    if (d.pricing) {
+      if (d.pricing.basic) document.getElementById('price-basic-val').innerHTML = d.pricing.basic + '<sub>만원</sub>';
+      if (d.pricing.standard) document.getElementById('price-standard-val').innerHTML = d.pricing.standard + '<sub>만원</sub>';
+      if (d.pricing.basicDesc) document.getElementById('price-basic-unit').textContent = d.pricing.basicDesc;
+      if (d.pricing.standardDesc) document.getElementById('price-standard-unit').textContent = d.pricing.standardDesc;
+      if (d.pricing.option) document.getElementById('pricing-option-text').textContent = d.pricing.option;
+    }
+    if (d.contact) {
+      if (d.contact.email) {
+        document.querySelectorAll('.contact-email-text').forEach(el => el.textContent = d.contact.email);
+        document.querySelectorAll('.contact-email-link').forEach(el => el.href = 'mailto:' + d.contact.email);
+      }
+      if (d.contact.kakao) {
+        const btn = document.getElementById('kakao-btn');
+        btn.href = d.contact.kakao; btn.textContent = '카카오톡 문의하기';
+        btn.classList.remove('disabled'); btn.removeAttribute('onclick');
+        document.getElementById('kakao-badge').style.display = 'none';
+        const cwKakao = document.getElementById('cw-kakao-btn');
+        cwKakao.href = d.contact.kakao;
+        cwKakao.textContent = '💬 카카오톡 채널 상담';
+        cwKakao.classList.remove('disabled'); cwKakao.removeAttribute('onclick');
+      }
+    }
+  }
+
+  // ── 기본 이벤트 ──
+  document.getElementById('banner-close').addEventListener('click', () => {
+    document.getElementById('event-banner').style.display = 'none';
+    document.getElementById('navbar').style.top = '0';
+  });
+  document.getElementById('popup-close').addEventListener('click', () =>
+    document.getElementById('popup-overlay').classList.remove('active'));
+  document.getElementById('popup-overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
+  });
+  document.getElementById('popup-no-show').addEventListener('click', () => {
+    localStorage.setItem('ms_popup_no_show', new Date().toDateString());
+    document.getElementById('popup-overlay').classList.remove('active');
+  });
+
+  // ── 기업소개 모달 ──
+  function openAbout() {
+    document.getElementById('about-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeAbout() {
+    document.getElementById('about-modal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('nav-about-btn').addEventListener('click', e => { e.preventDefault(); openAbout(); });
+  document.getElementById('mob-about-btn').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.remove('active');
+    openAbout();
+  });
+  document.getElementById('about-close').addEventListener('click', closeAbout);
+  document.getElementById('about-modal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeAbout();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAbout(); });
+
+  // ── 네비 ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+  mobileMenu.querySelectorAll('a[href]').forEach(a =>
+    a.addEventListener('click', () => mobileMenu.classList.remove('active')));
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.boxShadow = scrollY > 40 ? '0 1px 20px rgba(0,0,0,.08)' : 'none';
+  });
+
+  // ── 스무스 스크롤 ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href === '#') return;
+      e.preventDefault();
+      const t = document.querySelector(href);
+      if (t) window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 80, behavior:'smooth' });
+    });
+  });
+
+  // ── FAQ ──
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('active');
+        i.querySelector('.faq-a').style.maxHeight = '0';
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        const a = item.querySelector('.faq-a');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ── 플로팅 위젯 ──
+  const panels = { wedding: 'cw-panel-wedding', partner: 'cw-panel-partner' };
+  let openPanel = null;
+
+  function togglePanel(name) {
+    if (openPanel === name) {
+      document.getElementById(panels[name]).classList.remove('open');
+      openPanel = null;
+    } else {
+      Object.values(panels).forEach(id => document.getElementById(id).classList.remove('open'));
+      document.getElementById(panels[name]).classList.add('open');
+      openPanel = name;
+    }
+  }
+
+  document.getElementById('cw-btn-wedding').addEventListener('click', () => togglePanel('wedding'));
+  document.getElementById('cw-btn-partner').addEventListener('click', () => togglePanel('partner'));
+
+  document.querySelectorAll('.cw-ph-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.panel;
+      document.getElementById(panels[name]).classList.remove('open');
+      openPanel = null;
+    });
+  });
+
+  // 제휴문의 폼 → mailto
+  document.getElementById('cw-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email   = this.querySelector('[name="sender_email"]').value.trim();
+    const company = this.querySelector('[name="company"]').value.trim();
+    const tel     = this.querySelector('[name="tel"]').value.trim();
+    const msg     = this.querySelector('[name="message"]').value.trim();
+    if (!email || !company || !tel) {
+      alert('필수 항목(이메일, 업체명, 유선 번호)을 모두 입력해 주세요.');
+      return;
+    }
+    const subject = `[매리세이프] 제휴 문의 — ${company}`;
+    const body = `이메일 주소: ${email}\n업체명: ${company}\n연락 가능한 유선 번호: ${tel}\n\n문의 내용:\n${msg || '(내용 없음)'}`;
+    window.location.href = `mailto:marrysafe.official@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    this.style.display = 'none';
+    document.getElementById('cw-sent').style.display = 'block';
+    setTimeout(() => {
+      this.reset(); this.style.display = 'flex';
+      document.getElementById('cw-sent').style.display = 'none';
+    }, 3500);
+  });
+
+  loadAdminData();
+</script>
+</body>
+</html>

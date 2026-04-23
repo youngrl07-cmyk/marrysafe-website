@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/seo-service", "destination": "/seo-service.html" },
+    { "source": "/seo-price", "destination": "/seo-price.html" },
+    { "source": "/seo-review", "destination": "/seo-review.html" },
+    { "source": "/seo-regional", "destination": "/seo-regional.html" },
+    { "source": "/seo-guide", "destination": "/seo-guide.html" },
+    { "source": "/seo-faq", "destination": "/seo-faq.html" }
+  ]
+}
