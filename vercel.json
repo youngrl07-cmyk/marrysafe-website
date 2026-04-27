@@ -6,6 +6,9 @@
     { "source": "/seo-review", "destination": "/seo-review.html" },
     { "source": "/seo-regional", "destination": "/seo-regional.html" },
     { "source": "/seo-guide", "destination": "/seo-guide.html" },
-    { "source": "/seo-faq", "destination": "/seo-faq.html" }
+    { "source": "/seo-faq", "destination": "/seo-faq.html" },
+    { "source": "/seo-cheuidae", "destination": "/seo-cheuidae.html" },
+    { "source": "/seo-fraud", "destination": "/seo-fraud.html" },
+    { "source": "/seo-general", "destination": "/seo-general.html" }
   ]
 }
