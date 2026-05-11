@@ -158,14 +158,50 @@
 
 <!-- 로그인 -->
 <div id="login-screen">
-  <div class="login-box">
+
+  <!-- 로그인 폼 -->
+  <div class="login-box" id="box-login">
     <div class="login-logo">MARRYSAFE</div>
     <div class="login-sub">관리자 페이지</div>
     <input type="password" id="pw-input" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
     <button onclick="doLogin()">로그인</button>
     <p class="login-error" id="login-error">비밀번호가 올바르지 않습니다.</p>
-    <p style="font-size:.72rem;color:var(--light);text-align:center;margin-top:1rem;">초기 비밀번호: admin1234</p>
+    <div style="display:flex;gap:.75rem;margin-top:1.25rem;">
+      <button onclick="showBox('box-find')" style="flex:1;background:transparent;border:1px solid var(--border);color:var(--mid);padding:.65rem;font-size:.8rem;cursor:pointer;font-family:inherit;transition:all .2s;" onmouseover="this.style.borderColor='#9A7D5A';this.style.color='#9A7D5A'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">비밀번호 찾기</button>
+      <button onclick="showBox('box-change')" style="flex:1;background:transparent;border:1px solid var(--border);color:var(--mid);padding:.65rem;font-size:.8rem;cursor:pointer;font-family:inherit;transition:all .2s;" onmouseover="this.style.borderColor='#9A7D5A';this.style.color='#9A7D5A'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">비밀번호 변경</button>
+    </div>
   </div>
+
+  <!-- 비밀번호 찾기 -->
+  <div class="login-box" id="box-find" style="display:none;">
+    <div class="login-logo">MARRYSAFE</div>
+    <div class="login-sub">비밀번호 찾기</div>
+    <p style="font-size:.8rem;color:var(--mid);line-height:1.7;margin-bottom:1.25rem;text-align:center;">
+      아래 버튼을 누르면 인증코드가 담긴 메일이<br>
+      <strong>marrysafe.official@gmail.com</strong> 으로 발송됩니다.
+    </p>
+    <button onclick="sendResetCode()" style="width:100%;background:var(--dark);color:#fff;border:none;padding:.85rem;font-size:.88rem;letter-spacing:.06em;cursor:pointer;font-family:inherit;margin-bottom:1rem;">인증코드 메일 발송</button>
+    <input type="text" id="find-code-input" placeholder="인증코드 6자리 입력" maxlength="6" style="text-align:center;letter-spacing:.2em;font-size:1.1rem;">
+    <input type="password" id="find-new-pw" placeholder="새 비밀번호 (6자 이상)" style="margin-top:.75rem;">
+    <button onclick="resetWithCode()" style="width:100%;background:var(--dark);color:#fff;border:none;padding:.85rem;font-size:.88rem;cursor:pointer;font-family:inherit;margin-top:.75rem;">비밀번호 재설정</button>
+    <p class="login-error" id="find-error" style="display:none;">인증코드가 올바르지 않거나 만료되었습니다.</p>
+    <p class="login-error" id="find-success" style="display:none;color:var(--success);">비밀번호가 변경되었습니다!</p>
+    <button onclick="showBox('box-login')" style="display:block;width:100%;background:none;border:none;color:var(--light);font-size:.78rem;cursor:pointer;margin-top:1rem;font-family:inherit;">← 로그인으로 돌아가기</button>
+  </div>
+
+  <!-- 비밀번호 변경 (로그인 후) -->
+  <div class="login-box" id="box-change" style="display:none;">
+    <div class="login-logo">MARRYSAFE</div>
+    <div class="login-sub">비밀번호 변경</div>
+    <input type="password" id="chg-cur" placeholder="현재 비밀번호" style="margin-bottom:.75rem;">
+    <input type="password" id="chg-new" placeholder="새 비밀번호 (6자 이상)" style="margin-bottom:.75rem;">
+    <input type="password" id="chg-cf" placeholder="새 비밀번호 확인">
+    <button onclick="changeFromLogin()" style="width:100%;background:var(--dark);color:#fff;border:none;padding:.85rem;font-size:.88rem;cursor:pointer;font-family:inherit;margin-top:.75rem;">변경하기</button>
+    <p class="login-error" id="chg-error" style="display:none;"></p>
+    <p class="login-error" id="chg-success" style="display:none;color:var(--success);">비밀번호가 변경되었습니다!</p>
+    <button onclick="showBox('box-login')" style="display:block;width:100%;background:none;border:none;color:var(--light);font-size:.78rem;cursor:pointer;margin-top:1rem;font-family:inherit;">← 로그인으로 돌아가기</button>
+  </div>
+
 </div>
 
 <!-- 어드민 -->
@@ -486,6 +522,18 @@
     } catch(e) {}
   }
 
+  // ─ 박스 전환 ─
+  function showBox(id) {
+    ['box-login','box-find','box-change'].forEach(b => {
+      document.getElementById(b).style.display = (b === id) ? 'block' : 'none';
+    });
+    // 오류 메시지 초기화
+    ['login-error','find-error','find-success','chg-error','chg-success'].forEach(e => {
+      const el = document.getElementById(e);
+      if (el) el.style.display = 'none';
+    });
+  }
+
   // ─ 로그인 ─
   function doLogin() {
     if (document.getElementById('pw-input').value === getPw()) {
@@ -502,7 +550,79 @@
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('admin-screen').style.display = 'none';
     document.getElementById('pw-input').value = '';
-    document.getElementById('login-error').style.display = 'none';
+    showBox('box-login');
+  }
+
+  // ─ 비밀번호 찾기 (인증코드 발송) ─
+  function sendResetCode() {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = Date.now() + 30 * 60 * 1000; // 30분
+    localStorage.setItem('ms_reset_code', code);
+    localStorage.setItem('ms_reset_expiry', expiry);
+
+    const subject = encodeURIComponent('[매리세이프] 관리자 비밀번호 인증코드');
+    const body = encodeURIComponent(
+      '안녕하세요, 매리세이프 관리자님.\n\n' +
+      '비밀번호 찾기 인증코드입니다.\n\n' +
+      '인증코드: ' + code + '\n\n' +
+      '이 코드는 30분간 유효합니다.\n' +
+      '본인이 요청하지 않았다면 무시해 주세요.'
+    );
+    window.location.href = 'mailto:marrysafe.official@gmail.com?subject=' + subject + '&body=' + body;
+    alert('메일 앱이 열립니다. 발송 후 받은 인증코드를 입력해 주세요.\n(메일 앱이 없으면 코드: ' + code + ')');
+  }
+
+  function resetWithCode() {
+    const inputCode = document.getElementById('find-code-input').value.trim();
+    const savedCode = localStorage.getItem('ms_reset_code');
+    const expiry = parseInt(localStorage.getItem('ms_reset_expiry') || '0');
+    const newPw = document.getElementById('find-new-pw').value;
+
+    const errEl = document.getElementById('find-error');
+    const okEl = document.getElementById('find-success');
+
+    if (!savedCode || Date.now() > expiry || inputCode !== savedCode) {
+      errEl.style.display = 'block'; okEl.style.display = 'none'; return;
+    }
+    if (newPw.length < 6) {
+      errEl.textContent = '새 비밀번호는 6자 이상이어야 합니다.';
+      errEl.style.display = 'block'; okEl.style.display = 'none'; return;
+    }
+    localStorage.setItem('ms_admin_pw', newPw);
+    localStorage.removeItem('ms_reset_code');
+    localStorage.removeItem('ms_reset_expiry');
+    errEl.style.display = 'none';
+    okEl.style.display = 'block';
+    document.getElementById('find-code-input').value = '';
+    document.getElementById('find-new-pw').value = '';
+    setTimeout(() => showBox('box-login'), 2000);
+  }
+
+  // ─ 비밀번호 변경 (로그인 전 화면) ─
+  function changeFromLogin() {
+    const cur = document.getElementById('chg-cur').value;
+    const nw  = document.getElementById('chg-new').value;
+    const cf  = document.getElementById('chg-cf').value;
+    const errEl = document.getElementById('chg-error');
+    const okEl  = document.getElementById('chg-success');
+
+    if (cur !== getPw()) {
+      errEl.textContent = '현재 비밀번호가 올바르지 않습니다.';
+      errEl.style.display = 'block'; okEl.style.display = 'none'; return;
+    }
+    if (nw.length < 6) {
+      errEl.textContent = '새 비밀번호는 6자 이상이어야 합니다.';
+      errEl.style.display = 'block'; okEl.style.display = 'none'; return;
+    }
+    if (nw !== cf) {
+      errEl.textContent = '새 비밀번호가 일치하지 않습니다.';
+      errEl.style.display = 'block'; okEl.style.display = 'none'; return;
+    }
+    localStorage.setItem('ms_admin_pw', nw);
+    errEl.style.display = 'none';
+    okEl.style.display = 'block';
+    ['chg-cur','chg-new','chg-cf'].forEach(id => document.getElementById(id).value = '');
+    setTimeout(() => showBox('box-login'), 2000);
   }
 
   // ─ 패널 전환 ─
