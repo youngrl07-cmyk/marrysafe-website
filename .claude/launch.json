@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "merrysafe",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-c", "import http.server, os; os.chdir('/Users/younglee/Desktop/메리세이프 홈페이지'); http.server.test(HandlerClass=http.server.SimpleHTTPRequestHandler, port=3000)"],
+      "port": 3000
+    }
+  ]
+}
