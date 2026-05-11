@@ -395,12 +395,17 @@
           <div class="card-title">연락처 수정</div>
           <div class="form-group">
             <label class="form-label">이메일 주소</label>
-            <input type="text" id="contact-email" placeholder="pickyglobal@gmail.com">
+            <input type="text" id="contact-email" placeholder="marrysafe.official@gmail.com">
           </div>
           <div class="form-group">
             <label class="form-label">카카오채널 링크</label>
-            <input type="text" id="contact-kakao" placeholder="https://pf.kakao.com/xxxxx/chat">
-            <div class="form-hint">카카오채널 URL을 입력하면 버튼이 자동으로 활성화됩니다. 비워두면 '준비 중' 상태로 표시됩니다.</div>
+            <input type="text" id="contact-kakao" placeholder="http://pf.kakao.com/_pcrKX">
+            <div class="form-hint">카카오채널 URL을 입력하면 버튼이 자동으로 활성화됩니다.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">인스타그램 링크</label>
+            <input type="text" id="contact-insta" placeholder="https://www.instagram.com/marrysafe.official/">
+            <div class="form-hint">인스타그램 계정 URL을 입력하면 웨딩문의 패널에 링크가 활성화됩니다.</div>
           </div>
           <button class="btn-save" onclick="saveContact()">저장</button>
         </div>
@@ -571,6 +576,7 @@
     if (d.contact) {
       document.getElementById('contact-email').value = d.contact.email || '';
       document.getElementById('contact-kakao').value = d.contact.kakao || '';
+      document.getElementById('contact-insta').value = d.contact.insta || '';
     }
   }
 
@@ -720,6 +726,7 @@
     d.contact = {
       email: document.getElementById('contact-email').value.trim(),
       kakao: document.getElementById('contact-kakao').value.trim(),
+      insta: document.getElementById('contact-insta').value.trim(),
     };
     setData(d); toast('연락처가 저장되었습니다.');
   }
