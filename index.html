@@ -738,9 +738,8 @@
       <div class="contact-card">
         <span class="contact-icon-label">KakaoTalk Channel</span>
         <h3 class="contact-channel serif-en">카카오톡</h3>
-        <span class="contact-badge" id="kakao-badge">준비 중</span>
-        <p class="contact-desc">카카오톡 채널을 통해 빠르게 상담받으실 수 있습니다.<br>채널 오픈 시 바로 업데이트 예정입니다.</p>
-        <a href="#" id="kakao-btn" class="contact-link disabled" onclick="return false;">카카오톡 문의 (준비 중)</a>
+        <p class="contact-desc">카카오톡 채널을 통해 빠르게 상담받으실 수 있습니다.<br>채널 추가 후 바로 상담이 시작됩니다.</p>
+        <a href="http://pf.kakao.com/_pcrKX" id="kakao-btn" class="contact-link" target="_blank" rel="noopener">카카오톡 문의하기</a>
       </div>
       <div class="contact-card">
         <span class="contact-icon-label">Email</span>
@@ -812,11 +811,11 @@
     </div>
     <div class="cw-bd">
       <span class="cw-region">서울 및 수도권</span>
-      <a href="#" id="cw-kakao-btn" class="cw-kakao disabled" onclick="return false;">💬 카카오톡 채널 상담</a>
+      <a href="http://pf.kakao.com/_pcrKX" id="cw-kakao-btn" class="cw-kakao" target="_blank" rel="noopener">💬 카카오톡 채널 상담</a>
       <ul class="cw-info">
         <li><span>CS 운영시간</span><span>평일 10:00 ~ 18:00</span></li>
         <li><span>전화번호</span><span id="cw-phone">준비 중</span></li>
-        <li><span>인스타그램</span><a id="cw-insta" href="#" onclick="return false;" style="color:var(--muted);cursor:default;">준비 중</a></li>
+        <li><span>인스타그램</span><a id="cw-insta" href="https://www.instagram.com/marrysafe.official/" target="_blank" rel="noopener" style="color:var(--dark);">@marrysafe.official</a></li>
       </ul>
     </div>
   </div>
@@ -903,11 +902,17 @@
         const btn = document.getElementById('kakao-btn');
         btn.href = d.contact.kakao; btn.textContent = '카카오톡 문의하기';
         btn.classList.remove('disabled'); btn.removeAttribute('onclick');
-        document.getElementById('kakao-badge').style.display = 'none';
         const cwKakao = document.getElementById('cw-kakao-btn');
         cwKakao.href = d.contact.kakao;
         cwKakao.textContent = '💬 카카오톡 채널 상담';
         cwKakao.classList.remove('disabled'); cwKakao.removeAttribute('onclick');
+      }
+      if (d.contact.insta) {
+        const instaEl = document.getElementById('cw-insta');
+        instaEl.href = d.contact.insta;
+        instaEl.textContent = '@marrysafe.official';
+        instaEl.style.color = 'var(--dark)';
+        instaEl.removeAttribute('onclick');
       }
     }
   }
