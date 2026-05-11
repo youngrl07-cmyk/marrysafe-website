@@ -7,6 +7,7 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
@@ -180,7 +181,7 @@
       아래 버튼을 누르면 인증코드가 담긴 메일이<br>
       <strong>marrysafe.official@gmail.com</strong> 으로 발송됩니다.
     </p>
-    <button onclick="sendResetCode()" style="width:100%;background:var(--dark);color:#fff;border:none;padding:.85rem;font-size:.88rem;letter-spacing:.06em;cursor:pointer;font-family:inherit;margin-bottom:1rem;">인증코드 메일 발송</button>
+    <button id="find-send-btn" onclick="sendResetCode()" style="width:100%;background:var(--dark);color:#fff;border:none;padding:.85rem;font-size:.88rem;letter-spacing:.06em;cursor:pointer;font-family:inherit;margin-bottom:1rem;">인증코드 메일 발송</button>
     <input type="text" id="find-code-input" placeholder="인증코드 6자리 입력" maxlength="6" style="text-align:center;letter-spacing:.2em;font-size:1.1rem;">
     <input type="password" id="find-new-pw" placeholder="새 비밀번호 (6자 이상)" style="margin-top:.75rem;">
     <button onclick="resetWithCode()" style="width:100%;background:var(--dark);color:#fff;border:none;padding:.85rem;font-size:.88rem;cursor:pointer;font-family:inherit;margin-top:.75rem;">비밀번호 재설정</button>
@@ -553,23 +554,33 @@
     showBox('box-login');
   }
 
-  // ─ 비밀번호 찾기 (인증코드 발송) ─
-  function sendResetCode() {
+  // ─ EmailJS 설정 ─
+  const EMAILJS_SERVICE_ID  = 'service_marrysafe';
+  const EMAILJS_TEMPLATE_ID = 'bb9w5xr';
+  const EMAILJS_PUBLIC_KEY  = 'Al535RF9ObHDzDLJh';
+
+  // ─ 비밀번호 찾기 (인증코드 실제 이메일 발송) ─
+  async function sendResetCode() {
+    const sendBtn = document.getElementById('find-send-btn');
+    sendBtn.textContent = '발송 중...';
+    sendBtn.disabled = true;
+
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = Date.now() + 30 * 60 * 1000; // 30분
     localStorage.setItem('ms_reset_code', code);
     localStorage.setItem('ms_reset_expiry', expiry);
 
-    const subject = encodeURIComponent('[매리세이프] 관리자 비밀번호 인증코드');
-    const body = encodeURIComponent(
-      '안녕하세요, 매리세이프 관리자님.\n\n' +
-      '비밀번호 찾기 인증코드입니다.\n\n' +
-      '인증코드: ' + code + '\n\n' +
-      '이 코드는 30분간 유효합니다.\n' +
-      '본인이 요청하지 않았다면 무시해 주세요.'
-    );
-    window.location.href = 'mailto:marrysafe.official@gmail.com?subject=' + subject + '&body=' + body;
-    alert('메일 앱이 열립니다. 발송 후 받은 인증코드를 입력해 주세요.\n(메일 앱이 없으면 코드: ' + code + ')');
+    try {
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { code: code });
+      sendBtn.textContent = '✓ 메일 발송 완료 — 받은편지함 확인';
+      sendBtn.style.background = '#27AE60';
+    } catch(e) {
+      sendBtn.textContent = '인증코드 메일 발송';
+      sendBtn.disabled = false;
+      document.getElementById('find-error').textContent = '메일 발송 실패: ' + (e.text || '네트워크 오류');
+      document.getElementById('find-error').style.display = 'block';
+    }
   }
 
   function resetWithCode() {
