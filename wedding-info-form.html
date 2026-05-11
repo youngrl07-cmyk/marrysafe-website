@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웨딩홀 안내 정보 제출 | 메리세이프</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --black:#0D0D0D; --dark:#1C1C1C; --mid:#4A4A4A;
+    --muted:#8A8A8A; --border:#E5E5E5; --bg:#F7F7F5; --white:#fff;
+    --gold:#C4A056;
+  }
+  html { font-size:16px; }
+  body { font-family:'Noto Sans KR',sans-serif; color:var(--dark); background:var(--bg); line-height:1.75; -webkit-font-smoothing:antialiased; }
+
+  /* ── HEADER ── */
+  header { background:var(--dark); padding:1.5rem 2rem; text-align:center; }
+  .logo { font-family:'Cormorant',serif; font-size:1.4rem; letter-spacing:.25em; color:#fff; }
+  .header-sub { font-size:.72rem; color:rgba(255,255,255,.5); letter-spacing:.15em; margin-top:.35rem; }
+
+  /* ── HERO ── */
+  .form-hero { background:var(--white); border-bottom:1px solid var(--border); padding:2.5rem 2rem; text-align:center; }
+  .form-hero h1 { font-family:'Cormorant',serif; font-size:clamp(1.6rem,4vw,2.2rem); font-weight:400; color:var(--black); margin-bottom:.75rem; }
+  .form-hero p { font-size:.88rem; color:var(--mid); line-height:2; font-weight:300; max-width:560px; margin:0 auto; }
+  .notice-box { background:#FFF8F0; border:1px solid #F0D9B0; padding:1rem 1.5rem; margin:1.5rem auto 0; max-width:560px; border-radius:2px; }
+  .notice-box p { font-size:.82rem; color:#7A5C2A; line-height:1.85; font-weight:400; }
+
+  /* ── FORM ── */
+  .form-wrap { max-width:680px; margin:0 auto; padding:2rem 1.5rem 4rem; }
+
+  .section-block { background:var(--white); border:1px solid var(--border); margin-bottom:1.5rem; }
+  .section-head { background:var(--dark); color:#fff; padding:1rem 1.5rem; display:flex; align-items:center; gap:.75rem; }
+  .section-head .icon { font-size:1.1rem; }
+  .section-head h2 { font-size:.9rem; font-weight:500; letter-spacing:.06em; }
+  .section-body { padding:1.5rem; }
+
+  .field { margin-bottom:1.25rem; }
+  .field:last-child { margin-bottom:0; }
+  label { display:block; font-size:.8rem; font-weight:500; color:var(--mid); margin-bottom:.4rem; }
+  label .req { color:#C0392B; margin-left:.2rem; }
+  label .hint { font-size:.72rem; color:var(--muted); font-weight:300; margin-left:.4rem; }
+
+  input[type=text], input[type=tel], input[type=date], input[type=time], select, textarea {
+    width:100%; border:1px solid var(--border); padding:.7rem 1rem;
+    font-size:.85rem; font-family:inherit; outline:none;
+    background:#fff; transition:border-color .2s; border-radius:2px;
+    color:var(--dark);
+  }
+  input:focus, textarea:focus, select:focus { border-color:var(--dark); }
+  textarea { resize:vertical; min-height:80px; }
+
+  .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+
+  .sub-label { font-size:.78rem; color:var(--muted); margin:.75rem 0 .5rem; font-weight:400; border-left:2px solid var(--border); padding-left:.6rem; }
+
+  /* 체크 그룹 */
+  .check-group { display:flex; flex-wrap:wrap; gap:.5rem .75rem; margin-top:.4rem; }
+  .check-group label { display:flex; align-items:center; gap:.35rem; font-weight:300; font-size:.83rem; color:var(--dark); cursor:pointer; margin:0; }
+  .check-group input[type=checkbox] { width:15px; height:15px; cursor:pointer; accent-color:var(--dark); }
+
+  /* 식권 테이블 */
+  .ticket-table { width:100%; border-collapse:collapse; font-size:.83rem; margin-top:.5rem; }
+  .ticket-table th { background:var(--bg); border:1px solid var(--border); padding:.6rem .85rem; font-weight:500; font-size:.78rem; color:var(--mid); text-align:left; }
+  .ticket-table td { border:1px solid var(--border); padding:.5rem .85rem; }
+  .ticket-table td input { border:none; padding:0; background:transparent; font-size:.83rem; }
+  .ticket-table td input:focus { outline:none; }
+
+  /* 추가 안내 */
+  .extra-list { display:flex; flex-direction:column; gap:.75rem; }
+  .extra-item { display:flex; gap:.75rem; align-items:flex-start; }
+  .extra-item input[type=text] { flex:1; }
+  .btn-add { background:none; border:1px dashed var(--border); padding:.65rem 1rem; font-size:.78rem; color:var(--muted); cursor:pointer; font-family:inherit; width:100%; margin-top:.75rem; transition:all .2s; }
+  .btn-add:hover { border-color:var(--dark); color:var(--dark); }
+  .btn-remove { background:none; border:none; color:var(--muted); cursor:pointer; font-size:1rem; padding:.4rem; flex-shrink:0; margin-top:.3rem; }
+  .btn-remove:hover { color:#C0392B; }
+
+  /* 제출 */
+  .submit-area { text-align:center; margin-top:2rem; }
+  .btn-submit { background:var(--dark); color:#fff; border:none; padding:1rem 3rem; font-size:.88rem; letter-spacing:.1em; cursor:pointer; font-family:inherit; transition:background .25s; }
+  .btn-submit:hover { background:var(--black); }
+
+  /* 완료 메시지 */
+  #done-msg { display:none; text-align:center; padding:3rem 2rem; background:var(--white); border:1px solid var(--border); margin:2rem auto; max-width:680px; }
+  #done-msg .done-icon { font-size:2.5rem; margin-bottom:1rem; }
+  #done-msg h2 { font-family:'Cormorant',serif; font-size:1.8rem; font-weight:400; margin-bottom:.75rem; }
+  #done-msg p { font-size:.88rem; color:var(--mid); line-height:2; }
+
+  /* 푸터 */
+  footer { text-align:center; padding:2rem; font-size:.72rem; color:var(--muted); border-top:1px solid var(--border); }
+
+  @media(max-width:540px) {
+    .row-2, .row-3 { grid-template-columns:1fr; }
+    .form-wrap { padding:1.5rem 1rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">MARRYSAFE</div>
+  <div class="header-sub">웨딩홀 안내 정보 제출</div>
+</header>
+
+<div class="form-hero">
+  <h1>웨딩홀 안내 정보를<br>알려주세요</h1>
+  <p>
+    메리세이프 팀이 예식 당일 하객분들께 정확한 안내를 드릴 수 있도록<br>
+    아래 정보를 최대한 상세히 작성해 주세요.<br>
+    작성하신 내용은 축의대 인포메이션 데스크 운영에 활용됩니다.
+  </p>
+  <div class="notice-box">
+    <p>📋 예식일 <strong>7일 전</strong>까지 제출해 주시면 감사하겠습니다.<br>
+    모르는 항목은 비워두셔도 되며, 웨딩홀 측에 확인 후 작성 권장드립니다.</p>
+  </div>
+</div>
+
+<div class="form-wrap" id="main-form-wrap">
+<form id="info-form" novalidate>
+
+  <!-- ① 기본 정보 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">💍</span>
+      <h2>기본 정보</h2>
+    </div>
+    <div class="section-body">
+      <div class="row-2">
+        <div class="field">
+          <label>신랑 성함 <span class="req">*</span></label>
+          <input type="text" name="groom" placeholder="홍길동" required>
+        </div>
+        <div class="field">
+          <label>신부 성함 <span class="req">*</span></label>
+          <input type="text" name="bride" placeholder="김영희" required>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>예식일 <span class="req">*</span></label>
+          <input type="date" name="wedding_date" required>
+        </div>
+        <div class="field">
+          <label>예식 시간 <span class="req">*</span></label>
+          <input type="time" name="wedding_time" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>웨딩홀 이름 <span class="req">*</span></label>
+        <input type="text" name="hall_name" placeholder="예: 강동 루벨 웨딩홀" required>
+      </div>
+      <div class="field">
+        <label>웨딩홀 주소</label>
+        <input type="text" name="hall_address" placeholder="예: 서울 강동구 천호대로 000">
+      </div>
+      <div class="field">
+        <label>담당자 연락처 <span class="hint">(예식 당일 연락 가능한 신랑 또는 신부)</span></label>
+        <input type="tel" name="contact" placeholder="010-0000-0000">
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 웨딩홀 안내 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">🏛</span>
+      <h2>웨딩홀 안내 사항</h2>
+    </div>
+    <div class="section-body">
+      <div class="row-2">
+        <div class="field">
+          <label>연회장 이름 / 층수</label>
+          <input type="text" name="banquet_location" placeholder="예: 35층 그랜드볼룸">
+        </div>
+        <div class="field">
+          <label>식사 가능 시간 (연회장 오픈)</label>
+          <input type="text" name="meal_open_time" placeholder="예: 예식 시작 1시간 전 / 오후 3시부터">
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>신부대기실 위치</label>
+          <input type="text" name="bridal_room" placeholder="예: 35층, 엘리베이터 좌측">
+        </div>
+        <div class="field">
+          <label>화장실 위치</label>
+          <input type="text" name="restroom" placeholder="예: 엘리베이터 끝 쪽, 각 층">
+        </div>
+      </div>
+      <div class="field">
+        <label>ATM 위치</label>
+        <input type="text" name="atm" placeholder="예: B1층 에스컬레이터 뒷편 / 1층 편의점">
+      </div>
+      <div class="field">
+        <label>기타 하객 안내 사항 <span class="hint">(층별 안내, 주의사항 등)</span></label>
+        <textarea name="hall_etc" placeholder="예: 예식장 입장은 엘리베이터 이용 / 웨딩홀 내 음식물 반입 금지 등"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 주차 안내 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">🚗</span>
+      <h2>주차 안내</h2>
+    </div>
+    <div class="section-body">
+      <div class="row-3">
+        <div class="field">
+          <label>무료 주차 시간</label>
+          <input type="text" name="parking_free" placeholder="예: 2시간">
+        </div>
+        <div class="field">
+          <label>초과 요금</label>
+          <input type="text" name="parking_fee" placeholder="예: 10분당 500원">
+        </div>
+        <div class="field">
+          <label>주차권 등록 위치</label>
+          <input type="text" name="parking_register" placeholder="예: 피로연장 입구">
+        </div>
+      </div>
+      <div class="field">
+        <label>주차 관련 추가 안내</label>
+        <textarea name="parking_etc" placeholder="예: 발렛 이용 가능 / 만차 시 인근 공영주차장 이용 등" style="min-height:60px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 식권 안내 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">🎫</span>
+      <h2>식권 안내</h2>
+    </div>
+    <div class="section-body">
+      <table class="ticket-table">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>해당 연령 / 출생연도</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>무료 (식권 불필요)</td>
+            <td><input type="text" name="ticket_free_age" placeholder="예: 4세 이하 / 2022년생~"></td>
+            <td><input type="text" name="ticket_free_note" placeholder="예: 식권 없이 입장 가능"></td>
+          </tr>
+          <tr>
+            <td>소인 식권</td>
+            <td><input type="text" name="ticket_child_age" placeholder="예: 5~7세 / 2019~2021년생"></td>
+            <td><input type="text" name="ticket_child_note" placeholder="예: 소인 식권 별도 수령"></td>
+          </tr>
+          <tr>
+            <td>일반 식권</td>
+            <td><input type="text" name="ticket_adult_age" placeholder="예: 8세 이상 / 2018년생~"></td>
+            <td><input type="text" name="ticket_adult_note" placeholder="예: 일반 식권 필요"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="field" style="margin-top:1rem;">
+        <label>식권 관련 추가 안내</label>
+        <textarea name="ticket_etc" placeholder="예: 식권은 축의대에서 수령 / 미리 준비해 드리는 경우 등" style="min-height:60px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 식사 안내 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">🍽</span>
+      <h2>식사 안내</h2>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>식사 메뉴 구성 <span class="hint">(하객에게 안내할 메뉴)</span></label>
+        <textarea name="meal_menu" placeholder="예: 콜드디쉬, 수프, 빵, 꽃등심 스테이크, 잔치국수, 티라미슈"></textarea>
+      </div>
+      <div class="field">
+        <label>스테이크 굽기 선택 여부</label>
+        <div class="check-group">
+          <label><input type="checkbox" name="steak_option" value="미디엄"> 미디엄 (기본)</label>
+          <label><input type="checkbox" name="steak_option" value="웰던 요청 가능"> 웰던 요청 가능 (직원에게 요청)</label>
+          <label><input type="checkbox" name="steak_option" value="선택 불가"> 선택 불가</label>
+          <label><input type="checkbox" name="steak_option" value="스테이크 없음"> 스테이크 없음</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>어린이 대체 식사</label>
+        <input type="text" name="kids_meal" placeholder="예: 스테이크 섭취 어려운 어린이 — 잔치국수 별도 제공">
+      </div>
+      <div class="field">
+        <label>알레르기 / 채식 관련 안내</label>
+        <textarea name="allergy" placeholder="예: 채식 메뉴 별도 없음 / 알레르기 있으신 분은 직원에게 문의" style="min-height:60px;"></textarea>
+      </div>
+      <div class="field">
+        <label>식사 관련 기타 안내</label>
+        <textarea name="meal_etc" placeholder="예: 음료는 셀프 / 테이블당 음식 리필 가능 등" style="min-height:60px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ 추가 안내 사항 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">📢</span>
+      <h2>하객에게 추가 안내할 내용</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;font-weight:300;">
+        하객분들께 축의대에서 직접 안내해 드렸으면 하는 내용을 자유롭게 적어주세요.
+      </p>
+      <div class="extra-list" id="extra-list">
+        <div class="extra-item">
+          <input type="text" name="extra[]" placeholder="예: 포토존은 3층 로비에 있습니다.">
+          <button type="button" class="btn-remove" onclick="removeExtra(this)">✕</button>
+        </div>
+        <div class="extra-item">
+          <input type="text" name="extra[]" placeholder="예: 답례품은 출구에서 수령하실 수 있습니다.">
+          <button type="button" class="btn-remove" onclick="removeExtra(this)">✕</button>
+        </div>
+        <div class="extra-item">
+          <input type="text" name="extra[]" placeholder="예: 신랑·신부 테이블 위치 안내">
+          <button type="button" class="btn-remove" onclick="removeExtra(this)">✕</button>
+        </div>
+      </div>
+      <button type="button" class="btn-add" onclick="addExtra()">+ 항목 추가</button>
+    </div>
+  </div>
+
+  <!-- ⑦ 메리세이프 팀에게 전달 사항 -->
+  <div class="section-block">
+    <div class="section-head">
+      <span class="icon">💬</span>
+      <h2>메리세이프 팀에게 전달할 사항</h2>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>특이사항 / 요청사항</label>
+        <textarea name="staff_note" placeholder="예: 신랑 측 어머니께서 직접 인수인계 원하심 / 하객 중 VIP 특별 안내 필요 / 예식 시간 변경 가능성 있음 등" style="min-height:100px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button type="submit" class="btn-submit">제출하기</button>
+  </div>
+
+</form>
+</div>
+
+<!-- 완료 메시지 -->
+<div id="done-msg">
+  <div class="done-icon">✉️</div>
+  <h2>제출이 완료되었습니다</h2>
+  <p>
+    소중한 정보를 보내주셔서 감사합니다.<br>
+    메리세이프 팀이 예식 당일 하객분들께 정확한 안내를 드리겠습니다.<br><br>
+    예식 전날까지 담당자가 확인 연락 드릴 예정입니다.<br>
+    추가 문의: <strong>marrysafe.official@gmail.com</strong>
+  </p>
+</div>
+
+<footer>
+  © 2025 MarrySafe (메리세이프) · 결혼식 축의금 접수·보관·인계 전문 대행
+</footer>
+
+<script>
+  // 항목 추가/삭제
+  function addExtra() {
+    const list = document.getElementById('extra-list');
+    const div = document.createElement('div');
+    div.className = 'extra-item';
+    div.innerHTML = `<input type="text" name="extra[]" placeholder="추가 안내 내용을 입력하세요">
+      <button type="button" class="btn-remove" onclick="removeExtra(this)">✕</button>`;
+    list.appendChild(div);
+    div.querySelector('input').focus();
+  }
+
+  function removeExtra(btn) {
+    const list = document.getElementById('extra-list');
+    if (list.children.length <= 1) { btn.previousElementSibling.value = ''; return; }
+    btn.parentElement.remove();
+  }
+
+  // 폼 제출 → 이메일 발송
+  document.getElementById('info-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const f = this;
+    const groom = f.groom.value.trim();
+    const bride = f.bride.value.trim();
+    const date  = f.wedding_date.value;
+    const time  = f.wedding_time.value;
+
+    if (!groom || !bride || !date || !time) {
+      alert('신랑·신부 성함, 예식일, 예식 시간은 필수 항목입니다.');
+      return;
+    }
+
+    // 이메일 본문 구성
+    const extras = [...f.querySelectorAll('[name="extra[]"]')]
+      .map(i => i.value.trim()).filter(Boolean)
+      .map(v => '  · ' + v).join('\n') || '  (없음)';
+
+    const steakOptions = [...f.querySelectorAll('[name="steak_option"]:checked')]
+      .map(i => i.value).join(', ') || '미기재';
+
+    const body = [
+      `[메리세이프] 웨딩홀 안내 정보 — ${groom} ♥ ${bride}`,
+      '',
+      '■ 기본 정보',
+      `  신랑: ${groom} / 신부: ${bride}`,
+      `  예식일: ${date} ${time}`,
+      `  웨딩홀: ${f.hall_name.value || '미기재'}`,
+      `  주소: ${f.hall_address.value || '미기재'}`,
+      `  담당 연락처: ${f.contact.value || '미기재'}`,
+      '',
+      '■ 웨딩홀 안내',
+      `  연회장: ${f.banquet_location.value || '미기재'}`,
+      `  식사 가능 시간: ${f.meal_open_time.value || '미기재'}`,
+      `  신부대기실: ${f.bridal_room.value || '미기재'}`,
+      `  화장실: ${f.restroom.value || '미기재'}`,
+      `  ATM: ${f.atm.value || '미기재'}`,
+      `  기타: ${f.hall_etc.value || '없음'}`,
+      '',
+      '■ 주차 안내',
+      `  무료 시간: ${f.parking_free.value || '미기재'}`,
+      `  초과 요금: ${f.parking_fee.value || '미기재'}`,
+      `  주차권 등록: ${f.parking_register.value || '미기재'}`,
+      `  추가 안내: ${f.parking_etc.value || '없음'}`,
+      '',
+      '■ 식권 안내',
+      `  무료(식권불필요): ${f.ticket_free_age.value || '미기재'} — ${f.ticket_free_note.value || ''}`,
+      `  소인 식권: ${f.ticket_child_age.value || '미기재'} — ${f.ticket_child_note.value || ''}`,
+      `  일반 식권: ${f.ticket_adult_age.value || '미기재'} — ${f.ticket_adult_note.value || ''}`,
+      `  추가 안내: ${f.ticket_etc.value || '없음'}`,
+      '',
+      '■ 식사 안내',
+      `  메뉴: ${f.meal_menu.value || '미기재'}`,
+      `  스테이크 굽기: ${steakOptions}`,
+      `  어린이 대체식: ${f.kids_meal.value || '미기재'}`,
+      `  알레르기: ${f.allergy.value || '없음'}`,
+      `  기타: ${f.meal_etc.value || '없음'}`,
+      '',
+      '■ 하객 추가 안내',
+      extras,
+      '',
+      '■ 팀 전달 사항',
+      `  ${f.staff_note.value || '없음'}`,
+    ].join('\n');
+
+    const subject = encodeURIComponent(`[메리세이프] 웨딩홀 정보 — ${groom} ♥ ${bride} (${date})`);
+    window.location.href = `mailto:marrysafe.official@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+
+    // 완료 화면
+    document.getElementById('main-form-wrap').style.display = 'none';
+    const done = document.getElementById('done-msg');
+    done.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>

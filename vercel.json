@@ -9,6 +9,7 @@
   "rewrites": [
     { "source": "/google6d7a74089cab94c8.html", "destination": "/google6d7a74089cab94c8.html" },
     { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/wedding-info-form", "destination": "/wedding-info-form.html" },
     { "source": "/seo-service", "destination": "/seo-service.html" },
     { "source": "/seo-price", "destination": "/seo-price.html" },
     { "source": "/seo-review", "destination": "/seo-review.html" },
