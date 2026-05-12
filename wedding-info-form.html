@@ -7,6 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
   :root {
@@ -389,7 +390,7 @@
   }
 
   // 폼 제출 → 이메일 발송
-  document.getElementById('info-form').addEventListener('submit', function(e) {
+  document.getElementById('info-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const f = this;
@@ -455,14 +456,28 @@
       `  ${f.staff_note.value || '없음'}`,
     ].join('\n');
 
-    const subject = encodeURIComponent(`[메리세이프] 웨딩홀 정보 — ${groom} ♥ ${bride} (${date})`);
-    window.location.href = `mailto:marrysafe.official@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+    // 제출 버튼 비활성화
+    const submitBtn = f.querySelector('.btn-submit');
+    submitBtn.textContent = '전송 중...';
+    submitBtn.disabled = true;
 
-    // 완료 화면
-    document.getElementById('main-form-wrap').style.display = 'none';
-    const done = document.getElementById('done-msg');
-    done.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const subject = `[메리세이프] 웨딩홀 정보 — ${groom} ♥ ${bride} (${date})`;
+
+    try {
+      emailjs.init('Al535RF9ObHDzDLJh');
+      await emailjs.send('service_marrysafe', 'template_kxtg4li', {
+        subject: subject,
+        body: body
+      });
+      // 완료 화면
+      document.getElementById('main-form-wrap').style.display = 'none';
+      document.getElementById('done-msg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(err) {
+      submitBtn.textContent = '제출하기';
+      submitBtn.disabled = false;
+      alert('전송 실패: ' + (err.text || '네트워크 오류가 발생했습니다. 다시 시도해 주세요.'));
+    }
   });
 </script>
 </body>
