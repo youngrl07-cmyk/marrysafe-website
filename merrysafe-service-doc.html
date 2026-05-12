@@ -774,9 +774,20 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     });
 
     if (response.ok) {
-      result.textContent = '✅ 제출 완료! 확인 후 연락드리겠습니다.';
-      result.style.color = '#81C784';
-      btn.textContent    = '✅ 제출 완료';
+      // 제출 완료 팝업 표시 후 홈으로 이동
+      const popup = document.createElement('div');
+      popup.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+      popup.innerHTML = `
+        <div style="background:#fff;padding:3rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #4CAF50;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">✅</div>
+          <p style="font-size:1.2rem;font-weight:700;color:#1C1C1C;margin-bottom:.75rem;">제출이 완료되었습니다</p>
+          <p style="font-size:.9rem;color:#666;line-height:1.7;margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p>
+          <button onclick="location.href='https://www.marrysafe.co.kr/'"
+            style="background:#1C1C1C;color:#fff;border:none;padding:.7rem 2.5rem;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:500;width:100%;">
+            홈으로 돌아가기
+          </button>
+        </div>`;
+      document.body.appendChild(popup);
     } else {
       const err = await response.json().catch(() => ({}));
       throw new Error(err.error || '서버 오류');
