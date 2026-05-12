@@ -791,20 +791,65 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     });
 
     if (response.ok) {
-      // 제출 완료 팝업 표시 후 홈으로 이동
-      const popup = document.createElement('div');
-      popup.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
-      popup.innerHTML = `
-        <div style="background:#fff;padding:3rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #4CAF50;">
-          <div style="font-size:2.5rem;margin-bottom:1rem;">✅</div>
-          <p style="font-size:1.2rem;font-weight:700;color:#1C1C1C;margin-bottom:.75rem;">제출이 완료되었습니다</p>
-          <p style="font-size:.9rem;color:#666;line-height:1.7;margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p>
-          <button onclick="location.href='https://www.marrysafe.co.kr/'"
-            style="background:#1C1C1C;color:#fff;border:none;padding:.7rem 2.5rem;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:500;width:100%;">
-            홈으로 돌아가기
-          </button>
+
+      // ── 완료 팝업 표시 함수 ──────────────────────────────
+      function showDonePopup() {
+        const done = document.createElement('div');
+        done.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+        done.innerHTML = `
+          <div style="background:#fff;padding:3rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #4CAF50;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">✅</div>
+            <p style="font-size:1.2rem;font-weight:700;color:#1C1C1C;margin-bottom:.75rem;">제출이 완료되었습니다</p>
+            <p style="font-size:.9rem;color:#666;line-height:1.7;margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p>
+            <button onclick="location.href='https://www.marrysafe.co.kr/'"
+              style="background:#1C1C1C;color:#fff;border:none;padding:.7rem 2.5rem;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:500;width:100%;">
+              홈으로 돌아가기
+            </button>
+          </div>`;
+        document.body.appendChild(done);
+      }
+
+      // ── PDF 저장 여부 팝업 ────────────────────────────────
+      const savePopup = document.createElement('div');
+      savePopup.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+      savePopup.innerHTML = `
+        <div style="background:#fff;padding:2.5rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #1C1C1C;">
+          <div style="font-size:2rem;margin-bottom:.75rem;">📄</div>
+          <p style="font-size:1.05rem;font-weight:700;color:#1C1C1C;margin-bottom:.5rem;">PDF 파일로 저장하시겠습니까?</p>
+          <p style="font-size:.85rem;color:#888;line-height:1.6;margin-bottom:1.75rem;">작성하신 서류를 내 기기에<br>PDF로 저장할 수 있습니다.</p>
+          <div style="display:flex;gap:.75rem;">
+            <button id="pdf-save-yes"
+              style="flex:1;background:#1C1C1C;color:#fff;border:none;padding:.7rem 0;font-size:.95rem;cursor:pointer;font-family:inherit;font-weight:500;">
+              예
+            </button>
+            <button id="pdf-save-no"
+              style="flex:1;background:#fff;color:#1C1C1C;border:1.5px solid #1C1C1C;padding:.7rem 0;font-size:.95rem;cursor:pointer;font-family:inherit;font-weight:500;">
+              아니요
+            </button>
+          </div>
         </div>`;
-      document.body.appendChild(popup);
+      document.body.appendChild(savePopup);
+
+      // 예 → PDF 다운로드 후 완료 팝업
+      document.getElementById('pdf-save-yes').addEventListener('click', () => {
+        // Blob으로 변환 후 다운로드
+        const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+        savePopup.remove();
+        showDonePopup();
+      });
+
+      // 아니요 → 바로 완료 팝업
+      document.getElementById('pdf-save-no').addEventListener('click', () => {
+        savePopup.remove();
+        showDonePopup();
+      });
+
     } else {
       const err = await response.json().catch(() => ({}));
       throw new Error(err.error || '서버 오류');
