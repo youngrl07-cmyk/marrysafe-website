@@ -203,7 +203,7 @@
     </div>
     <div class="info-cell" style="border-right:1px solid var(--border);">
       <div class="info-label">주차 정보</div>
-      <div class="f" contenteditable="true" data-ph="주차 안내 입력"></div>
+      <div class="f" contenteditable="true" data-ph="2시간 무료 주차. 이후 10분당 1,000원"></div>
     </div>
     <div class="info-cell" style="border-right:none;">
       <div class="info-label">혼주 (신랑 측)</div>
@@ -276,15 +276,15 @@
     <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
     <tbody>
       <tr>
-        <td>식권 배부 기준</td>
+        <td>식권 배부 기준 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(택 1)</span></td>
         <td>
-          <div class="opts">
-            <label class="cl"><input type="checkbox" class="dc"> 축의금 납부자에 한해 배부</label>
-            <label class="cl"><input type="checkbox" class="dc"> 모든 하객에게 배부</label>
-          </div>
-          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
-            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
-            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+          <div class="opts-col">
+            <label class="cl"><input type="radio" class="dc" name="ticket-basis"> 축의금 납부자에 한해 배부</label>
+            <label class="cl"><input type="radio" class="dc" name="ticket-basis"> 모든 하객에게 배부</label>
+            <div style="display:flex;align-items:center;gap:.4rem;">
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-basis"> 기타:</label>
+              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+            </div>
           </div>
         </td>
       </tr>
@@ -355,10 +355,6 @@
       </tr>
     </tbody>
   </table>
-  <div class="tip-box">
-    💡 <strong>메리세이프 권장사항:</strong> 혼잡한 웨딩 현장에서 분쟁이 생기면 모든 분이 불편해집니다. 특별한 사정이 없다면 「소란 방지를 위해 배부」를 권장합니다.
-  </div>
-
   <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-3. 계좌이체 주장 하객 응대 기준 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
   <table>
     <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
@@ -487,16 +483,31 @@
 </div>
 
 <div class="agree-box">
-  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" value="동의"> 개인정보 수집·이용에 동의합니다.</label>
-  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" value="비동의"> 동의하지 않습니다.</label>
+  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" id="privacy-yes" value="동의"> 개인정보 수집·이용에 동의합니다.</label>
+  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" id="privacy-no" value="비동의"> 동의하지 않습니다.</label>
 </div>
 </div>
 
+<!-- 비동의 팝업 -->
+<div id="privacy-block-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;align-items:center;justify-content:center;">
+  <div style="background:#fff;max-width:360px;width:90%;padding:2.5rem 2rem;text-align:center;border-top:4px solid #C62828;">
+    <p style="font-size:1.1rem;font-weight:600;color:#C62828;margin-bottom:.75rem;">⚠️ 서비스 이용 제한</p>
+    <p style="font-size:.95rem;color:#444;line-height:1.7;margin-bottom:1.5rem;">동의하지 않으실 경우<br><strong>서비스 이용이 제한됩니다.</strong></p>
+    <button onclick="closePrivacyBlock()" style="background:#1C1C1C;color:#fff;border:none;padding:.6rem 2rem;font-size:.95rem;cursor:pointer;font-family:inherit;width:100%;">확인</button>
+  </div>
+</div>
+
+<!-- 촬영 섹션 차단 오버레이 -->
+<div id="filming-block" style="display:none;position:relative;">
+  <div style="position:absolute;inset:0;background:rgba(240,240,240,.92);z-index:10;display:flex;align-items:center;justify-content:center;border:2px dashed #ccc;">
+    <p style="color:#999;font-size:.95rem;text-align:center;">⚠️ 개인정보 수집·이용에 동의하셔야<br>아래 내용을 작성할 수 있습니다.</p>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════
      문서 3: 촬영(녹화) 안내 및 동의서
 ══════════════════════════════════════════════ -->
-<div class="page-break">
+<div class="page-break" id="filming-section">
 <div class="doc-header">
   <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
   <div class="doc-title">촬영(녹화) 안내 및 동의서</div>
@@ -560,8 +571,11 @@
       <div class="sign-line"></div>
     </div>
     <div class="sign-box">
-      <div class="sign-label">서명(인)</div>
-      <div class="sign-line" style="margin-top:2.5rem;"></div>
+      <div class="sign-label">서명(인) <span style="font-size:7.5pt;color:var(--muted);font-weight:300;">— 마우스 또는 손가락으로 직접 서명</span></div>
+      <div style="position:relative;border:1px solid var(--border);margin-top:.3rem;background:#fafafa;">
+        <canvas id="sig-canvas" width="280" height="80" style="display:block;width:100%;cursor:crosshair;touch-action:none;"></canvas>
+        <button onclick="clearSig()" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.12);border:none;font-size:.7rem;padding:2px 7px;cursor:pointer;color:#555;border-radius:2px;">지우기</button>
+      </div>
     </div>
     <div class="sign-box">
       <div class="sign-label">작성일</div>
@@ -587,6 +601,102 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+/* ── 개인정보 비동의 팝업 & 촬영 섹션 차단 ── */
+function closePrivacyBlock() {
+  document.getElementById('privacy-block-overlay').style.display = 'none';
+  // 비동의 선택 해제
+  document.getElementById('privacy-no').checked = false;
+  document.getElementById('privacy-yes').checked = false;
+}
+
+document.getElementById('privacy-no').addEventListener('change', function() {
+  if (this.checked) {
+    // 팝업 표시
+    const overlay = document.getElementById('privacy-block-overlay');
+    overlay.style.display = 'flex';
+    // 촬영 섹션 비활성화
+    const filmingSection = document.getElementById('filming-section');
+    filmingSection.style.position = 'relative';
+    filmingSection.style.pointerEvents = 'none';
+    filmingSection.style.opacity = '0.4';
+    filmingSection.style.userSelect = 'none';
+    document.getElementById('filming-block').style.display = 'block';
+  }
+});
+
+document.getElementById('privacy-yes').addEventListener('change', function() {
+  if (this.checked) {
+    // 촬영 섹션 다시 활성화
+    const filmingSection = document.getElementById('filming-section');
+    filmingSection.style.pointerEvents = '';
+    filmingSection.style.opacity = '';
+    filmingSection.style.userSelect = '';
+    document.getElementById('filming-block').style.display = 'none';
+  }
+});
+
+/* ── 서명 캔버스 ── */
+(function() {
+  const canvas = document.getElementById('sig-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  // 해상도 보정
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width  = canvas.offsetWidth  * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.strokeStyle = '#1C1C1C';
+  ctx.lineWidth   = 2;
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+
+  let drawing = false;
+  let lastX = 0, lastY = 0;
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const src  = e.touches ? e.touches[0] : e;
+    return {
+      x: (src.clientX - rect.left) * (canvas.width  / rect.width  / ratio),
+      y: (src.clientY - rect.top)  * (canvas.height / rect.height / ratio)
+    };
+  }
+  function start(e) {
+    e.preventDefault();
+    drawing = true;
+    const p = getPos(e);
+    lastX = p.x; lastY = p.y;
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, .8, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  function move(e) {
+    e.preventDefault();
+    if (!drawing) return;
+    const p = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    lastX = p.x; lastY = p.y;
+  }
+  function stop() { drawing = false; }
+
+  canvas.addEventListener('mousedown',  start);
+  canvas.addEventListener('mousemove',  move);
+  canvas.addEventListener('mouseup',    stop);
+  canvas.addEventListener('mouseleave', stop);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove',  move,  { passive: false });
+  canvas.addEventListener('touchend',   stop);
+})();
+
+window.clearSig = function() {
+  const canvas = document.getElementById('sig-canvas');
+  const ctx    = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
+
 document.getElementById('btn-submit').addEventListener('click', async () => {
   const btn    = document.getElementById('btn-submit');
   const result = document.getElementById('submit-result');
