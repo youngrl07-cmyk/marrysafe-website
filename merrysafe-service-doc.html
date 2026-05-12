@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>메리세이프 서비스 서류 통합본</title>
+<title>메리세이프 서비스 사전 서류 작성</title>
 <meta name="robots" content="noindex, nofollow">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap');
@@ -14,18 +14,20 @@
     --muted:#8A8A8A; --border:#CCCCCC; --bg:#F7F7F5;
   }
 
-  body { font-family:'Noto Sans KR',sans-serif; color:var(--dark); background:#fff; font-size:10pt; line-height:1.7; }
+  body { font-family:'Noto Sans KR',sans-serif; color:var(--dark); background:#EBEBEA; font-size:10pt; line-height:1.7; padding-bottom:76px; }
 
-  /* ── 인쇄 버튼 (화면에서만 보임) ── */
-  .print-bar { background:var(--dark); color:#fff; text-align:center; padding:1rem; position:sticky; top:0; z-index:100; }
-  .print-bar button { background:#fff; color:var(--dark); border:none; padding:.5rem 2rem; font-size:.9rem; cursor:pointer; font-family:inherit; font-weight:500; margin:0 .5rem; }
-  .print-bar span { font-size:.85rem; opacity:.7; }
-  .btn-word { display:inline-block; background:#2B579A; color:#fff; border:none; padding:.5rem 1.5rem; font-size:.9rem; cursor:pointer; font-family:inherit; font-weight:500; margin:0 .5rem; text-decoration:none; vertical-align:middle; }
-  .btn-word:hover { background:#1E3F7A; }
-  @media print { .print-bar { display:none; } }
+  /* ── 상단 바 ── */
+  .print-bar { background:var(--dark); color:#fff; text-align:center; padding:.8rem 1rem; position:sticky; top:0; z-index:200; display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; }
+  .print-bar button { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.3); padding:.4rem 1.2rem; font-size:.82rem; cursor:pointer; font-family:inherit; font-weight:400; }
+  .print-bar span { font-size:.82rem; opacity:.75; }
+  @media print {
+    .print-bar, .submit-panel { display:none !important; }
+    body { background:#fff; padding-bottom:0; }
+    .doc-page { box-shadow:none; margin:0; }
+  }
 
   /* ── 페이지 레이아웃 ── */
-  .doc-page { max-width:210mm; margin:0 auto; padding:20mm 18mm; background:#fff; }
+  .doc-page { max-width:210mm; margin:1.5rem auto; padding:20mm 18mm; background:#fff; box-shadow:0 2px 24px rgba(0,0,0,.1); }
 
   /* ── 헤더 ── */
   .doc-header { text-align:center; border-bottom:2.5px solid var(--dark); padding-bottom:1rem; margin-bottom:1.5rem; }
@@ -36,42 +38,63 @@
 
   /* ── 섹션 ── */
   .section { margin-bottom:2rem; page-break-inside:avoid; }
-  .section-title {
-    background:var(--dark); color:#fff;
-    font-size:10pt; font-weight:500; letter-spacing:.08em;
-    padding:.45rem 1rem; margin-bottom:1rem;
-    display:flex; align-items:center; gap:.5rem;
-  }
+  .section-title { background:var(--dark); color:#fff; font-size:10pt; font-weight:500; letter-spacing:.08em; padding:.45rem 1rem; margin-bottom:1rem; display:flex; align-items:center; gap:.5rem; }
   .section-title .icon { font-size:11pt; }
-  .section-body { padding:0 .25rem; }
 
   /* ── 테이블 ── */
   table { width:100%; border-collapse:collapse; font-size:9.5pt; margin-bottom:.75rem; }
   th { background:#F0F0EE; border:1px solid var(--border); padding:.5rem .75rem; font-weight:500; text-align:left; color:var(--dark); }
   td { border:1px solid var(--border); padding:.45rem .75rem; color:var(--mid); vertical-align:top; }
-  .fill-line { border:none; border-bottom:1px solid var(--border); min-width:120px; display:inline-block; }
 
   /* ── 기본 폼 그리드 ── */
   .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
   .info-cell { border:1px solid var(--border); padding:.5rem .75rem; }
   .info-cell:nth-child(odd) { border-right:none; }
   .info-label { font-size:8.5pt; color:var(--muted); margin-bottom:.2rem; }
-  .info-input { border-bottom:1px solid var(--border); min-height:1.4rem; display:block; }
   .info-cell.full { grid-column:1/-1; border-right:1px solid var(--border); }
 
-  /* ── 체크박스 ── */
-  .check-row { display:flex; align-items:flex-start; gap:.5rem; margin:.4rem 0; }
-  .check-box { width:13px; height:13px; border:1.5px solid var(--dark); flex-shrink:0; margin-top:2px; display:inline-block; }
-  .check-label { font-size:9.5pt; }
-  .check-sub { font-size:8.5pt; color:var(--muted); margin-left:1.5rem; margin-top:.1rem; }
+  /* ── contenteditable 입력 ── */
+  .f {
+    border-bottom:1px solid var(--border);
+    min-height:1.5rem;
+    display:block;
+    outline:none;
+    cursor:text;
+    padding:1px 4px;
+    transition:background .12s;
+    border-radius:2px;
+    color:var(--dark);
+  }
+  .f:focus { background:#FFFDE7; box-shadow:0 0 0 1px #bbb; }
+  .f:empty::before { content:attr(data-ph); color:#bbb; pointer-events:none; font-style:italic; }
+
+  /* ── 체크박스 / 라디오 ── */
+  input.dc {
+    appearance:none; -webkit-appearance:none;
+    width:13px; height:13px;
+    border:1.5px solid var(--dark);
+    display:inline-block; vertical-align:middle;
+    cursor:pointer; margin:0 3px 2px 0;
+    position:relative; flex-shrink:0; background:#fff;
+  }
+  input.dc:checked { background:var(--dark); }
+  input.dc:checked::after {
+    content:''; position:absolute;
+    top:1px; left:3px; width:4px; height:7px;
+    border:1.5px solid #fff; border-top:none; border-left:none;
+    transform:rotate(40deg);
+  }
+  label.cl { display:inline-flex; align-items:center; gap:.3rem; cursor:pointer; font-size:9.5pt; color:var(--mid); margin:.15rem 0; }
+  label.cl:hover { color:var(--dark); }
+  .opts { display:flex; flex-wrap:wrap; gap:.3rem .8rem; }
+  .opts-col { display:flex; flex-direction:column; gap:.25rem; }
 
   /* ── 상황 박스 ── */
   .situation { border:1px solid var(--border); margin-bottom:1rem; }
   .situation-head { background:#F7F7F5; border-bottom:1px solid var(--border); padding:.5rem .85rem; font-weight:500; font-size:9.5pt; }
-  .situation-body { padding:.75rem .85rem; }
-  .situation-note { background:#FFF8F0; border:1px solid #E8D5AA; padding:.5rem .75rem; font-size:8.5pt; color:#7A5C2A; margin-top:.5rem; }
+  .situation-body { padding:.75rem .85rem; font-size:9pt; color:var(--mid); }
 
-  /* ── 경고/안내 박스 ── */
+  /* ── 안내 박스 ── */
   .warn-box { border:1px solid #E0AAAA; background:#FDF0F0; padding:.75rem 1rem; margin:.75rem 0; font-size:9pt; }
   .warn-box strong { color:#8B0000; }
   .info-box { border:1px solid #AACCE0; background:#F0F7FD; padding:.75rem 1rem; margin:.75rem 0; font-size:9pt; }
@@ -79,37 +102,54 @@
 
   /* ── 서명란 ── */
   .sign-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1rem; }
+  .sign-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:1rem; }
   .sign-box { border:1px solid var(--border); padding:.75rem 1rem; }
   .sign-label { font-size:8.5pt; color:var(--muted); margin-bottom:.5rem; }
-  .sign-line { border-bottom:1px solid var(--border); margin-top:2rem; }
+  .sign-line { border-bottom:1px solid var(--border); margin-top:2.5rem; }
+
+  /* ── 동의 박스 ── */
+  .agree-box { border:2px solid var(--dark); padding:1rem 1.5rem; margin:1rem 0; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
+  .agree-box input.dc { width:15px; height:15px; }
+  .agree-text { font-size:10pt; font-weight:500; }
 
   /* ── 페이지 구분 ── */
   .page-break { page-break-before:always; border-top:2px dashed var(--border); margin:2.5rem 0; padding-top:2rem; }
   @media print { .page-break { border:none; margin:0; padding:0; } }
 
-  /* ── 조항 스타일 ── */
+  /* ── 조항 ── */
   .clause { margin-bottom:.6rem; font-size:9.5pt; }
   .clause-num { font-weight:500; margin-right:.3rem; }
-  .sub-clause { margin-left:1.2rem; font-size:9pt; color:var(--mid); }
-
-  /* ── 동의 체크 최종 ── */
-  .agree-box { border:2px solid var(--dark); padding:1rem 1.5rem; margin:1rem 0; display:flex; align-items:center; gap:1rem; }
-  .agree-box .check-box { width:16px; height:16px; }
-  .agree-text { font-size:10pt; font-weight:500; }
 
   /* ── 푸터 ── */
   .doc-footer { text-align:center; font-size:8pt; color:var(--muted); margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); }
+
+  /* ── 제출 패널 ── */
+  .submit-panel {
+    position:fixed; bottom:0; left:0; right:0;
+    background:#1C1C1C; color:#fff;
+    padding:.7rem 1.5rem;
+    display:flex; align-items:center; justify-content:center; gap:1.5rem;
+    z-index:999; box-shadow:0 -3px 16px rgba(0,0,0,.25);
+  }
+  .submit-hint { font-size:.82rem; opacity:.7; }
+  #btn-submit {
+    background:#4CAF50; color:#fff; border:none;
+    padding:.6rem 2.5rem; font-size:.98rem; font-weight:600;
+    cursor:pointer; font-family:inherit; letter-spacing:.03em; border-radius:2px;
+  }
+  #btn-submit:hover { background:#388E3C; }
+  #btn-submit:disabled { background:#555; cursor:not-allowed; }
+  #submit-result { font-size:.85rem; min-width:200px; }
 </style>
 </head>
 <body>
 
-<div class="print-bar">
-  <span>다운로드 또는 인쇄:</span>
+<div class="print-bar" id="print-bar">
+  <span>✍️ 아래 서류를 직접 작성한 후 [서류 제출하기] 버튼을 눌러주세요</span>
   <button onclick="window.print()">🖨 인쇄 / PDF 저장</button>
-  <a href="/merrysafe-service-doc.docx" download="메리세이프_서비스서류_통합본.docx" class="btn-word">📄 Word 다운로드</a>
 </div>
 
-<div class="doc-page">
+<div class="doc-page" id="doc-page">
 
 <!-- ══════════════════════════════════════════════
      문서 1: 사전 체크리스트
@@ -127,59 +167,59 @@
   <div class="info-grid">
     <div class="info-cell">
       <div class="info-label">고객 성명</div>
-      <div class="info-input"></div>
+      <div class="f" id="f-name" contenteditable="true" data-ph="성명 입력"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">연락처</div>
-      <div class="info-input"></div>
+      <div class="f" contenteditable="true" data-ph="010-0000-0000"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">예식 일시</div>
-      <div class="info-input">____년 ____월 ____일  ____시 ____분</div>
+      <div class="f" id="f-date" contenteditable="true" data-ph="____년 ____월 ____일  ____시 ____분"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">서비스 유형</div>
-      <div style="display:flex;gap:1rem;margin-top:.3rem;font-size:9pt;">
-        <span><span class="check-box" style="display:inline-block;vertical-align:middle;margin-right:.3rem;"></span>4인2팀(양측)</span>
-        <span><span class="check-box" style="display:inline-block;vertical-align:middle;margin-right:.3rem;"></span>2인1팀(신랑측)</span>
-        <span><span class="check-box" style="display:inline-block;vertical-align:middle;margin-right:.3rem;"></span>2인1팀(신부측)</span>
+      <div class="opts" style="margin-top:.3rem;">
+        <label class="cl"><input type="radio" class="dc" name="service-type" value="4인2팀(양측)"> 4인2팀(양측)</label>
+        <label class="cl"><input type="radio" class="dc" name="service-type" value="2인1팀(신랑측)"> 2인1팀(신랑측)</label>
+        <label class="cl"><input type="radio" class="dc" name="service-type" value="2인1팀(신부측)"> 2인1팀(신부측)</label>
       </div>
     </div>
     <div class="info-cell">
       <div class="info-label">예식장명</div>
-      <div class="info-input"></div>
+      <div class="f" id="f-hall" contenteditable="true" data-ph="예식장 이름 입력"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">홀 명</div>
-      <div class="info-input"></div>
+      <div class="f" contenteditable="true" data-ph="홀 이름 입력"></div>
     </div>
     <div class="info-cell full">
       <div class="info-label">예식장 주소</div>
-      <div class="info-input"></div>
+      <div class="f" contenteditable="true" data-ph="주소 입력"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">예상 하객 수</div>
-      <div class="info-input">약 ________ 명</div>
+      <div class="f" contenteditable="true" data-ph="약 ________ 명"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">주차 정보</div>
-      <div class="info-input"></div>
+      <div class="f" contenteditable="true" data-ph="주차 안내 입력"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">혼주 (신랑 측)</div>
-      <div class="info-input">성명: ________  ☎ 010-____-____</div>
+      <div class="f" contenteditable="true" data-ph="성명: ________  ☎ 010-____-____"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">혼주 (신부 측)</div>
-      <div class="info-input">성명: ________  ☎ 010-____-____</div>
+      <div class="f" contenteditable="true" data-ph="성명: ________  ☎ 010-____-____"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">메리세이프 담당자</div>
-      <div class="info-input"></div>
+      <div class="f" contenteditable="true" data-ph="담당자 성명"></div>
     </div>
     <div class="info-cell">
       <div class="info-label">담당자 연락처</div>
-      <div class="info-input"></div>
+      <div class="f" contenteditable="true" data-ph="010-0000-0000"></div>
     </div>
   </div>
 </div>
@@ -194,7 +234,7 @@
   <table>
     <thead>
       <tr>
-        <th style="width:12%">구분</th>
+        <th style="width:14%">구분</th>
         <th style="width:18%">성명</th>
         <th style="width:8%">성별</th>
         <th style="width:22%">전화번호</th>
@@ -204,23 +244,31 @@
     <tbody>
       <tr>
         <td>1순위 인수자</td>
-        <td></td>
-        <td></td>
-        <td>010 - ____ - ____</td>
-        <td>□ 주민등록증 □ 운전면허증 □ 여권</td>
+        <td><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td>
+          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
+        </td>
       </tr>
       <tr>
         <td>2순위 인수자<br><span style="font-size:8pt;color:var(--muted)">(1순위 부재 시)</span></td>
-        <td></td>
-        <td></td>
-        <td>010 - ____ - ____</td>
-        <td>□ 주민등록증 □ 운전면허증 □ 여권</td>
+        <td><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td>
+          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
+        </td>
       </tr>
       <tr>
         <td>비상 연락자<br><span style="font-size:8pt;color:var(--muted)">(긴급 연락 전용)</span></td>
-        <td></td>
-        <td></td>
-        <td>010 - ____ - ____</td>
+        <td><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
         <td style="font-size:8.5pt;color:var(--muted)">승인 권한 없음, 긴급 연락 전용</td>
       </tr>
     </tbody>
@@ -238,28 +286,37 @@
       <tr>
         <td>식권 배부 기준</td>
         <td>
-          <div style="display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:9pt;">
-            <span>□ 축의금 납부자에 한해 배부</span>
-            <span>□ 모든 하객에게 배부</span>
-            <span>□ 기타: _______________</span>
+          <div class="opts">
+            <label class="cl"><input type="checkbox" class="dc"> 축의금 납부자에 한해 배부</label>
+            <label class="cl"><input type="checkbox" class="dc"> 모든 하객에게 배부</label>
+          </div>
+          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
+            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
+            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
           </div>
         </td>
       </tr>
       <tr>
         <td>1인당 식권 수량</td>
         <td>
-          <div style="display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:9pt;">
-            <span>□ 1매</span><span>□ 2매</span><span>□ 봉투 수량대로</span><span>□ 기타: ______매</span>
+          <div class="opts">
+            <label class="cl"><input type="radio" class="dc" name="ticket-count"> 1매</label>
+            <label class="cl"><input type="radio" class="dc" name="ticket-count"> 2매</label>
+            <label class="cl"><input type="radio" class="dc" name="ticket-count"> 봉투 수량대로</label>
+            <label class="cl" style="display:inline-flex;align-items:center;gap:.3rem;"><input type="radio" class="dc" name="ticket-count"> 기타: <div class="f" contenteditable="true" data-ph="____매" style="min-width:50px;"></div></label>
           </div>
         </td>
       </tr>
       <tr>
         <td>잔여 식권 처리</td>
         <td>
-          <div style="display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:9pt;">
-            <span>□ 인수 대상자에게 함께 전달</span>
-            <span>□ 예식장에 반환</span>
-            <span>□ 기타: _______________</span>
+          <div class="opts-col">
+            <label class="cl"><input type="radio" class="dc" name="ticket-remain"> 인수 대상자에게 함께 전달</label>
+            <label class="cl"><input type="radio" class="dc" name="ticket-remain"> 예식장에 반환</label>
+            <div style="display:flex;align-items:center;gap:.4rem;">
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-remain"> 기타:</label>
+              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+            </div>
           </div>
         </td>
       </tr>
@@ -273,22 +330,28 @@
       <tr>
         <td>현금 없이 식권만 요청</td>
         <td>
-          <div style="font-size:9pt;">
-            <div>□ 식권 배부하지 않음</div>
-            <div>□ 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</div>
-            <div>□ 혼주 확인 후 판단</div>
-            <div>□ 기타: _______________________________________________</div>
+          <div class="opts-col">
+            <label class="cl"><input type="radio" class="dc" name="no-cash"> 식권 배부하지 않음</label>
+            <label class="cl"><input type="radio" class="dc" name="no-cash"> 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</label>
+            <label class="cl"><input type="radio" class="dc" name="no-cash"> 혼주 확인 후 판단</label>
+            <div style="display:flex;align-items:center;gap:.4rem;">
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="no-cash"> 기타:</label>
+              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+            </div>
           </div>
         </td>
       </tr>
       <tr>
         <td>봉투가 비어있는 경우</td>
         <td>
-          <div style="font-size:9pt;">
-            <div>□ 명단 기록, 식권 배부하지 않음</div>
-            <div>□ 명단 기록, 식권 배부 (소란 방지)</div>
-            <div>□ 혼주 즉시 유선 확인 후 판단</div>
-            <div>□ 기타: _______________________________________________</div>
+          <div class="opts-col">
+            <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부하지 않음</label>
+            <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부 (소란 방지)</label>
+            <label class="cl"><input type="radio" class="dc" name="empty-env"> 혼주 즉시 유선 확인 후 판단</label>
+            <div style="display:flex;align-items:center;gap:.4rem;">
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="empty-env"> 기타:</label>
+              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+            </div>
           </div>
         </td>
       </tr>
@@ -305,18 +368,22 @@
       <tr>
         <td>이체 내역 확인 여부</td>
         <td>
-          <div style="font-size:9pt;">
-            <div>□ 하객 이체 화면(캡처) 제시 요청 후 확인</div>
-            <div>□ 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</div>
-            <div>□ 이체 확인 없이 식권 배부하지 않음</div>
-            <div>□ 혼주 확인 후 판단</div>
+          <div class="opts-col">
+            <label class="cl"><input type="radio" class="dc" name="transfer"> 하객 이체 화면(캡처) 제시 요청 후 확인</label>
+            <label class="cl"><input type="radio" class="dc" name="transfer"> 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</label>
+            <label class="cl"><input type="radio" class="dc" name="transfer"> 이체 확인 없이 식권 배부하지 않음</label>
+            <label class="cl"><input type="radio" class="dc" name="transfer"> 혼주 확인 후 판단</label>
           </div>
         </td>
       </tr>
       <tr>
         <td>이체 확인용 계좌<br><span style="font-size:8.5pt;color:var(--muted)">(확인 선택 시 기재)</span></td>
-        <td style="font-size:9pt;">
-          예금주: ____________  은행: ____________  계좌번호: _______________________
+        <td>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;font-size:9pt;">
+            <span>예금주:</span><div class="f" contenteditable="true" data-ph="____" style="min-width:80px;"></div>
+            <span>은행:</span><div class="f" contenteditable="true" data-ph="____" style="min-width:80px;"></div>
+            <span>계좌번호:</span><div class="f" contenteditable="true" data-ph="_______________" style="min-width:140px;"></div>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -330,24 +397,22 @@
 <div class="section">
   <div class="section-title"><span class="icon">⚠️</span> D. 돌발상황 안내 — 봉투 절취·교체 실제 사례</div>
   <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">웨딩 현장에서 실제로 발생한 사례입니다. 사전에 숙지하시면 피해 예방에 도움이 됩니다.</p>
-
   <div class="situation">
     <div class="situation-head">사례 ① 봉투 들고 사라지기</div>
-    <div class="situation-body" style="font-size:9pt;color:var(--mid);">접수대 혼잡 틈을 노려 하객으로 위장한 자가 테이블 위 봉투를 집어 들고 도주한 사례. 메리세이프는 봉투 수령 즉시 세이프 박스에 투입하여 원천 차단합니다.</div>
+    <div class="situation-body">접수대 혼잡 틈을 노려 하객으로 위장한 자가 테이블 위 봉투를 집어 들고 도주한 사례. 메리세이프는 봉투 수령 즉시 세이프 박스에 투입하여 원천 차단합니다.</div>
   </div>
   <div class="situation">
     <div class="situation-head">사례 ② 빈 봉투 교체 (바꿔치기)</div>
-    <div class="situation-body" style="font-size:9pt;color:var(--mid);">미리 준비한 동일한 외형의 빈 봉투(또는 소액 봉투)로 접수대 근처에서 바꿔치기 하는 사례. 피해액이 수십만 원에 달한 경우도 있습니다.</div>
+    <div class="situation-body">미리 준비한 동일한 외형의 빈 봉투(또는 소액 봉투)로 접수대 근처에서 바꿔치기 하는 사례. 피해액이 수십만 원에 달한 경우도 있습니다.</div>
   </div>
   <div class="situation">
     <div class="situation-head">사례 ③ "내가 맡아둔다"며 접근</div>
-    <div class="situation-body" style="font-size:9pt;color:var(--mid);">친척·지인으로 위장하여 "잠깐 보관하겠다"며 다른 하객의 봉투를 빼앗아 가는 수법. 접수 직원 외 제3자에게는 절대 봉투를 넘기지 않습니다.</div>
+    <div class="situation-body">친척·지인으로 위장하여 "잠깐 보관하겠다"며 다른 하객의 봉투를 빼앗아 가는 수법. 접수 직원 외 제3자에게는 절대 봉투를 넘기지 않습니다.</div>
   </div>
   <div class="situation">
     <div class="situation-head">사례 ④ "혼주 가족이 보냈다"며 중간 인계 요청</div>
-    <div class="situation-body" style="font-size:9pt;color:var(--mid);">행사 도중 일부를 미리 달라고 요청하는 경우. 메리세이프는 사전 지정된 인수자 외에는 어떤 경우에도 중간 인계를 하지 않습니다.</div>
+    <div class="situation-body">행사 도중 일부를 미리 달라고 요청하는 경우. 메리세이프는 사전 지정된 인수자 외에는 어떤 경우에도 중간 인계를 하지 않습니다.</div>
   </div>
-
   <div class="warn-box">
     🔒 <strong>세이프 박스 운영 원칙:</strong> 한 번 닫힌 세이프 박스는 웨딩이 완전히 종료될 때까지 <strong>절대 개봉하지 않습니다.</strong> 혼주님 또는 가족분의 요청이 있더라도 예외 없이 적용됩니다.<br>
     <span style="font-size:8.5pt;">→ 행사 중 현금이 필요한 비상 상황을 대비해, 시작 전 별도 현금(예: 20~30만원)을 미리 준비해 두시길 권장합니다.</span>
@@ -360,9 +425,9 @@
   <table>
     <thead><tr><th style="width:8%">No</th><th>특별 요청 내용 (서비스 범위 내 수용 가능한 사항에 한함)</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td style="height:2rem;"></td></tr>
-      <tr><td>2</td><td style="height:2rem;"></td></tr>
-      <tr><td>3</td><td style="height:2rem;"></td></tr>
+      <tr><td>1</td><td><div class="f" contenteditable="true" data-ph="요청 사항 입력" style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+      <tr><td>2</td><td><div class="f" contenteditable="true" data-ph="요청 사항 입력" style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+      <tr><td>3</td><td><div class="f" contenteditable="true" data-ph="요청 사항 입력" style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
     </tbody>
   </table>
 </div>
@@ -374,23 +439,23 @@
   <div class="sign-row">
     <div class="sign-box">
       <div class="sign-label">고객 (신랑 측)</div>
-      성명: _________________ &nbsp;&nbsp; 서명(인):
+      <div>성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:120px;"></div> &nbsp; 서명(인):</div>
       <div class="sign-line"></div>
     </div>
     <div class="sign-box">
       <div class="sign-label">고객 (신부 측)</div>
-      성명: _________________ &nbsp;&nbsp; 서명(인):
+      <div>성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:120px;"></div> &nbsp; 서명(인):</div>
       <div class="sign-line"></div>
     </div>
   </div>
   <div class="sign-row" style="margin-top:.75rem;">
     <div class="sign-box">
       <div class="sign-label">작성일</div>
-      ____년 ____월 ____일
+      <div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div>
     </div>
     <div class="sign-box">
       <div class="sign-label">메리세이프 담당자</div>
-      성명: _________________ &nbsp;&nbsp; 서명(인):
+      성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:100px;"></div> &nbsp; 서명(인):
     </div>
   </div>
 </div>
@@ -451,15 +516,13 @@
 </div>
 
 <div class="agree-box">
-  <div class="check-box"></div>
-  <div class="agree-text">개인정보 수집·이용에 동의합니다.</div>
-  <div style="margin-left:3rem;" class="check-box"></div>
-  <div class="agree-text">동의하지 않습니다.</div>
+  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" value="동의"> 개인정보 수집·이용에 동의합니다.</label>
+  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" value="비동의"> 동의하지 않습니다.</label>
 </div>
-<div class="sign-row">
-  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="sign-line"></div></div>
-  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line"></div></div>
-  <div class="sign-box"><div class="sign-label">작성일</div>____년 ____월 ____일</div>
+<div class="sign-row-3">
+  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="f" contenteditable="true" data-ph="성명 입력"></div><div class="sign-line"></div></div>
+  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line" style="margin-top:2.5rem;"></div></div>
+  <div class="sign-box"><div class="sign-label">작성일</div><div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div></div>
 </div>
 </div>
 
@@ -510,13 +573,12 @@
 </div>
 
 <div class="agree-box">
-  <div class="check-box"></div>
-  <div class="agree-text">촬영(녹화)에 동의합니다. (동의하지 않을 경우 서비스 이용이 불가합니다.)</div>
+  <label class="cl" style="font-size:10pt;font-weight:500;"><input type="checkbox" class="dc" id="filming-agree"> 촬영(녹화)에 동의합니다. (동의하지 않을 경우 서비스 이용이 불가합니다.)</label>
 </div>
-<div class="sign-row">
-  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="sign-line"></div></div>
-  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line"></div></div>
-  <div class="sign-box"><div class="sign-label">작성일</div>____년 ____월 ____일</div>
+<div class="sign-row-3">
+  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="f" contenteditable="true" data-ph="성명 입력"></div><div class="sign-line"></div></div>
+  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line" style="margin-top:2.5rem;"></div></div>
+  <div class="sign-box"><div class="sign-label">작성일</div><div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div></div>
 </div>
 </div>
 
@@ -534,17 +596,21 @@
 <div class="section">
   <div class="section-title"><span class="icon">A</span> 서비스 기본 정보</div>
   <div class="info-grid">
-    <div class="info-cell"><div class="info-label">고객 성명</div><div class="info-input"></div></div>
-    <div class="info-cell"><div class="info-label">계약번호</div><div class="info-input"></div></div>
-    <div class="info-cell"><div class="info-label">예식 일시</div><div class="info-input">____년 ____월 ____일 ____시 ____분</div></div>
-    <div class="info-cell"><div class="info-label">예식장 / 홀</div><div class="info-input"></div></div>
+    <div class="info-cell"><div class="info-label">고객 성명</div><div class="f" contenteditable="true" data-ph="성명"></div></div>
+    <div class="info-cell"><div class="info-label">계약번호</div><div class="f" contenteditable="true" data-ph="계약번호"></div></div>
+    <div class="info-cell"><div class="info-label">예식 일시</div><div class="f" contenteditable="true" data-ph="____년 ____월 ____일  ____시 ____분"></div></div>
+    <div class="info-cell"><div class="info-label">예식장 / 홀</div><div class="f" contenteditable="true" data-ph="예식장명 / 홀명"></div></div>
     <div class="info-cell">
       <div class="info-label">서비스 유형</div>
-      <div style="font-size:9pt;margin-top:.3rem;">□ 4인2팀(양측) &nbsp; □ 2인1팀(신랑측) &nbsp; □ 2인1팀(신부측)</div>
+      <div class="opts" style="margin-top:.3rem;">
+        <label class="cl"><input type="radio" class="dc" name="d4-service"> 4인2팀(양측)</label>
+        <label class="cl"><input type="radio" class="dc" name="d4-service"> 2인1팀(신랑측)</label>
+        <label class="cl"><input type="radio" class="dc" name="d4-service"> 2인1팀(신부측)</label>
+      </div>
     </div>
-    <div class="info-cell"><div class="info-label">운영 인력 수</div><div class="info-input">________ 명</div></div>
-    <div class="info-cell"><div class="info-label">서비스 시작</div><div class="info-input">____시 ____분</div></div>
-    <div class="info-cell"><div class="info-label">서비스 종료</div><div class="info-input">____시 ____분</div></div>
+    <div class="info-cell"><div class="info-label">운영 인력 수</div><div class="f" contenteditable="true" data-ph="________ 명"></div></div>
+    <div class="info-cell"><div class="info-label">서비스 시작</div><div class="f" contenteditable="true" data-ph="____시 ____분"></div></div>
+    <div class="info-cell"><div class="info-label">서비스 종료</div><div class="f" contenteditable="true" data-ph="____시 ____분"></div></div>
   </div>
 </div>
 
@@ -554,10 +620,14 @@
     <thead><tr><th>성명</th><th>신분증 확인</th><th>유선 확인</th><th>인수자 순위</th></tr></thead>
     <tbody>
       <tr>
-        <td style="min-width:80px;"></td>
-        <td>□ 확인 완료</td>
-        <td>□ 확인 완료</td>
-        <td>□ 1순위 &nbsp; □ 2순위 &nbsp; □ 기타</td>
+        <td><div class="f" contenteditable="true" data-ph="성명" style="min-width:80px;"></div></td>
+        <td><label class="cl"><input type="checkbox" class="dc"> 확인 완료</label></td>
+        <td><label class="cl"><input type="checkbox" class="dc"> 확인 완료</label></td>
+        <td>
+          <label class="cl"><input type="radio" class="dc" name="d4-rank"> 1순위</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-rank"> 2순위</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-rank"> 기타</label>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -568,10 +638,29 @@
   <table>
     <thead><tr><th style="width:5%">No</th><th>인계 항목</th><th style="width:25%">수량/내용</th><th style="width:18%">확인</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>축의금 봉투 (잠금 박스 포함)</td><td>총 ________ 개</td><td>□ 인수자 확인</td></tr>
-      <tr><td>2</td><td>하객 명단 기록물</td><td>□ 전산파일 □ 출력물</td><td>□ 인수자 확인</td></tr>
-      <tr><td>3</td><td>잔여 식권 (해당 시)</td><td>총 ________ 매</td><td>□ 인수자 확인</td></tr>
-      <tr><td>4</td><td>기타</td><td></td><td>□ 인수자 확인</td></tr>
+      <tr>
+        <td>1</td><td>축의금 봉투 (잠금 박스 포함)</td>
+        <td><div class="f" contenteditable="true" data-ph="총 ________ 개"></div></td>
+        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
+      </tr>
+      <tr>
+        <td>2</td><td>하객 명단 기록물</td>
+        <td>
+          <label class="cl"><input type="checkbox" class="dc"> 전산파일</label>
+          <label class="cl"><input type="checkbox" class="dc"> 출력물</label>
+        </td>
+        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
+      </tr>
+      <tr>
+        <td>3</td><td>잔여 식권 (해당 시)</td>
+        <td><div class="f" contenteditable="true" data-ph="총 ________ 매"></div></td>
+        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
+      </tr>
+      <tr>
+        <td>4</td><td>기타</td>
+        <td><div class="f" contenteditable="true" data-ph=""></div></td>
+        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
+      </tr>
     </tbody>
   </table>
   <p style="font-size:8.5pt;color:var(--muted);">※ 금액 기록은 서비스 범위에 포함되지 않으므로 정산 내역 인계는 없습니다.</p>
@@ -582,18 +671,55 @@
   <table>
     <thead><tr><th>확인 항목</th><th style="width:30%">결과</th><th style="width:20%">비고</th></tr></thead>
     <tbody>
-      <tr><td>축의금 접수·보관이 계약 내용에 따라 수행되었는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
-      <tr><td>영상 녹화가 정상적으로 진행되었는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
-      <tr><td>명단 기록이 정상적으로 작성되었는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
-      <tr><td>인수인계 시 봉투 수량과 기록이 일치하는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
-      <tr><td>서비스 수행 중 특이사항이 있었는가</td><td>□ 없음 &nbsp; □ 있음 (E항 기재)</td><td></td></tr>
+      <tr>
+        <td>축의금 접수·보관이 계약 내용에 따라 수행되었는가</td>
+        <td>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk1"> 이상 없음</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk1"> 이상 있음</label>
+        </td>
+        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
+      </tr>
+      <tr>
+        <td>영상 녹화가 정상적으로 진행되었는가</td>
+        <td>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk2"> 이상 없음</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk2"> 이상 있음</label>
+        </td>
+        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
+      </tr>
+      <tr>
+        <td>명단 기록이 정상적으로 작성되었는가</td>
+        <td>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk3"> 이상 없음</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk3"> 이상 있음</label>
+        </td>
+        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
+      </tr>
+      <tr>
+        <td>인수인계 시 봉투 수량과 기록이 일치하는가</td>
+        <td>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk4"> 이상 없음</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk4"> 이상 있음</label>
+        </td>
+        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
+      </tr>
+      <tr>
+        <td>서비스 수행 중 특이사항이 있었는가</td>
+        <td>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk5"> 없음</label>
+          <label class="cl"><input type="radio" class="dc" name="d4-chk5"> 있음 (E항 기재)</label>
+        </td>
+        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
+      </tr>
     </tbody>
   </table>
 </div>
 
 <div class="section">
   <div class="section-title"><span class="icon">E</span> 특이사항</div>
-  <div style="border:1px solid var(--border);min-height:60px;padding:.5rem;"></div>
+  <div style="border:1px solid var(--border);min-height:60px;padding:.5rem;">
+    <div class="f" contenteditable="true" data-ph="특이사항을 입력하세요" style="min-height:55px;border-bottom:none;"></div>
+  </div>
 </div>
 
 <div class="section">
@@ -602,17 +728,18 @@
   <div class="sign-row">
     <div class="sign-box">
       <div class="sign-label">회사 (인계자)</div>
-      성명: _____________ &nbsp;&nbsp; 서명(인):
+      성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:100px;"></div> &nbsp; 서명(인):
       <div class="sign-line"></div>
     </div>
     <div class="sign-box">
       <div class="sign-label">인수자</div>
-      성명: _____________ &nbsp;&nbsp; 서명(인):
+      성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:100px;"></div> &nbsp; 서명(인):
       <div class="sign-line"></div>
     </div>
   </div>
   <div style="margin-top:1rem;font-size:9pt;color:var(--mid);border:1px solid var(--border);padding:.6rem 1rem;">
-    인수인계 일시: ____년 ____월 ____일 ____시 ____분 &nbsp;&nbsp; / &nbsp;&nbsp; 장소: _______________________________
+    인수인계 일시: <div class="f" contenteditable="true" data-ph="____년 ____월 ____일  ____시 ____분" style="display:inline-block;min-width:220px;"></div>
+    &nbsp;/&nbsp; 장소: <div class="f" contenteditable="true" data-ph="장소 입력" style="display:inline-block;min-width:180px;"></div>
   </div>
 </div>
 
@@ -620,8 +747,117 @@
   © 2025 MarrySafe (메리세이프) · marrysafe.official@gmail.com · marrysafe.co.kr<br>
   본 서류는 서비스 계약과 함께 보관됩니다.
 </div>
-</div>
+</div><!-- page-break -->
 
 </div><!-- doc-page -->
+
+<!-- ── 제출 패널 ── -->
+<div class="submit-panel" id="submit-panel">
+  <span class="submit-hint">✍️ 모든 항목 작성 후 제출하세요</span>
+  <button id="btn-submit">📤 서류 제출하기</button>
+  <span id="submit-result"></span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+document.getElementById('btn-submit').addEventListener('click', async () => {
+  const btn    = document.getElementById('btn-submit');
+  const result = document.getElementById('submit-result');
+
+  // ── 1. 파일명 구성에 필요한 값 가져오기 ──────────────────
+  const name     = (document.getElementById('f-name')?.innerText || '').trim() || '고객명';
+  const hall     = (document.getElementById('f-hall')?.innerText || '').trim() || '예식장';
+  const dateRaw  = (document.getElementById('f-date')?.innerText || '').trim() || '예식일';
+  const svcEl    = document.querySelector('input[name="service-type"]:checked');
+  const svc      = svcEl ? svcEl.value : '서비스유형';
+
+  // 파일명에 쓸 수 없는 문자 제거
+  const clean = s => s.replace(/[\/\\:*?"<>|\n\r]/g, '_').trim().substring(0, 40);
+  const filename = `${clean(name)}_${clean(hall)}_${clean(dateRaw)}_${clean(svc)}.pdf`;
+
+  // ── 2. 버튼 비활성화 ─────────────────────────────────────
+  btn.disabled = true;
+  btn.textContent = '⏳ PDF 생성 중...';
+  result.textContent = '';
+  result.style.color = '#fff';
+
+  // ── 3. PDF 생성을 위해 UI 요소 임시 숨김 ─────────────────
+  const printBar   = document.getElementById('print-bar');
+  const submitPane = document.getElementById('submit-panel');
+  printBar.style.display   = 'none';
+  submitPane.style.display = 'none';
+
+  try {
+    const element = document.getElementById('doc-page');
+    const opt = {
+      margin:     [10, 12, 10, 12],
+      filename:   filename,
+      image:      { type: 'jpeg', quality: 0.97 },
+      html2canvas: {
+        scale:      2,
+        useCORS:    true,
+        logging:    false,
+        allowTaint: true
+      },
+      jsPDF: {
+        unit:        'mm',
+        format:      'a4',
+        orientation: 'portrait'
+      }
+    };
+
+    const pdfArrayBuffer = await html2pdf()
+      .set(opt)
+      .from(element)
+      .outputPdf('arraybuffer');
+
+    // ── 4. ArrayBuffer → Base64 ───────────────────────────
+    const bytes = new Uint8Array(pdfArrayBuffer);
+    let binary  = '';
+    const CHUNK = 8192;
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+    }
+    const base64 = btoa(binary);
+
+    btn.textContent = '📨 메일 전송 중...';
+
+    // ── 5. 서버 API 호출 ──────────────────────────────────
+    const response = await fetch('/api/send-pdf', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pdfBase64:   base64,
+        filename:    filename,
+        customerName: name,
+        weddingHall:  hall,
+        weddingDate:  dateRaw,
+        serviceType:  svc
+      })
+    });
+
+    if (response.ok) {
+      result.textContent = '✅ 제출 완료! 확인 후 연락드리겠습니다.';
+      result.style.color = '#81C784';
+      btn.textContent    = '✅ 제출 완료';
+    } else {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || '서버 오류');
+    }
+
+  } catch (e) {
+    console.error(e);
+    result.textContent = '❌ 오류: ' + e.message + ' — 다시 시도해주세요.';
+    result.style.color = '#EF9A9A';
+    btn.disabled   = false;
+    btn.textContent = '📤 서류 제출하기';
+  } finally {
+    // UI 다시 표시
+    printBar.style.display   = '';
+    submitPane.style.display = '';
+  }
+});
+</script>
+
 </body>
 </html>
