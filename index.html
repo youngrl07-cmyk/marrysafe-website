@@ -863,7 +863,7 @@
     const noShow = localStorage.getItem('ms_popup_no_show');
     if (d.popup?.active && d.popup.title && noShow !== new Date().toDateString()) {
       document.getElementById('popup-title').textContent = d.popup.title;
-      document.getElementById('popup-body').textContent = d.popup.body || '';
+      document.getElementById('popup-body').innerHTML = d.popup.body || '';
       if (d.popup.btnText) document.getElementById('popup-btn').textContent = d.popup.btnText;
       if (d.popup.btnLink) document.getElementById('popup-btn').href = d.popup.btnLink;
       if (d.popup.imgSrc) {
