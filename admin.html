@@ -270,7 +270,38 @@
           <div class="card-title">팝업 내용</div>
           <div class="form-group">
             <label class="form-label">제목 *</label>
-            <input type="text" id="popup-title" placeholder="예: 🎉 6월 한정 할인 이벤트">
+            <div class="rich-editor-wrap">
+              <div class="rich-toolbar">
+                <select title="폰트" onchange="rteApply('popup-title-editor','fontName',this.value);this.value=''">
+                  <option value="">폰트 선택</option>
+                  <option value="Noto Sans KR">Noto Sans (기본 고딕)</option>
+                  <option value="Noto Serif KR">Noto Serif (명조체)</option>
+                  <option value="Cormorant Garamond">Cormorant (영문 세리프)</option>
+                  <option value="Georgia">Georgia</option>
+                </select>
+                <select title="글씨 크기" onchange="rteSizeApply('popup-title-editor',this.value);this.value=''">
+                  <option value="">크기 선택</option>
+                  <option value="12">12px</option>
+                  <option value="14">14px</option>
+                  <option value="16">16px</option>
+                  <option value="18">18px (기본)</option>
+                  <option value="20">20px</option>
+                  <option value="22">22px</option>
+                  <option value="24">24px</option>
+                  <option value="28">28px (크게)</option>
+                  <option value="32">32px</option>
+                </select>
+                <div class="tb-sep"></div>
+                <button type="button" onclick="rteFocusCmd('popup-title-editor','bold')" title="굵게"><b>B</b></button>
+                <button type="button" onclick="rteFocusCmd('popup-title-editor','italic')" title="기울임"><i>I</i></button>
+                <button type="button" onclick="rteFocusCmd('popup-title-editor','underline')" title="밑줄" style="text-decoration:underline;">U</button>
+                <div class="tb-sep"></div>
+                <button type="button" onclick="rteFocusCmd('popup-title-editor','removeFormat')" style="font-size:.74rem;">✕ 서식제거</button>
+              </div>
+              <div id="popup-title-editor" class="rich-editor" contenteditable="true"
+                style="min-height:48px;font-size:1rem;font-weight:500;"
+                data-placeholder="예: 🎉 메리세이프 오픈 이벤트 🎉"></div>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label">내용</label>
@@ -718,7 +749,7 @@
     // 팝업
     if (d.popup) {
       document.getElementById('popup-active').checked = !!d.popup.active;
-      document.getElementById('popup-title').value = d.popup.title || '';
+      document.getElementById('popup-title-editor').innerHTML = d.popup.title || '';
       document.getElementById('popup-body-editor').innerHTML = d.popup.body || '';
       document.getElementById('popup-btn-text').value = d.popup.btnText || '';
       document.getElementById('popup-btn-link').value = d.popup.btnLink || '';
@@ -787,30 +818,41 @@
     document.getElementById('popup-img-file').value = '';
   }
 
-  // ─ 리치 에디터 툴바 함수 ─
-  function rteCmd(cmd) {
+  // ─ 리치 에디터 툴바 함수 (범용) ─
+  function rteCmd(cmd) { // 내용 에디터 전용 (툴바 버튼용)
     document.getElementById('popup-body-editor').focus();
     document.execCommand(cmd, false, null);
   }
 
-  function rteFont(fontName) {
-    if (!fontName) return;
-    const editor = document.getElementById('popup-body-editor');
-    editor.focus();
-    document.execCommand('fontName', false, fontName);
-    document.getElementById('tb-font').value = '';
+  function rteFocusCmd(editorId, cmd) { // 범용: id 지정
+    document.getElementById(editorId).focus();
+    document.execCommand(cmd, false, null);
   }
 
-  function rteFontSize(px) {
+  function rteApply(editorId, cmd, val) { // 범용: fontName 등
+    if (!val) return;
+    document.getElementById(editorId).focus();
+    document.execCommand(cmd, false, val);
+  }
+
+  function rteSizeApply(editorId, px) { // 범용: 글씨 크기
     if (!px) return;
-    const editor = document.getElementById('popup-body-editor');
+    const editor = document.getElementById(editorId);
     editor.focus();
-    // execCommand fontSize는 1-7 척도이므로 마커 사용 후 직접 스타일 교체
     document.execCommand('fontSize', false, '7');
     editor.querySelectorAll('font[size="7"]').forEach(f => {
       f.removeAttribute('size');
       f.style.fontSize = px + 'px';
     });
+  }
+
+  function rteFont(fontName) { // 내용 에디터 전용 (하위 호환)
+    rteApply('popup-body-editor', 'fontName', fontName);
+    document.getElementById('tb-font').value = '';
+  }
+
+  function rteFontSize(px) { // 내용 에디터 전용 (하위 호환)
+    rteSizeApply('popup-body-editor', px);
     document.getElementById('tb-size').value = '';
   }
 
@@ -819,7 +861,7 @@
     const d = getData();
     d.popup = {
       active: document.getElementById('popup-active').checked,
-      title: document.getElementById('popup-title').value,
+      title: document.getElementById('popup-title-editor').innerHTML,
       body: document.getElementById('popup-body-editor').innerHTML,
       btnText: document.getElementById('popup-btn-text').value,
       btnLink: document.getElementById('popup-btn-link').value,
