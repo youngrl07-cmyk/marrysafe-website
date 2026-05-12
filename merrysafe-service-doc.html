@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>메리세이프 서비스 서류 통합본</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --black:#0D0D0D; --dark:#1C1C1C; --mid:#4A4A4A;
+    --muted:#8A8A8A; --border:#CCCCCC; --bg:#F7F7F5;
+  }
+
+  body { font-family:'Noto Sans KR',sans-serif; color:var(--dark); background:#fff; font-size:10pt; line-height:1.7; }
+
+  /* ── 인쇄 버튼 (화면에서만 보임) ── */
+  .print-bar { background:var(--dark); color:#fff; text-align:center; padding:1rem; position:sticky; top:0; z-index:100; }
+  .print-bar button { background:#fff; color:var(--dark); border:none; padding:.5rem 2rem; font-size:.9rem; cursor:pointer; font-family:inherit; font-weight:500; margin:0 .5rem; }
+  .print-bar span { font-size:.85rem; opacity:.7; }
+  .btn-word { display:inline-block; background:#2B579A; color:#fff; border:none; padding:.5rem 1.5rem; font-size:.9rem; cursor:pointer; font-family:inherit; font-weight:500; margin:0 .5rem; text-decoration:none; vertical-align:middle; }
+  .btn-word:hover { background:#1E3F7A; }
+  @media print { .print-bar { display:none; } }
+
+  /* ── 페이지 레이아웃 ── */
+  .doc-page { max-width:210mm; margin:0 auto; padding:20mm 18mm; background:#fff; }
+
+  /* ── 헤더 ── */
+  .doc-header { text-align:center; border-bottom:2.5px solid var(--dark); padding-bottom:1rem; margin-bottom:1.5rem; }
+  .doc-logo { font-family:'Noto Serif KR',serif; font-size:18pt; font-weight:600; letter-spacing:.15em; }
+  .doc-logo span { font-size:10pt; font-weight:300; color:var(--muted); margin-left:.5rem; }
+  .doc-title { font-size:14pt; font-weight:500; margin-top:.5rem; letter-spacing:.05em; }
+  .doc-subtitle { font-size:9pt; color:var(--muted); margin-top:.35rem; }
+
+  /* ── 섹션 ── */
+  .section { margin-bottom:2rem; page-break-inside:avoid; }
+  .section-title {
+    background:var(--dark); color:#fff;
+    font-size:10pt; font-weight:500; letter-spacing:.08em;
+    padding:.45rem 1rem; margin-bottom:1rem;
+    display:flex; align-items:center; gap:.5rem;
+  }
+  .section-title .icon { font-size:11pt; }
+  .section-body { padding:0 .25rem; }
+
+  /* ── 테이블 ── */
+  table { width:100%; border-collapse:collapse; font-size:9.5pt; margin-bottom:.75rem; }
+  th { background:#F0F0EE; border:1px solid var(--border); padding:.5rem .75rem; font-weight:500; text-align:left; color:var(--dark); }
+  td { border:1px solid var(--border); padding:.45rem .75rem; color:var(--mid); vertical-align:top; }
+  .fill-line { border:none; border-bottom:1px solid var(--border); min-width:120px; display:inline-block; }
+
+  /* ── 기본 폼 그리드 ── */
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .info-cell { border:1px solid var(--border); padding:.5rem .75rem; }
+  .info-cell:nth-child(odd) { border-right:none; }
+  .info-label { font-size:8.5pt; color:var(--muted); margin-bottom:.2rem; }
+  .info-input { border-bottom:1px solid var(--border); min-height:1.4rem; display:block; }
+  .info-cell.full { grid-column:1/-1; border-right:1px solid var(--border); }
+
+  /* ── 체크박스 ── */
+  .check-row { display:flex; align-items:flex-start; gap:.5rem; margin:.4rem 0; }
+  .check-box { width:13px; height:13px; border:1.5px solid var(--dark); flex-shrink:0; margin-top:2px; display:inline-block; }
+  .check-label { font-size:9.5pt; }
+  .check-sub { font-size:8.5pt; color:var(--muted); margin-left:1.5rem; margin-top:.1rem; }
+
+  /* ── 상황 박스 ── */
+  .situation { border:1px solid var(--border); margin-bottom:1rem; }
+  .situation-head { background:#F7F7F5; border-bottom:1px solid var(--border); padding:.5rem .85rem; font-weight:500; font-size:9.5pt; }
+  .situation-body { padding:.75rem .85rem; }
+  .situation-note { background:#FFF8F0; border:1px solid #E8D5AA; padding:.5rem .75rem; font-size:8.5pt; color:#7A5C2A; margin-top:.5rem; }
+
+  /* ── 경고/안내 박스 ── */
+  .warn-box { border:1px solid #E0AAAA; background:#FDF0F0; padding:.75rem 1rem; margin:.75rem 0; font-size:9pt; }
+  .warn-box strong { color:#8B0000; }
+  .info-box { border:1px solid #AACCE0; background:#F0F7FD; padding:.75rem 1rem; margin:.75rem 0; font-size:9pt; }
+  .tip-box { border-left:3px solid var(--dark); background:#F7F7F5; padding:.6rem 1rem; margin:.75rem 0; font-size:9pt; }
+
+  /* ── 서명란 ── */
+  .sign-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1rem; }
+  .sign-box { border:1px solid var(--border); padding:.75rem 1rem; }
+  .sign-label { font-size:8.5pt; color:var(--muted); margin-bottom:.5rem; }
+  .sign-line { border-bottom:1px solid var(--border); margin-top:2rem; }
+
+  /* ── 페이지 구분 ── */
+  .page-break { page-break-before:always; border-top:2px dashed var(--border); margin:2.5rem 0; padding-top:2rem; }
+  @media print { .page-break { border:none; margin:0; padding:0; } }
+
+  /* ── 조항 스타일 ── */
+  .clause { margin-bottom:.6rem; font-size:9.5pt; }
+  .clause-num { font-weight:500; margin-right:.3rem; }
+  .sub-clause { margin-left:1.2rem; font-size:9pt; color:var(--mid); }
+
+  /* ── 동의 체크 최종 ── */
+  .agree-box { border:2px solid var(--dark); padding:1rem 1.5rem; margin:1rem 0; display:flex; align-items:center; gap:1rem; }
+  .agree-box .check-box { width:16px; height:16px; }
+  .agree-text { font-size:10pt; font-weight:500; }
+
+  /* ── 푸터 ── */
+  .doc-footer { text-align:center; font-size:8pt; color:var(--muted); margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  <span>다운로드 또는 인쇄:</span>
+  <button onclick="window.print()">🖨 인쇄 / PDF 저장</button>
+  <a href="/merrysafe-service-doc.docx" download="메리세이프_서비스서류_통합본.docx" class="btn-word">📄 Word 다운로드</a>
+</div>
+
+<div class="doc-page">
+
+<!-- ══════════════════════════════════════════════
+     문서 1: 사전 체크리스트
+══════════════════════════════════════════════ -->
+
+<div class="doc-header">
+  <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
+  <div class="doc-title">서비스 사전 체크리스트</div>
+  <div class="doc-subtitle">본 체크리스트는 서비스 이용계약서의 부속 서류로서 계약과 동일한 효력을 가집니다.<br>예식일 <strong>3~5일 전</strong>까지 작성하여 제출해 주십시오.</div>
+</div>
+
+<!-- A. 예식 기본 정보 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> A. 예식 기본 정보</div>
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="info-label">고객 성명</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">연락처</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">예식 일시</div>
+      <div class="info-input">____년 ____월 ____일  ____시 ____분</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">서비스 유형</div>
+      <div style="display:flex;gap:1rem;margin-top:.3rem;font-size:9pt;">
+        <span><span class="check-box" style="display:inline-block;vertical-align:middle;margin-right:.3rem;"></span>4인2팀(양측)</span>
+        <span><span class="check-box" style="display:inline-block;vertical-align:middle;margin-right:.3rem;"></span>2인1팀(신랑측)</span>
+        <span><span class="check-box" style="display:inline-block;vertical-align:middle;margin-right:.3rem;"></span>2인1팀(신부측)</span>
+      </div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">예식장명</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">홀 명</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell full">
+      <div class="info-label">예식장 주소</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">예상 하객 수</div>
+      <div class="info-input">약 ________ 명</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">주차 정보</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">혼주 (신랑 측)</div>
+      <div class="info-input">성명: ________  ☎ 010-____-____</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">혼주 (신부 측)</div>
+      <div class="info-input">성명: ________  ☎ 010-____-____</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">메리세이프 담당자</div>
+      <div class="info-input"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">담당자 연락처</div>
+      <div class="info-input"></div>
+    </div>
+  </div>
+</div>
+
+<!-- B. 인수 대상자 정보 -->
+<div class="section">
+  <div class="section-title"><span class="icon">👤</span> B. 인수 대상자 정보</div>
+  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">
+    서비스 종료 후 축의금 및 기록물을 인계받을 분의 정보를 기재합니다.<br>
+    인수 시 <strong>① 신분증 실물 대조 + ② 사전 등록 전화번호 유선 확인 + ③ 인수인계 확인서 서명</strong>의 3단계 확인을 거칩니다.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">구분</th>
+        <th style="width:18%">성명</th>
+        <th style="width:8%">성별</th>
+        <th style="width:22%">전화번호</th>
+        <th>신분증 종류</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1순위 인수자</td>
+        <td></td>
+        <td></td>
+        <td>010 - ____ - ____</td>
+        <td>□ 주민등록증 □ 운전면허증 □ 여권</td>
+      </tr>
+      <tr>
+        <td>2순위 인수자<br><span style="font-size:8pt;color:var(--muted)">(1순위 부재 시)</span></td>
+        <td></td>
+        <td></td>
+        <td>010 - ____ - ____</td>
+        <td>□ 주민등록증 □ 운전면허증 □ 여권</td>
+      </tr>
+      <tr>
+        <td>비상 연락자<br><span style="font-size:8pt;color:var(--muted)">(긴급 연락 전용)</span></td>
+        <td></td>
+        <td></td>
+        <td>010 - ____ - ____</td>
+        <td style="font-size:8.5pt;color:var(--muted)">승인 권한 없음, 긴급 연락 전용</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- C. 식권 배부 기준 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🎫</span> C. 식권 배부 기준</div>
+
+  <p style="font-size:9pt;font-weight:500;margin-bottom:.5rem;">C-1. 기본 배부 기준</p>
+  <table>
+    <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>식권 배부 기준</td>
+        <td>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:9pt;">
+            <span>□ 축의금 납부자에 한해 배부</span>
+            <span>□ 모든 하객에게 배부</span>
+            <span>□ 기타: _______________</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>1인당 식권 수량</td>
+        <td>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:9pt;">
+            <span>□ 1매</span><span>□ 2매</span><span>□ 봉투 수량대로</span><span>□ 기타: ______매</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>잔여 식권 처리</td>
+        <td>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:9pt;">
+            <span>□ 인수 대상자에게 함께 전달</span>
+            <span>□ 예식장에 반환</span>
+            <span>□ 기타: _______________</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-2. 축의금 없이 식권만 요청하는 하객 대응 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+  <table>
+    <thead><tr><th style="width:35%">상황</th><th>고객 선택</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>현금 없이 식권만 요청</td>
+        <td>
+          <div style="font-size:9pt;">
+            <div>□ 식권 배부하지 않음</div>
+            <div>□ 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</div>
+            <div>□ 혼주 확인 후 판단</div>
+            <div>□ 기타: _______________________________________________</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>봉투가 비어있는 경우</td>
+        <td>
+          <div style="font-size:9pt;">
+            <div>□ 명단 기록, 식권 배부하지 않음</div>
+            <div>□ 명단 기록, 식권 배부 (소란 방지)</div>
+            <div>□ 혼주 즉시 유선 확인 후 판단</div>
+            <div>□ 기타: _______________________________________________</div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="tip-box">
+    💡 <strong>메리세이프 권장사항:</strong> 혼잡한 웨딩 현장에서 분쟁이 생기면 모든 분이 불편해집니다. 특별한 사정이 없다면 「소란 방지를 위해 배부」를 권장합니다.
+  </div>
+
+  <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-3. 계좌이체 주장 하객 응대 기준 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+  <table>
+    <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>이체 내역 확인 여부</td>
+        <td>
+          <div style="font-size:9pt;">
+            <div>□ 하객 이체 화면(캡처) 제시 요청 후 확인</div>
+            <div>□ 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</div>
+            <div>□ 이체 확인 없이 식권 배부하지 않음</div>
+            <div>□ 혼주 확인 후 판단</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>이체 확인용 계좌<br><span style="font-size:8.5pt;color:var(--muted)">(확인 선택 시 기재)</span></td>
+        <td style="font-size:9pt;">
+          예금주: ____________  은행: ____________  계좌번호: _______________________
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="info-box" style="font-size:8.5pt;">
+    📌 메리세이프는 이체 사실의 진위를 최종 확인할 의무를 부담하지 않으며, 고객이 선택한 기준에 따라 응대합니다.
+  </div>
+</div>
+
+<!-- D. 돌발상황 안내 -->
+<div class="section">
+  <div class="section-title"><span class="icon">⚠️</span> D. 돌발상황 안내 — 봉투 절취·교체 실제 사례</div>
+  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">웨딩 현장에서 실제로 발생한 사례입니다. 사전에 숙지하시면 피해 예방에 도움이 됩니다.</p>
+
+  <div class="situation">
+    <div class="situation-head">사례 ① 봉투 들고 사라지기</div>
+    <div class="situation-body" style="font-size:9pt;color:var(--mid);">접수대 혼잡 틈을 노려 하객으로 위장한 자가 테이블 위 봉투를 집어 들고 도주한 사례. 메리세이프는 봉투 수령 즉시 세이프 박스에 투입하여 원천 차단합니다.</div>
+  </div>
+  <div class="situation">
+    <div class="situation-head">사례 ② 빈 봉투 교체 (바꿔치기)</div>
+    <div class="situation-body" style="font-size:9pt;color:var(--mid);">미리 준비한 동일한 외형의 빈 봉투(또는 소액 봉투)로 접수대 근처에서 바꿔치기 하는 사례. 피해액이 수십만 원에 달한 경우도 있습니다.</div>
+  </div>
+  <div class="situation">
+    <div class="situation-head">사례 ③ "내가 맡아둔다"며 접근</div>
+    <div class="situation-body" style="font-size:9pt;color:var(--mid);">친척·지인으로 위장하여 "잠깐 보관하겠다"며 다른 하객의 봉투를 빼앗아 가는 수법. 접수 직원 외 제3자에게는 절대 봉투를 넘기지 않습니다.</div>
+  </div>
+  <div class="situation">
+    <div class="situation-head">사례 ④ "혼주 가족이 보냈다"며 중간 인계 요청</div>
+    <div class="situation-body" style="font-size:9pt;color:var(--mid);">행사 도중 일부를 미리 달라고 요청하는 경우. 메리세이프는 사전 지정된 인수자 외에는 어떤 경우에도 중간 인계를 하지 않습니다.</div>
+  </div>
+
+  <div class="warn-box">
+    🔒 <strong>세이프 박스 운영 원칙:</strong> 한 번 닫힌 세이프 박스는 웨딩이 완전히 종료될 때까지 <strong>절대 개봉하지 않습니다.</strong> 혼주님 또는 가족분의 요청이 있더라도 예외 없이 적용됩니다.<br>
+    <span style="font-size:8.5pt;">→ 행사 중 현금이 필요한 비상 상황을 대비해, 시작 전 별도 현금(예: 20~30만원)을 미리 준비해 두시길 권장합니다.</span>
+  </div>
+</div>
+
+<!-- E. 기타 특별 요청 사항 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📝</span> E. 기타 특별 요청 사항</div>
+  <table>
+    <thead><tr><th style="width:8%">No</th><th>특별 요청 내용 (서비스 범위 내 수용 가능한 사항에 한함)</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td style="height:2rem;"></td></tr>
+      <tr><td>2</td><td style="height:2rem;"></td></tr>
+      <tr><td>3</td><td style="height:2rem;"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- F. 확인 및 서명 -->
+<div class="section">
+  <div class="section-title"><span class="icon">✍️</span> F. 확인 및 서명</div>
+  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">위 체크리스트 내용을 확인하였으며, 기재되지 않은 상황 발생 시 회사의 표준 운영 기준에 따릅니다.</p>
+  <div class="sign-row">
+    <div class="sign-box">
+      <div class="sign-label">고객 (신랑 측)</div>
+      성명: _________________ &nbsp;&nbsp; 서명(인):
+      <div class="sign-line"></div>
+    </div>
+    <div class="sign-box">
+      <div class="sign-label">고객 (신부 측)</div>
+      성명: _________________ &nbsp;&nbsp; 서명(인):
+      <div class="sign-line"></div>
+    </div>
+  </div>
+  <div class="sign-row" style="margin-top:.75rem;">
+    <div class="sign-box">
+      <div class="sign-label">작성일</div>
+      ____년 ____월 ____일
+    </div>
+    <div class="sign-box">
+      <div class="sign-label">메리세이프 담당자</div>
+      성명: _________________ &nbsp;&nbsp; 서명(인):
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     문서 2: 개인정보 수집·이용 동의서
+══════════════════════════════════════════════ -->
+<div class="page-break">
+<div class="doc-header">
+  <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
+  <div class="doc-title">개인정보 수집·이용 동의서</div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">1</span> 수집하는 개인정보 항목</div>
+  <table>
+    <thead><tr><th>구분</th><th>수집 대상</th><th>수집 항목</th></tr></thead>
+    <tbody>
+      <tr><td>필수</td><td>고객(신랑·신부/혼주)</td><td>성명, 연락처, 예식 일시·장소, 이메일</td></tr>
+      <tr><td>필수</td><td>인수 대상자·비상 연락자</td><td>성명, 성별, 연락처, 신분증 정보(확인용, 사본 미보관)</td></tr>
+      <tr><td>필수</td><td>하객</td><td>성명, 영상 기록(접수 과정 촬영분)</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5pt;color:var(--muted);">※ 봉투 내 금액은 확인·기록하지 않으므로 수집하지 않습니다.</p>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">2</span> 수집·이용 목적</div>
+  <table>
+    <thead><tr><th style="width:25%">목적</th><th>상세 내용</th></tr></thead>
+    <tbody>
+      <tr><td>서비스 이행</td><td>축의금 접수, 명단 기록, 보관, 식권 배부 보조 등 계약상 서비스 수행</td></tr>
+      <tr><td>인수인계</td><td>인수 대상자 본인 확인 및 축의금·기록물의 안전한 인계</td></tr>
+      <tr><td>증빙 보존</td><td>서비스 수행 과정 투명성 확보 및 사후 분쟁 발생 시 증빙 자료 활용</td></tr>
+      <tr><td>고객 연락</td><td>사전 확인, 현장 긴급 연락, 사후 문의 대응</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">3</span> 개인정보 보유 및 파기</div>
+  <table>
+    <thead><tr><th>정보 유형</th><th>보유 기간</th><th>파기 방법</th></tr></thead>
+    <tbody>
+      <tr><td>고객·인수자 정보</td><td>예식일로부터 90일</td><td>전자 파일: 복구 불가 방법 영구 삭제 / 종이: 분쇄</td></tr>
+      <tr><td>하객 명단</td><td>예식일로부터 30일</td><td>전자 파일: 복구 불가 방법 영구 삭제</td></tr>
+      <tr><td>영상 기록물</td><td>예식일로부터 30일 (분쟁 시 종결까지)</td><td>전자 파일: 복구 불가 방법 영구 삭제</td></tr>
+      <tr><td>계약 관련 서류</td><td>계약 종료 후 5년 (상법 제64조)</td><td>보유 기간 경과 후 분쇄 또는 영구 삭제</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">4</span> 제3자 제공 및 동의 거부 권리</div>
+  <div class="clause"><span class="clause-num">①</span> 회사는 원칙적으로 수집한 개인정보를 제3자에게 제공하지 않습니다. 단, 고객 사전 동의 또는 법령에 의한 경우는 예외입니다.</div>
+  <div class="clause"><span class="clause-num">②</span> 고객은 개인정보 수집·이용에 대한 동의를 거부할 권리가 있습니다. 단, 필수 항목 동의 거부 시 서비스 이용이 제한됩니다.</div>
+</div>
+
+<div class="agree-box">
+  <div class="check-box"></div>
+  <div class="agree-text">개인정보 수집·이용에 동의합니다.</div>
+  <div style="margin-left:3rem;" class="check-box"></div>
+  <div class="agree-text">동의하지 않습니다.</div>
+</div>
+<div class="sign-row">
+  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="sign-line"></div></div>
+  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line"></div></div>
+  <div class="sign-box"><div class="sign-label">작성일</div>____년 ____월 ____일</div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     문서 3: 촬영(녹화) 안내 및 동의서
+══════════════════════════════════════════════ -->
+<div class="page-break">
+<div class="doc-header">
+  <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
+  <div class="doc-title">촬영(녹화) 안내 및 동의서</div>
+  <div class="doc-subtitle" style="color:#8B0000;font-weight:500;">중요: 메리세이프 서비스는 투명한 서비스 제공을 위해 현장에 카메라를 설치합니다. 동의하지 않으시는 경우 서비스 이용이 불가합니다.</div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">1</span> 촬영 목적</div>
+  <table>
+    <thead><tr><th style="width:25%">목적</th><th>상세 내용</th></tr></thead>
+    <tbody>
+      <tr><td>투명성 확보</td><td>축의금 접수·보관·인수인계 전 과정을 영상으로 기록하여 서비스 수행의 투명성 보장</td></tr>
+      <tr><td>증빙 자료</td><td>봉투 수령·보관·전달 과정을 객관적으로 증명할 수 있는 증거 확보</td></tr>
+      <tr><td>분쟁 예방</td><td>봉투 누락, 인수인계 관련 분쟁 발생 시 사실 확인을 위한 증빙으로 활용</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">2</span> 촬영 범위 및 방식</div>
+  <div class="clause"><span class="clause-num">①</span> 촬영 장소: 축의금 접수 테이블 및 그 주변 (잠금 박스 보관 영역 포함)</div>
+  <div class="clause"><span class="clause-num">②</span> 촬영 대상: 봉투 수령·처리·보관·인수인계 과정 (하객의 모습이 부수적으로 포함될 수 있음)</div>
+  <div class="clause"><span class="clause-num">③</span> 촬영 장비: 카메라 2대 (클로즈업·미디엄 각 1대)</div>
+  <div class="clause"><span class="clause-num">④</span> 촬영 시간: 예식 시작 1시간 전부터 인수 대상자에게 축의금이 전달되는 시점까지</div>
+  <div class="clause"><span class="clause-num">⑤</span> 영상 제공: 파일 형태의 제공은 불가하며, 유튜브(YouTube) 비공개 링크로만 제공 (열람 기간 제한 없음)</div>
+  <div class="clause"><span class="clause-num">⑥</span> 고지: 접수 테이블 주변에 "보안 촬영 중" 안내문을 게시하여 하객에게 촬영 사실을 고지합니다.</div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">3</span> 영상 기록물 보관·파기 및 이용 제한</div>
+  <table>
+    <thead><tr><th style="width:25%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>보관 기간</td><td>예식일로부터 30일 (분쟁 발생 시 해당 분쟁 종결 시까지 연장)</td></tr>
+      <tr><td>보관 방법</td><td>유튜브 비공개 저장 + 로컬 SSD 이중 보관, 접근 권한 제한</td></tr>
+      <tr><td>파기 방법</td><td>보관 기간 경과 후 복구 불가능한 방법으로 영구 삭제</td></tr>
+      <tr><td>이용 제한</td><td>촬영 목적 외 사용 금지 / 제3자 제공 금지 / 마케팅·홍보 목적 사용 금지</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="agree-box">
+  <div class="check-box"></div>
+  <div class="agree-text">촬영(녹화)에 동의합니다. (동의하지 않을 경우 서비스 이용이 불가합니다.)</div>
+</div>
+<div class="sign-row">
+  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="sign-line"></div></div>
+  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line"></div></div>
+  <div class="sign-box"><div class="sign-label">작성일</div>____년 ____월 ____일</div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     문서 4: 인수인계 확인서 (예식 후 작성)
+══════════════════════════════════════════════ -->
+<div class="page-break">
+<div class="doc-header">
+  <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
+  <div class="doc-title">인수인계 확인서</div>
+  <div class="doc-subtitle">서비스 종료 시 축의금 및 기록물의 인계가 이상 없이 완료되었음을 상호 확인하기 위하여 작성합니다. <strong>예식 당일 서비스 종료 후 작성합니다.</strong></div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">A</span> 서비스 기본 정보</div>
+  <div class="info-grid">
+    <div class="info-cell"><div class="info-label">고객 성명</div><div class="info-input"></div></div>
+    <div class="info-cell"><div class="info-label">계약번호</div><div class="info-input"></div></div>
+    <div class="info-cell"><div class="info-label">예식 일시</div><div class="info-input">____년 ____월 ____일 ____시 ____분</div></div>
+    <div class="info-cell"><div class="info-label">예식장 / 홀</div><div class="info-input"></div></div>
+    <div class="info-cell">
+      <div class="info-label">서비스 유형</div>
+      <div style="font-size:9pt;margin-top:.3rem;">□ 4인2팀(양측) &nbsp; □ 2인1팀(신랑측) &nbsp; □ 2인1팀(신부측)</div>
+    </div>
+    <div class="info-cell"><div class="info-label">운영 인력 수</div><div class="info-input">________ 명</div></div>
+    <div class="info-cell"><div class="info-label">서비스 시작</div><div class="info-input">____시 ____분</div></div>
+    <div class="info-cell"><div class="info-label">서비스 종료</div><div class="info-input">____시 ____분</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">B</span> 인수 대상자 본인 확인</div>
+  <table>
+    <thead><tr><th>성명</th><th>신분증 확인</th><th>유선 확인</th><th>인수자 순위</th></tr></thead>
+    <tbody>
+      <tr>
+        <td style="min-width:80px;"></td>
+        <td>□ 확인 완료</td>
+        <td>□ 확인 완료</td>
+        <td>□ 1순위 &nbsp; □ 2순위 &nbsp; □ 기타</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">C</span> 인계 물품 내역</div>
+  <table>
+    <thead><tr><th style="width:5%">No</th><th>인계 항목</th><th style="width:25%">수량/내용</th><th style="width:18%">확인</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>축의금 봉투 (잠금 박스 포함)</td><td>총 ________ 개</td><td>□ 인수자 확인</td></tr>
+      <tr><td>2</td><td>하객 명단 기록물</td><td>□ 전산파일 □ 출력물</td><td>□ 인수자 확인</td></tr>
+      <tr><td>3</td><td>잔여 식권 (해당 시)</td><td>총 ________ 매</td><td>□ 인수자 확인</td></tr>
+      <tr><td>4</td><td>기타</td><td></td><td>□ 인수자 확인</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.5pt;color:var(--muted);">※ 금액 기록은 서비스 범위에 포함되지 않으므로 정산 내역 인계는 없습니다.</p>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">D</span> 서비스 이행 확인</div>
+  <table>
+    <thead><tr><th>확인 항목</th><th style="width:30%">결과</th><th style="width:20%">비고</th></tr></thead>
+    <tbody>
+      <tr><td>축의금 접수·보관이 계약 내용에 따라 수행되었는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
+      <tr><td>영상 녹화가 정상적으로 진행되었는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
+      <tr><td>명단 기록이 정상적으로 작성되었는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
+      <tr><td>인수인계 시 봉투 수량과 기록이 일치하는가</td><td>□ 이상 없음 &nbsp; □ 이상 있음</td><td></td></tr>
+      <tr><td>서비스 수행 중 특이사항이 있었는가</td><td>□ 없음 &nbsp; □ 있음 (E항 기재)</td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">E</span> 특이사항</div>
+  <div style="border:1px solid var(--border);min-height:60px;padding:.5rem;"></div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">F</span> 최종 확인 및 서명</div>
+  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">위 내용을 확인하며, 축의금 및 기록물의 인계가 이상 없이 완료되었음을 상호 확인합니다. 본 확인서 작성 이후 축의금 및 기록물에 대한 관리 책임은 인수자에게 이전됩니다.</p>
+  <div class="sign-row">
+    <div class="sign-box">
+      <div class="sign-label">회사 (인계자)</div>
+      성명: _____________ &nbsp;&nbsp; 서명(인):
+      <div class="sign-line"></div>
+    </div>
+    <div class="sign-box">
+      <div class="sign-label">인수자</div>
+      성명: _____________ &nbsp;&nbsp; 서명(인):
+      <div class="sign-line"></div>
+    </div>
+  </div>
+  <div style="margin-top:1rem;font-size:9pt;color:var(--mid);border:1px solid var(--border);padding:.6rem 1rem;">
+    인수인계 일시: ____년 ____월 ____일 ____시 ____분 &nbsp;&nbsp; / &nbsp;&nbsp; 장소: _______________________________
+  </div>
+</div>
+
+<div class="doc-footer">
+  © 2025 MarrySafe (메리세이프) · marrysafe.official@gmail.com · marrysafe.co.kr<br>
+  본 서류는 서비스 계약과 함께 보관됩니다.
+</div>
+</div>
+
+</div><!-- doc-page -->
+</body>
+</html>

@@ -4,6 +4,13 @@
     {
       "source": "/google6d7a74089cab94c8.html",
       "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+    },
+    {
+      "source": "/merrysafe-service-doc.docx",
+      "headers": [
+        { "key": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+        { "key": "Content-Disposition", "value": "attachment; filename*=UTF-8''%EB%A9%94%EB%A6%AC%EC%84%B8%EC%9D%B4%ED%94%84_%EC%84%9C%EB%B9%84%EC%8A%A4%EC%84%9C%EB%A5%98_%ED%86%B5%ED%95%A9%EB%B3%B8.docx" }
+      ]
     }
   ],
   "rewrites": [
