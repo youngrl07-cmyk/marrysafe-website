@@ -197,19 +197,19 @@
       <div class="info-label">예식장 주소</div>
       <div class="f" contenteditable="true" data-ph="주소 입력"></div>
     </div>
-    <div class="info-cell">
-      <div class="info-label">예상 하객 수</div>
+    <div class="info-cell" style="border-right:none;">
+      <div class="info-label">예상 하객 수 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(4인2팀의 경우 합산 하객 수)</span></div>
       <div class="f" contenteditable="true" data-ph="약 ________ 명"></div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:1px solid var(--border);">
       <div class="info-label">주차 정보</div>
       <div class="f" contenteditable="true" data-ph="주차 안내 입력"></div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:none;">
       <div class="info-label">혼주 (신랑 측)</div>
       <div class="f" contenteditable="true" data-ph="성명: ________  ☎ 010-____-____"></div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:1px solid var(--border);">
       <div class="info-label">혼주 (신부 측)</div>
       <div class="f" contenteditable="true" data-ph="성명: ________  ☎ 010-____-____"></div>
     </div>
@@ -291,11 +291,17 @@
       <tr>
         <td>1인당 식권 수량</td>
         <td>
-          <div class="opts">
-            <label class="cl"><input type="radio" class="dc" name="ticket-count"> 1매</label>
-            <label class="cl"><input type="radio" class="dc" name="ticket-count"> 2매</label>
-            <label class="cl"><input type="radio" class="dc" name="ticket-count"> 봉투 수량대로</label>
-            <label class="cl" style="display:inline-flex;align-items:center;gap:.3rem;"><input type="radio" class="dc" name="ticket-count"> 기타: <div class="f" contenteditable="true" data-ph="____매" style="min-width:50px;"></div></label>
+          <div class="opts-col">
+            <div class="opts">
+              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 1매</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 2매</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 봉투 수량대로</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 요청 수량대로 (상식적인 수량)</label>
+            </div>
+            <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-count"> 기타:</label>
+              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+            </div>
           </div>
         </td>
       </tr>
@@ -334,7 +340,7 @@
         </td>
       </tr>
       <tr>
-        <td>봉투가 비어있는 경우</td>
+        <td>봉투가 비어있는 경우<br><span style="font-size:8.5pt;color:var(--muted);">(비상식적인 소액 포함)</span></td>
         <td>
           <div class="opts-col">
             <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부하지 않음</label>
@@ -424,33 +430,6 @@
   </table>
 </div>
 
-<!-- F. 확인 및 서명 -->
-<div class="section">
-  <div class="section-title"><span class="icon">✍️</span> F. 확인 및 서명</div>
-  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">위 체크리스트 내용을 확인하였으며, 기재되지 않은 상황 발생 시 회사의 표준 운영 기준에 따릅니다.</p>
-  <div class="sign-row">
-    <div class="sign-box">
-      <div class="sign-label">고객 (신랑 측)</div>
-      <div>성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:120px;"></div> &nbsp; 서명(인):</div>
-      <div class="sign-line"></div>
-    </div>
-    <div class="sign-box">
-      <div class="sign-label">고객 (신부 측)</div>
-      <div>성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:120px;"></div> &nbsp; 서명(인):</div>
-      <div class="sign-line"></div>
-    </div>
-  </div>
-  <div class="sign-row" style="margin-top:.75rem;">
-    <div class="sign-box">
-      <div class="sign-label">작성일</div>
-      <div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div>
-    </div>
-    <div class="sign-box">
-      <div class="sign-label">메리세이프 담당자</div>
-      성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:100px;"></div> &nbsp; 서명(인):
-    </div>
-  </div>
-</div>
 
 
 <!-- ══════════════════════════════════════════════
@@ -511,11 +490,6 @@
   <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" value="동의"> 개인정보 수집·이용에 동의합니다.</label>
   <label class="cl" style="font-size:10pt;font-weight:500;"><input type="radio" class="dc" name="privacy-agree" value="비동의"> 동의하지 않습니다.</label>
 </div>
-<div class="sign-row-3">
-  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="f" contenteditable="true" data-ph="성명 입력"></div><div class="sign-line"></div></div>
-  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line" style="margin-top:2.5rem;"></div></div>
-  <div class="sign-box"><div class="sign-label">작성일</div><div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div></div>
-</div>
 </div>
 
 
@@ -567,171 +541,32 @@
 <div class="agree-box">
   <label class="cl" style="font-size:10pt;font-weight:500;"><input type="checkbox" class="dc" id="filming-agree"> 촬영(녹화)에 동의합니다. (동의하지 않을 경우 서비스 이용이 불가합니다.)</label>
 </div>
-<div class="sign-row-3">
-  <div class="sign-box"><div class="sign-label">고객 성명</div><div class="f" contenteditable="true" data-ph="성명 입력"></div><div class="sign-line"></div></div>
-  <div class="sign-box"><div class="sign-label">서명(인)</div><div class="sign-line" style="margin-top:2.5rem;"></div></div>
-  <div class="sign-box"><div class="sign-label">작성일</div><div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div></div>
-</div>
 </div>
 
 
 <!-- ══════════════════════════════════════════════
-     문서 4: 인수인계 확인서 (예식 후 작성)
+     최종 동의 및 서명
 ══════════════════════════════════════════════ -->
 <div class="page-break">
-<div class="doc-header">
-  <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
-  <div class="doc-title">인수인계 확인서</div>
-  <div class="doc-subtitle">서비스 종료 시 축의금 및 기록물의 인계가 이상 없이 완료되었음을 상호 확인하기 위하여 작성합니다. <strong>예식 당일 서비스 종료 후 작성합니다.</strong></div>
-</div>
-
-<div class="section">
-  <div class="section-title"><span class="icon">A</span> 서비스 기본 정보</div>
-  <div class="info-grid">
-    <div class="info-cell"><div class="info-label">고객 성명</div><div class="f" contenteditable="true" data-ph="성명"></div></div>
-    <div class="info-cell"><div class="info-label">계약번호</div><div class="f" contenteditable="true" data-ph="계약번호"></div></div>
-    <div class="info-cell"><div class="info-label">예식 일시</div><div class="f" contenteditable="true" data-ph="____년 ____월 ____일  ____시 ____분"></div></div>
-    <div class="info-cell"><div class="info-label">예식장 / 홀</div><div class="f" contenteditable="true" data-ph="예식장명 / 홀명"></div></div>
-    <div class="info-cell">
-      <div class="info-label">서비스 유형</div>
-      <div class="opts" style="margin-top:.3rem;">
-        <label class="cl"><input type="radio" class="dc" name="d4-service"> 4인2팀(양측)</label>
-        <label class="cl"><input type="radio" class="dc" name="d4-service"> 2인1팀(신랑측)</label>
-        <label class="cl"><input type="radio" class="dc" name="d4-service"> 2인1팀(신부측)</label>
-      </div>
-    </div>
-    <div class="info-cell"><div class="info-label">운영 인력 수</div><div class="f" contenteditable="true" data-ph="________ 명"></div></div>
-    <div class="info-cell"><div class="info-label">서비스 시작</div><div class="f" contenteditable="true" data-ph="____시 ____분"></div></div>
-    <div class="info-cell"><div class="info-label">서비스 종료</div><div class="f" contenteditable="true" data-ph="____시 ____분"></div></div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title"><span class="icon">B</span> 인수 대상자 본인 확인</div>
-  <table>
-    <thead><tr><th>성명</th><th>신분증 확인</th><th>유선 확인</th><th>인수자 순위</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><div class="f" contenteditable="true" data-ph="성명" style="min-width:80px;"></div></td>
-        <td><label class="cl"><input type="checkbox" class="dc"> 확인 완료</label></td>
-        <td><label class="cl"><input type="checkbox" class="dc"> 확인 완료</label></td>
-        <td>
-          <label class="cl"><input type="radio" class="dc" name="d4-rank"> 1순위</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-rank"> 2순위</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-rank"> 기타</label>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="section">
-  <div class="section-title"><span class="icon">C</span> 인계 물품 내역</div>
-  <table>
-    <thead><tr><th style="width:5%">No</th><th>인계 항목</th><th style="width:25%">수량/내용</th><th style="width:18%">확인</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>1</td><td>축의금 봉투 (잠금 박스 포함)</td>
-        <td><div class="f" contenteditable="true" data-ph="총 ________ 개"></div></td>
-        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
-      </tr>
-      <tr>
-        <td>2</td><td>하객 명단 기록물</td>
-        <td>
-          <label class="cl"><input type="checkbox" class="dc"> 전산파일</label>
-          <label class="cl"><input type="checkbox" class="dc"> 출력물</label>
-        </td>
-        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
-      </tr>
-      <tr>
-        <td>3</td><td>잔여 식권 (해당 시)</td>
-        <td><div class="f" contenteditable="true" data-ph="총 ________ 매"></div></td>
-        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
-      </tr>
-      <tr>
-        <td>4</td><td>기타</td>
-        <td><div class="f" contenteditable="true" data-ph=""></div></td>
-        <td><label class="cl"><input type="checkbox" class="dc"> 인수자 확인</label></td>
-      </tr>
-    </tbody>
-  </table>
-  <p style="font-size:8.5pt;color:var(--muted);">※ 금액 기록은 서비스 범위에 포함되지 않으므로 정산 내역 인계는 없습니다.</p>
-</div>
-
-<div class="section">
-  <div class="section-title"><span class="icon">D</span> 서비스 이행 확인</div>
-  <table>
-    <thead><tr><th>확인 항목</th><th style="width:30%">결과</th><th style="width:20%">비고</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>축의금 접수·보관이 계약 내용에 따라 수행되었는가</td>
-        <td>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk1"> 이상 없음</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk1"> 이상 있음</label>
-        </td>
-        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
-      </tr>
-      <tr>
-        <td>영상 녹화가 정상적으로 진행되었는가</td>
-        <td>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk2"> 이상 없음</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk2"> 이상 있음</label>
-        </td>
-        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
-      </tr>
-      <tr>
-        <td>명단 기록이 정상적으로 작성되었는가</td>
-        <td>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk3"> 이상 없음</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk3"> 이상 있음</label>
-        </td>
-        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
-      </tr>
-      <tr>
-        <td>인수인계 시 봉투 수량과 기록이 일치하는가</td>
-        <td>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk4"> 이상 없음</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk4"> 이상 있음</label>
-        </td>
-        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
-      </tr>
-      <tr>
-        <td>서비스 수행 중 특이사항이 있었는가</td>
-        <td>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk5"> 없음</label>
-          <label class="cl"><input type="radio" class="dc" name="d4-chk5"> 있음 (E항 기재)</label>
-        </td>
-        <td><div class="f" contenteditable="true" data-ph="비고"></div></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="section">
-  <div class="section-title"><span class="icon">E</span> 특이사항</div>
-  <div style="border:1px solid var(--border);min-height:60px;padding:.5rem;">
-    <div class="f" contenteditable="true" data-ph="특이사항을 입력하세요" style="min-height:55px;border-bottom:none;"></div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title"><span class="icon">F</span> 최종 확인 및 서명</div>
-  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">위 내용을 확인하며, 축의금 및 기록물의 인계가 이상 없이 완료되었음을 상호 확인합니다. 본 확인서 작성 이후 축의금 및 기록물에 대한 관리 책임은 인수자에게 이전됩니다.</p>
-  <div class="sign-row">
+<div class="section" style="border:2px solid var(--dark);padding:1.5rem 2rem;margin-top:1rem;">
+  <p style="font-size:11pt;font-weight:600;text-align:center;margin-bottom:1.25rem;letter-spacing:.03em;">
+    위 내용에 동의합니다.<br>
+    <span style="font-size:9pt;font-weight:400;color:var(--muted);">(동의하지 않을 경우 서비스 이용이 불가합니다.)</span>
+  </p>
+  <div class="sign-row-3">
     <div class="sign-box">
-      <div class="sign-label">회사 (인계자)</div>
-      성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:100px;"></div> &nbsp; 서명(인):
+      <div class="sign-label">고객 성명</div>
+      <div class="f" contenteditable="true" data-ph="성명 입력"></div>
       <div class="sign-line"></div>
     </div>
     <div class="sign-box">
-      <div class="sign-label">인수자</div>
-      성명: <div class="f" contenteditable="true" data-ph="성명" style="display:inline-block;min-width:100px;"></div> &nbsp; 서명(인):
-      <div class="sign-line"></div>
+      <div class="sign-label">서명(인)</div>
+      <div class="sign-line" style="margin-top:2.5rem;"></div>
     </div>
-  </div>
-  <div style="margin-top:1rem;font-size:9pt;color:var(--mid);border:1px solid var(--border);padding:.6rem 1rem;">
-    인수인계 일시: <div class="f" contenteditable="true" data-ph="____년 ____월 ____일  ____시 ____분" style="display:inline-block;min-width:220px;"></div>
-    &nbsp;/&nbsp; 장소: <div class="f" contenteditable="true" data-ph="장소 입력" style="display:inline-block;min-width:180px;"></div>
+    <div class="sign-box">
+      <div class="sign-label">작성일</div>
+      <div class="f" contenteditable="true" data-ph="____년 ____월 ____일"></div>
+    </div>
   </div>
 </div>
 
