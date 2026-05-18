@@ -188,10 +188,13 @@
     .pain-desc { font-size:.82rem; color:var(--mid); line-height:1.9; font-weight:400; }
     .pain-quote { margin-top:1rem; padding:.85rem 1.1rem; background:#fff; border-left:2px solid var(--border); font-size:.78rem; color:var(--mid); line-height:1.8; font-style:italic; font-weight:400; }
     .features-section { margin-top:5rem; padding-top:4rem; border-top:1px solid var(--border); }
-    .features-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2.5rem; }
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2.5rem; }
     .feat-num { font-family:'Cormorant',serif; font-size:1.5rem; font-weight:300; color:var(--faint); margin-bottom:1rem; }
     .feat h4 { font-size:.88rem; font-weight:600; color:var(--black); margin-bottom:.6rem; }
     .feat p { font-size:.79rem; color:var(--mid); line-height:1.85; font-weight:400; }
+    .features-grid .feat:nth-child(1) { text-align:left; }
+    .features-grid .feat:nth-child(2) { text-align:center; }
+    .features-grid .feat:nth-child(3) { text-align:right; }
 
     /* ── PRICING ── */
     .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:4rem; background:var(--border); }
@@ -603,12 +606,12 @@
           <p>클로즈업·미디엄 2대가 접수부터 인계까지 전 과정을 기록합니다. 유튜브 비공개 링크로 영상을 제공합니다.</p>
         </div>
         <div class="feat">
-          <div class="feat-num serif-en">03</div>
+          <div class="feat-num serif-en">02</div>
           <h4>하객 명단 기록</h4>
           <p>봉투 수령 즉시 하객 성명을 기록하고 엑셀 파일로 제공합니다. 식권 배부 보조도 사전 기준에 따라 수행합니다.</p>
         </div>
         <div class="feat">
-          <div class="feat-num serif-en">04</div>
+          <div class="feat-num serif-en">03</div>
           <h4>3단계 인수인계</h4>
           <p>신분증 대조 + 유선 확인 + 확인서 서명. 사전 등록된 분에게만 전달하여 분실·분쟁 가능성을 원천 차단합니다.</p>
         </div>
