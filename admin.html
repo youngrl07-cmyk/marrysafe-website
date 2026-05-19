@@ -885,7 +885,7 @@
       body: document.getElementById('popup-body-editor').innerHTML,
       btnText: document.getElementById('popup-btn-text').value,
       btnLink: document.getElementById('popup-btn-link').value,
-      imgSrc: document.getElementById('popup-img-thumb').src || '',
+      imgSrc: document.getElementById('popup-img-preview').style.display === 'block' ? document.getElementById('popup-img-thumb').src : '',
     };
     setData(d);
     db.ref('popup').set(d.popup);
