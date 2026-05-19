@@ -860,29 +860,54 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
+  // ── Firebase 초기화 ──
+  firebase.initializeApp({
+    apiKey: "AIzaSyAdRzAwTmYrPVFlKsRukdFe74eI3Zc72Cs",
+    authDomain: "marrysafe-96312.firebaseapp.com",
+    databaseURL: "https://marrysafe-96312-default-rtdb.firebaseio.com",
+    projectId: "marrysafe-96312",
+    storageBucket: "marrysafe-96312.firebasestorage.app",
+    messagingSenderId: "711498547072",
+    appId: "1:711498547072:web:43cda2e5361b3575408b65"
+  });
+  const db = firebase.database();
+
   // ── 어드민 데이터 로드 ──
   function loadAdminData() {
     const d = JSON.parse(localStorage.getItem('ms_admin') || '{}');
-    if (d.banner?.active && d.banner.text) {
-      const el = document.getElementById('event-banner');
-      document.getElementById('banner-text').innerHTML = d.banner.text;
-      el.style.display = 'block';
-      document.getElementById('navbar').style.top = el.offsetHeight + 'px';
-      document.querySelector('.mobile-menu').style.top = (64 + el.offsetHeight) + 'px';
-    }
-    const noShow = localStorage.getItem('ms_popup_no_show');
-    if (d.popup?.active && d.popup.title && noShow !== new Date().toDateString()) {
-      document.getElementById('popup-title').innerHTML = d.popup.title;
-      document.getElementById('popup-body').innerHTML = d.popup.body || '';
-      if (d.popup.btnText) document.getElementById('popup-btn').textContent = d.popup.btnText;
-      if (d.popup.btnLink) document.getElementById('popup-btn').href = d.popup.btnLink;
-      if (d.popup.imgSrc) {
-        document.getElementById('popup-img').src = d.popup.imgSrc;
-        document.getElementById('popup-img-wrap').style.display = 'block';
+
+    // 배너 — Firebase에서 읽기
+    db.ref('banner').once('value').then(snap => {
+      const banner = snap.val();
+      if (banner?.active && banner.text) {
+        const el = document.getElementById('event-banner');
+        document.getElementById('banner-text').innerHTML = banner.text;
+        el.style.display = 'block';
+        document.getElementById('navbar').style.top = el.offsetHeight + 'px';
+        document.querySelector('.mobile-menu').style.top = (64 + el.offsetHeight) + 'px';
       }
-      document.getElementById('popup-overlay').classList.add('active');
-    }
+    });
+
+    // 팝업 — Firebase에서 읽기
+    const noShow = localStorage.getItem('ms_popup_no_show');
+    db.ref('popup').once('value').then(snap => {
+      const popup = snap.val();
+      if (popup?.active && popup.title && noShow !== new Date().toDateString()) {
+        document.getElementById('popup-title').innerHTML = popup.title;
+        document.getElementById('popup-body').innerHTML = popup.body || '';
+        if (popup.btnText) document.getElementById('popup-btn').textContent = popup.btnText;
+        if (popup.btnLink) document.getElementById('popup-btn').href = popup.btnLink;
+        if (popup.imgSrc) {
+          document.getElementById('popup-img').src = popup.imgSrc;
+          document.getElementById('popup-img-wrap').style.display = 'block';
+        }
+        document.getElementById('popup-overlay').classList.add('active');
+      }
+    });
+
     if (d.heroImage) document.getElementById('hero-img').src = d.heroImage;
     if (d.gallery?.length > 0) {
       document.getElementById('gallery').style.display = 'block';

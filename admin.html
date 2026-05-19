@@ -178,6 +178,8 @@
       .price-row, .stats-grid, .pw-grid { grid-template-columns:1fr; }
     }
   </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
@@ -560,6 +562,18 @@
 <div id="toast"></div>
 
 <script>
+  // ─ Firebase 초기화 ─
+  firebase.initializeApp({
+    apiKey: "AIzaSyAdRzAwTmYrPVFlKsRukdFe74eI3Zc72Cs",
+    authDomain: "marrysafe-96312.firebaseapp.com",
+    databaseURL: "https://marrysafe-96312-default-rtdb.firebaseio.com",
+    projectId: "marrysafe-96312",
+    storageBucket: "marrysafe-96312.firebasestorage.app",
+    messagingSenderId: "711498547072",
+    appId: "1:711498547072:web:43cda2e5361b3575408b65"
+  });
+  const db = firebase.database();
+
   // ─ 유틸 ─
   const DEFAULT_PW = 'admin1234';
   function getData() { try { return JSON.parse(localStorage.getItem('ms_admin') || '{}'); } catch(e) { return {}; } }
@@ -746,27 +760,33 @@
   function loadAll() {
     const d = getData();
 
-    // 팝업
-    if (d.popup) {
-      document.getElementById('popup-active').checked = !!d.popup.active;
-      document.getElementById('popup-title-editor').innerHTML = d.popup.title || '';
-      document.getElementById('popup-body-editor').innerHTML = d.popup.body || '';
-      document.getElementById('popup-btn-text').value = d.popup.btnText || '';
-      document.getElementById('popup-btn-link').value = d.popup.btnLink || '';
-      if (d.popup.imgSrc) {
-        document.getElementById('popup-img-thumb').src = d.popup.imgSrc;
-        document.getElementById('popup-img-preview').style.display = 'block';
-        document.getElementById('popup-img-zone').style.display = 'none';
+    // 팝업 — Firebase에서 읽기
+    db.ref('popup').once('value').then(snap => {
+      const popup = snap.val();
+      if (popup) {
+        document.getElementById('popup-active').checked = !!popup.active;
+        document.getElementById('popup-title-editor').innerHTML = popup.title || '';
+        document.getElementById('popup-body-editor').innerHTML = popup.body || '';
+        document.getElementById('popup-btn-text').value = popup.btnText || '';
+        document.getElementById('popup-btn-link').value = popup.btnLink || '';
+        if (popup.imgSrc) {
+          document.getElementById('popup-img-thumb').src = popup.imgSrc;
+          document.getElementById('popup-img-preview').style.display = 'block';
+          document.getElementById('popup-img-zone').style.display = 'none';
+        }
+        refreshBadge('popup');
       }
-      refreshBadge('popup');
-    }
+    });
 
-    // 배너
-    if (d.banner) {
-      document.getElementById('banner-active').checked = !!d.banner.active;
-      document.getElementById('banner-text').value = d.banner.text || '';
-      refreshBadge('banner');
-    }
+    // 배너 — Firebase에서 읽기
+    db.ref('banner').once('value').then(snap => {
+      const banner = snap.val();
+      if (banner) {
+        document.getElementById('banner-active').checked = !!banner.active;
+        document.getElementById('banner-text').value = banner.text || '';
+        refreshBadge('banner');
+      }
+    });
 
     // 히어로
     if (d.heroImage) {
@@ -867,14 +887,18 @@
       btnLink: document.getElementById('popup-btn-link').value,
       imgSrc: document.getElementById('popup-img-thumb').src || '',
     };
-    setData(d); refreshBadge('popup'); toast('팝업 설정이 저장되었습니다.');
+    setData(d);
+    db.ref('popup').set(d.popup);
+    refreshBadge('popup'); toast('팝업 설정이 저장되었습니다.');
   }
 
   // ─ 배너 ─
   function saveBanner() {
     const d = getData();
     d.banner = { active: document.getElementById('banner-active').checked, text: document.getElementById('banner-text').value };
-    setData(d); refreshBadge('banner'); toast('배너가 저장되었습니다.');
+    setData(d);
+    db.ref('banner').set(d.banner);
+    refreshBadge('banner'); toast('배너가 저장되었습니다.');
   }
 
   // ─ 히어로 이미지 ─
