@@ -860,28 +860,19 @@
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-  // ── Firebase 초기화 ──
-  firebase.initializeApp({
-    apiKey: "AIzaSyAdRzAwTmYrPVFlKsRukdFe74eI3Zc72Cs",
-    authDomain: "marrysafe-96312.firebaseapp.com",
-    databaseURL: "https://marrysafe-96312-default-rtdb.firebaseio.com",
-    projectId: "marrysafe-96312",
-    storageBucket: "marrysafe-96312.firebasestorage.app",
-    messagingSenderId: "711498547072",
-    appId: "1:711498547072:web:43cda2e5361b3575408b65"
-  });
-  const db = firebase.database();
+  // ── Firebase REST API ──
+  const FB_URL = 'https://marrysafe-96312-default-rtdb.firebaseio.com';
+  function fbGet(path) {
+    return fetch(`${FB_URL}/${path}.json`).then(r => r.json());
+  }
 
   // ── 어드민 데이터 로드 ──
   function loadAdminData() {
     const d = JSON.parse(localStorage.getItem('ms_admin') || '{}');
 
     // 배너 — Firebase에서 읽기
-    db.ref('banner').once('value').then(snap => {
-      const banner = snap.val();
+    fbGet('banner').then(banner => {
       if (banner?.active && banner.text) {
         const el = document.getElementById('event-banner');
         document.getElementById('banner-text').innerHTML = banner.text;
@@ -893,8 +884,7 @@
 
     // 팝업 — Firebase에서 읽기
     const noShow = localStorage.getItem('ms_popup_no_show');
-    db.ref('popup').once('value').then(snap => {
-      const popup = snap.val();
+    fbGet('popup').then(popup => {
       if (popup?.active && popup.title && noShow !== new Date().toDateString()) {
         document.getElementById('popup-title').innerHTML = popup.title;
         document.getElementById('popup-body').innerHTML = popup.body || '';

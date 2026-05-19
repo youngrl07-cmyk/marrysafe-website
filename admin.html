@@ -178,8 +178,6 @@
       .price-row, .stats-grid, .pw-grid { grid-template-columns:1fr; }
     }
   </style>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
@@ -562,17 +560,15 @@
 <div id="toast"></div>
 
 <script>
-  // ─ Firebase 초기화 ─
-  firebase.initializeApp({
-    apiKey: "AIzaSyAdRzAwTmYrPVFlKsRukdFe74eI3Zc72Cs",
-    authDomain: "marrysafe-96312.firebaseapp.com",
-    databaseURL: "https://marrysafe-96312-default-rtdb.firebaseio.com",
-    projectId: "marrysafe-96312",
-    storageBucket: "marrysafe-96312.firebasestorage.app",
-    messagingSenderId: "711498547072",
-    appId: "1:711498547072:web:43cda2e5361b3575408b65"
-  });
-  const db = firebase.database();
+  // ─ Firebase REST API ─
+  const FB_URL = 'https://marrysafe-96312-default-rtdb.firebaseio.com';
+  async function fbSet(path, data) {
+    await fetch(`${FB_URL}/${path}.json`, { method:'PUT', body:JSON.stringify(data) });
+  }
+  async function fbGet(path) {
+    const r = await fetch(`${FB_URL}/${path}.json`);
+    return r.json();
+  }
 
   // ─ 유틸 ─
   const DEFAULT_PW = 'admin1234';
@@ -761,8 +757,7 @@
     const d = getData();
 
     // 팝업 — Firebase에서 읽기
-    db.ref('popup').once('value').then(snap => {
-      const popup = snap.val();
+    fbGet('popup').then(popup => {
       if (popup) {
         document.getElementById('popup-active').checked = !!popup.active;
         document.getElementById('popup-title-editor').innerHTML = popup.title || '';
@@ -779,8 +774,7 @@
     });
 
     // 배너 — Firebase에서 읽기
-    db.ref('banner').once('value').then(snap => {
-      const banner = snap.val();
+    fbGet('banner').then(banner => {
       if (banner) {
         document.getElementById('banner-active').checked = !!banner.active;
         document.getElementById('banner-text').value = banner.text || '';
@@ -888,7 +882,7 @@
       imgSrc: document.getElementById('popup-img-preview').style.display === 'block' ? document.getElementById('popup-img-thumb').src : '',
     };
     setData(d);
-    db.ref('popup').set(d.popup);
+    fbSet('popup', d.popup);
     refreshBadge('popup'); toast('팝업 설정이 저장되었습니다.');
   }
 
@@ -897,7 +891,7 @@
     const d = getData();
     d.banner = { active: document.getElementById('banner-active').checked, text: document.getElementById('banner-text').value };
     setData(d);
-    db.ref('banner').set(d.banner);
+    fbSet('banner', d.banner);
     refreshBadge('banner'); toast('배너가 저장되었습니다.');
   }
 
