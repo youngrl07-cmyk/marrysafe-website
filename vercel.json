@@ -1,5 +1,13 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.marrysafe.co.kr" }],
+      "destination": "https://marrysafe.co.kr/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/google6d7a74089cab94c8.html",
