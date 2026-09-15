@@ -1433,7 +1433,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevBodyBg  = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
   // html2pdf CSS 파서가 CSS 변수(--xxx)와 외부 폰트를 파싱하면 오류 발생 → 우회 후 복원
-  const styleEl = document.querySelector('style');
+  const styleEl = document.getElementById('main-style');
   styleEl.setAttribute('type', 'text/plain');
   const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
   fontLinks.forEach(function(el) { el.parentNode && el.parentNode.removeChild(el); });
