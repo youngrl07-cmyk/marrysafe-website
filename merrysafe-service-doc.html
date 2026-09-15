@@ -1305,7 +1305,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
       margin: [10, 10, 10, 10],
       filename: filename,
       image: { type: 'jpeg', quality: isMobile ? 0.85 : 0.95 },
-      html2canvas: {
+html2canvas: {
         scale:      renderScale,
         useCORS:    true,
         logging:    false,
@@ -1316,8 +1316,15 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
           clonedDoc.querySelectorAll('link[rel="stylesheet"]').forEach(function(el) { el.remove(); });
         },
       },
+      jsPDF: {
+        unit:        'mm',
+        format:      'a4',
+        orientation: 'portrait'
+      },
+      pagebreak: { mode: ['css'] }
+    };
 
-    let pdfArrayBuffer = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
+    let pdfArrayBuffer = await html2pdf()
 
     const MB = 1024 * 1024;
     if (pdfArrayBuffer.byteLength > 8 * MB) {
