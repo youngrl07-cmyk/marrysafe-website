@@ -1305,10 +1305,17 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
       margin: [10, 10, 10, 10],
       filename: filename,
       image: { type: 'jpeg', quality: isMobile ? 0.85 : 0.95 },
-      html2canvas: { scale: renderScale, useCORS: true, logging: false, allowTaint: true, scrollX: 0, scrollY: 0 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['css'] }
-    };
+      html2canvas: {
+        scale:      renderScale,
+        useCORS:    true,
+        logging:    false,
+        allowTaint: true,
+        scrollX:    0,
+        scrollY:    0,
+        onclone: function(clonedDoc) {
+          clonedDoc.querySelectorAll('link[rel="stylesheet"]').forEach(function(el) { el.remove(); });
+        },
+      },
 
     let pdfArrayBuffer = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
 
