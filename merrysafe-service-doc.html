@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메리세이프 서비스 사전 서류 작성</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap');
-
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
     --black:#0D0D0D; --dark:#1C1C1C; --mid:#4A4A4A;
@@ -16,7 +17,6 @@
 
   body { font-family:'Noto Sans KR',sans-serif; color:var(--dark); background:#EBEBEA; font-size:10pt; line-height:1.7; padding-bottom:76px; }
 
-  /* ── 상단 바 ── */
   .print-bar { background:var(--dark); color:#fff; text-align:center; padding:.8rem 1rem; position:sticky; top:0; z-index:200; display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; }
   .print-bar button { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.3); padding:.4rem 1.2rem; font-size:.82rem; cursor:pointer; font-family:inherit; font-weight:400; }
   .print-bar span { font-size:.82rem; opacity:.75; }
@@ -26,34 +26,28 @@
     .doc-page { box-shadow:none; margin:0; }
   }
 
-  /* ── 페이지 레이아웃 ── */
   .doc-page { max-width:210mm; margin:1.5rem auto; padding:20mm 18mm; background:#fff; box-shadow:0 2px 24px rgba(0,0,0,.1); }
 
-  /* ── 헤더 ── */
   .doc-header { text-align:center; border-bottom:2.5px solid var(--dark); padding-bottom:1rem; margin-bottom:1.5rem; }
   .doc-logo { font-family:'Noto Serif KR',serif; font-size:18pt; font-weight:600; letter-spacing:.15em; }
   .doc-logo span { font-size:10pt; font-weight:300; color:var(--muted); margin-left:.5rem; }
   .doc-title { font-size:14pt; font-weight:500; margin-top:.5rem; letter-spacing:.05em; }
   .doc-subtitle { font-size:9pt; color:var(--muted); margin-top:.35rem; }
 
-  /* ── 섹션 ── */
-  .section { margin-bottom:2rem; page-break-inside:avoid; }
+  .section { margin-bottom:2rem; }
   .section-title { background:var(--dark); color:#fff; font-size:10pt; font-weight:500; letter-spacing:.08em; padding:.45rem 1rem; margin-bottom:1rem; display:flex; align-items:center; gap:.5rem; }
   .section-title .icon { font-size:11pt; }
 
-  /* ── 테이블 ── */
   table { width:100%; border-collapse:collapse; font-size:9.5pt; margin-bottom:.75rem; }
   th { background:#F0F0EE; border:1px solid var(--border); padding:.5rem .75rem; font-weight:500; text-align:left; color:var(--dark); }
   td { border:1px solid var(--border); padding:.45rem .75rem; color:var(--mid); vertical-align:top; }
 
-  /* ── 기본 폼 그리드 ── */
   .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
   .info-cell { border:1px solid var(--border); padding:.5rem .75rem; }
   .info-cell:nth-child(odd) { border-right:none; }
   .info-label { font-size:8.5pt; color:var(--muted); margin-bottom:.2rem; }
   .info-cell.full { grid-column:1/-1; border-right:1px solid var(--border); }
 
-  /* ── contenteditable 입력 ── */
   .f {
     border-bottom:1px solid var(--border);
     min-height:1.5rem;
@@ -68,7 +62,6 @@
   .f:focus { background:#FFFDE7; box-shadow:0 0 0 1px #bbb; }
   .f:empty::before { content:attr(data-ph); color:#bbb; pointer-events:none; font-style:italic; }
 
-  /* ── 체크박스 / 라디오 ── */
   input.dc {
     appearance:none; -webkit-appearance:none;
     width:13px; height:13px;
@@ -89,41 +82,33 @@
   .opts { display:flex; flex-wrap:wrap; gap:.3rem .8rem; }
   .opts-col { display:flex; flex-direction:column; gap:.25rem; }
 
-  /* ── 상황 박스 ── */
   .situation { border:1px solid var(--border); margin-bottom:1rem; }
   .situation-head { background:#F7F7F5; border-bottom:1px solid var(--border); padding:.5rem .85rem; font-weight:500; font-size:9.5pt; }
   .situation-body { padding:.75rem .85rem; font-size:9pt; color:var(--mid); }
 
-  /* ── 안내 박스 ── */
   .warn-box { border:1px solid #E0AAAA; background:#FDF0F0; padding:.75rem 1rem; margin:.75rem 0; font-size:9pt; }
   .warn-box strong { color:#8B0000; }
   .info-box { border:1px solid #AACCE0; background:#F0F7FD; padding:.75rem 1rem; margin:.75rem 0; font-size:9pt; }
   .tip-box { border-left:3px solid var(--dark); background:#F7F7F5; padding:.6rem 1rem; margin:.75rem 0; font-size:9pt; }
 
-  /* ── 서명란 ── */
   .sign-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1rem; }
   .sign-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:1rem; }
   .sign-box { border:1px solid var(--border); padding:.75rem 1rem; }
   .sign-label { font-size:8.5pt; color:var(--muted); margin-bottom:.5rem; }
   .sign-line { border-bottom:1px solid var(--border); margin-top:2.5rem; }
 
-  /* ── 동의 박스 ── */
   .agree-box { border:2px solid var(--dark); padding:1rem 1.5rem; margin:1rem 0; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
   .agree-box input.dc { width:15px; height:15px; }
   .agree-text { font-size:10pt; font-weight:500; }
 
-  /* ── 페이지 구분 ── */
   .page-break { page-break-before:always; border-top:2px dashed var(--border); margin:2.5rem 0; padding-top:2rem; }
   @media print { .page-break { border:none; margin:0; padding:0; } }
 
-  /* ── 조항 ── */
   .clause { margin-bottom:.6rem; font-size:9.5pt; }
   .clause-num { font-weight:500; margin-right:.3rem; }
 
-  /* ── 푸터 ── */
   .doc-footer { text-align:center; font-size:8pt; color:var(--muted); margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); }
 
-  /* ── 제출 패널 ── */
   .submit-panel {
     position:fixed; bottom:0; left:0; right:0;
     background:#1C1C1C; color:#fff;
@@ -140,6 +125,21 @@
   #btn-submit:hover { background:#388E3C; }
   #btn-submit:disabled { background:#555; cursor:not-allowed; }
   #submit-result { font-size:.85rem; min-width:200px; }
+
+  @media (max-width:600px) {
+    .submit-panel { flex-direction:column; gap:.4rem; padding:.6rem 1rem; }
+    .submit-hint { display:none; }
+    #btn-submit { width:100%; white-space:nowrap; padding:.65rem 1rem; font-size:.92rem; }
+    #submit-result { width:100%; min-width:0; text-align:center; }
+    .b-table thead { display:none; }
+    .b-table, .b-table tbody, .b-table tr, .b-table td { display:block; width:100%; box-sizing:border-box; }
+    .b-table tr { border:1px solid var(--border); border-radius:3px; margin-bottom:.75rem; overflow:hidden; }
+    .b-table td { padding:.45rem .7rem; border:none; border-bottom:1px solid #eee; font-size:9pt; }
+    .b-table td:last-child { border-bottom:none; }
+    .b-table td[data-label]::before { content:attr(data-label); display:block; font-size:7.5pt; font-weight:600; color:var(--muted); margin-bottom:.2rem; }
+    .b-table td.b-row-header { background:#f2f2f2; font-weight:700; font-size:9.5pt; }
+    .b-table td.b-row-header::before { display:none; }
+  }
 </style>
 </head>
 <body>
@@ -151,33 +151,34 @@
 
 <div class="doc-page" id="doc-page">
 
-<!-- ══════════════════════════════════════════════
-     문서 1: 사전 체크리스트
-══════════════════════════════════════════════ -->
-
 <div class="doc-header">
   <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
   <div class="doc-title">서비스 사전 체크리스트</div>
-  <div class="doc-subtitle">본 체크리스트는 서비스 이용계약서의 부속 서류로서 계약과 동일한 효력을 가집니다.<br>예식일 <strong>3~5일 전</strong>까지 작성하여 제출해 주십시오.</div>
+  <div class="doc-subtitle">본 체크리스트는 서비스 이용계약서의 부속 서류로서 계약과 동일한 효력을 가집니다.<br>예식일 <strong>3~5일 전</strong>까지 작성하여 제출해 주십시오.<br>신랑·신부 양측 서비스를 이용하시는 경우, 일부 항목에 신랑님·신부님의 정보를 각각 기재하는 란이 있으니 참고 부탁드립니다.</div>
 </div>
 
-<!-- A. 예식 기본 정보 -->
 <div class="section">
   <div class="section-title"><span class="icon">📋</span> A. 예식 기본 정보</div>
   <div class="info-grid">
-    <div class="info-cell">
-      <div class="info-label">고객 성명</div>
-      <div class="f" id="f-name" contenteditable="true" data-ph="성명 입력"></div>
+    <div class="info-cell full">
+      <div class="info-label">계약자 성명</div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
+        <div class="f" id="f-name" contenteditable="true" data-ph="계약자 성명" style="min-width:80px;flex:1;"></div>
+        <span style="font-size:8.5pt;color:var(--muted);white-space:nowrap;">신랑:</span>
+        <div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;flex:1;"></div>
+        <span style="font-size:8.5pt;color:var(--muted);white-space:nowrap;">신부:</span>
+        <div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;flex:1;"></div>
+      </div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:none;">
       <div class="info-label">연락처</div>
       <div class="f" contenteditable="true" data-ph="010-0000-0000"></div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:1px solid var(--border);">
       <div class="info-label">예식 일시</div>
       <div class="f" id="f-date" contenteditable="true" data-ph="____년 ____월 ____일  ____시 ____분"></div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:none;">
       <div class="info-label">서비스 유형</div>
       <div class="opts" style="margin-top:.3rem;">
         <label class="cl"><input type="radio" class="dc" name="service-type" value="4인2팀(양측)"> 4인2팀(양측)</label>
@@ -185,11 +186,11 @@
         <label class="cl"><input type="radio" class="dc" name="service-type" value="2인1팀(신부측)"> 2인1팀(신부측)</label>
       </div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell" style="border-right:1px solid var(--border);">
       <div class="info-label">예식장명</div>
       <div class="f" id="f-hall" contenteditable="true" data-ph="예식장 이름 입력"></div>
     </div>
-    <div class="info-cell">
+    <div class="info-cell full">
       <div class="info-label">홀 명</div>
       <div class="f" contenteditable="true" data-ph="홀 이름 입력"></div>
     </div>
@@ -197,165 +198,729 @@
       <div class="info-label">예식장 주소</div>
       <div class="f" contenteditable="true" data-ph="주소 입력"></div>
     </div>
+    <div class="info-cell full">
+      <div class="info-label">예상 하객 수</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;font-size:9pt;">
+        <span style="color:var(--muted);white-space:nowrap;">총</span>
+        <div class="f" contenteditable="true" data-ph="약 ____명" style="min-width:60px;flex:1;"></div>
+        <span style="color:var(--muted);white-space:nowrap;">신랑측:</span>
+        <div class="f" contenteditable="true" data-ph="____명" style="min-width:50px;flex:1;"></div>
+        <span style="color:var(--muted);white-space:nowrap;">신부측:</span>
+        <div class="f" contenteditable="true" data-ph="____명" style="min-width:50px;flex:1;"></div>
+      </div>
+    </div>
     <div class="info-cell" style="border-right:none;">
-      <div class="info-label">예상 하객 수 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(4인2팀의 경우 합산 하객 수)</span></div>
-      <div class="f" contenteditable="true" data-ph="약 ________ 명"></div>
+      <div class="info-label">무료 주차 시간</div>
+      <div class="f" contenteditable="true" data-ph="예: 2시간"></div>
     </div>
     <div class="info-cell" style="border-right:1px solid var(--border);">
-      <div class="info-label">주차 정보</div>
-      <div class="f" contenteditable="true" data-ph="2시간 무료 주차. 이후 10분당 1,000원"></div>
+      <div class="info-label">초과 주차 요금</div>
+      <div class="f" contenteditable="true" data-ph="예: 10분당 1,000원"></div>
     </div>
-    <div class="info-cell" style="border-right:none;">
-      <div class="info-label">혼주 (신랑 측)</div>
-      <div class="f" contenteditable="true" data-ph="성명: ________  ☎ 010-____-____"></div>
+    <div class="info-cell full">
+      <div class="info-label">주차권 등록 위치 및 추가 안내</div>
+      <div class="f" contenteditable="true" data-ph="예: 피로연장 입구 / 발렛 이용 가능 / 만차 시 인근 공영주차장 이용"></div>
     </div>
-    <div class="info-cell" style="border-right:1px solid var(--border);">
-      <div class="info-label">혼주 (신부 측)</div>
-      <div class="f" contenteditable="true" data-ph="성명: ________  ☎ 010-____-____"></div>
+    <div class="info-cell full">
+      <div class="info-label" style="margin-bottom:.4rem;">혼주 정보 <span style="font-weight:300;color:var(--muted);font-size:8pt;">※ 한 측 서비스만 이용 시 반대측은 공란으로 두세요.</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;">
+        <div>
+          <div style="font-size:8.5pt;color:var(--muted);margin-bottom:.25rem;">신랑측 어머니</div>
+          <div class="f" contenteditable="true" data-ph="성함  ☎ 010-____-____"></div>
+        </div>
+        <div>
+          <div style="font-size:8.5pt;color:var(--muted);margin-bottom:.25rem;">신부측 어머니</div>
+          <div class="f" contenteditable="true" data-ph="성함  ☎ 010-____-____"></div>
+        </div>
+        <div>
+          <div style="font-size:8.5pt;color:var(--muted);margin-bottom:.25rem;">신랑측 아버지</div>
+          <div class="f" contenteditable="true" data-ph="성함  ☎ 010-____-____"></div>
+        </div>
+        <div>
+          <div style="font-size:8.5pt;color:var(--muted);margin-bottom:.25rem;">신부측 아버지</div>
+          <div class="f" contenteditable="true" data-ph="성함  ☎ 010-____-____"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- B. 인수 대상자 정보 -->
+<div class="section" style="page-break-before:always;">
+  <div class="section-title"><span class="icon">🏛</span> A-2. 웨딩홀 안내 정보</div>
+  <p style="font-size:9pt;color:var(--muted);margin-bottom:.75rem;">하객 안내에 활용됩니다. 모르는 항목은 공란으로 두세요.</p>
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="info-label">연회장 이름 / 층수</div>
+      <div class="f" contenteditable="true" data-ph="예: 35층 그랜드볼룸"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">식사 가능 시간 (연회장 오픈)</div>
+      <div class="f" contenteditable="true" data-ph="예: 예식 시작 1시간 전 / 오후 3시부터"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">신부대기실 위치</div>
+      <div class="f" contenteditable="true" data-ph="예: 35층, 엘리베이터 좌측"></div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">화장실 위치</div>
+      <div class="f" contenteditable="true" data-ph="예: 엘리베이터 끝 쪽, 각 층"></div>
+    </div>
+    <div class="info-cell full">
+      <div class="info-label">ATM 위치</div>
+      <div class="f" contenteditable="true" data-ph="예: B1층 에스컬레이터 뒤편 / 1층 편의점"></div>
+    </div>
+    <div class="info-cell full">
+      <div class="info-label">기타 하객 안내 사항</div>
+      <div class="f" contenteditable="true" data-ph="예: 예식장 입장은 엘리베이터 이용 / 웨딩홀 내 음식물 반입 금지 등" style="min-height:2.5rem;"></div>
+    </div>
+  </div>
+</div>
+
 <div class="section">
-  <div class="section-title"><span class="icon">👤</span> B. 인수 대상자 정보</div>
-  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">
-    서비스 종료 후 축의금 및 기록물을 인계받을 분의 정보를 기재합니다.<br>
-    인수 시 <strong>① 신분증 실물 대조 + ② 사전 등록 전화번호 유선 확인 + ③ 인수인계 확인서 서명</strong>의 3단계 확인을 거칩니다.
-  </p>
+  <div class="section-title"><span class="icon">🍽</span> A-3. 식사 안내</div>
+  <table>
+    <thead><tr><th style="width:35%">항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>식사 형태</td>
+        <td>
+          <div class="opts">
+            <label class="cl"><input type="radio" class="dc" name="meal-type"> 뷔페</label>
+            <label class="cl"><input type="radio" class="dc" name="meal-type"> 한상 (코스)</label>
+            <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="meal-type"> 기타:</label>
+              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">🎫</span> A-4. 식권 연령 기준 <span style="font-size:9pt;font-weight:300;">(웨딩홀 기준)</span></div>
+  <p style="font-size:9pt;color:var(--muted);margin-bottom:.75rem;">웨딩홀에서 안내받은 연령별 식권 기준을 기재해 주세요.</p>
   <table>
     <thead>
       <tr>
-        <th style="width:14%">구분</th>
-        <th style="width:18%">성명</th>
-        <th style="width:8%">성별</th>
-        <th style="width:22%">전화번호</th>
-        <th>신분증 종류</th>
+        <th style="width:28%">구분</th>
+        <th style="width:36%">해당 연령 / 출생연도</th>
+        <th>비고</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>1순위 인수자</td>
-        <td><div class="f" contenteditable="true" data-ph="성명"></div></td>
-        <td><div class="f" contenteditable="true" data-ph="남/여"></div></td>
-        <td><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
-        <td>
-          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
-          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
-          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
-          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.15rem;">
-            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
-            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
-          </div>
-        </td>
+        <td>무료 (식권 불필요)</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 4세 이하 / 2022년생~"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="예: 식권 없이 입장 가능"></div></td>
       </tr>
       <tr>
-        <td>2순위 인수자<br><span style="font-size:8pt;color:var(--muted)">(1순위 부재 시)</span></td>
-        <td><div class="f" contenteditable="true" data-ph="성명"></div></td>
-        <td><div class="f" contenteditable="true" data-ph="남/여"></div></td>
-        <td><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
-        <td>
-          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
-          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
-          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
-          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.15rem;">
-            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
-            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
-          </div>
-        </td>
+        <td>소인 식권</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 5~7세 / 2019~2021년생"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="예: 소인 식권 별도 수령"></div></td>
       </tr>
       <tr>
-        <td>비상 연락자<br><span style="font-size:8pt;color:var(--muted)">(긴급 연락 전용)</span></td>
-        <td><div class="f" contenteditable="true" data-ph="성명"></div></td>
-        <td><div class="f" contenteditable="true" data-ph="남/여"></div></td>
-        <td><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
-        <td style="font-size:8.5pt;color:var(--muted)">승인 권한 없음, 긴급 연락 전용</td>
+        <td>일반 식권</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 8세 이상 / 2018년생~"></div></td>
+        <td><div class="f" contenteditable="true" data-ph="예: 일반 식권 필요"></div></td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- C. 식권 배부 기준 -->
+<div class="section" style="page-break-before:always;">
+  <div class="section-title"><span class="icon">📢</span> A-5. 하객에게 추가 안내할 내용</div>
+  <p style="font-size:9pt;color:var(--muted);margin-bottom:.75rem;">축의대에서 하객분들께 직접 안내해 드릴 내용을 자유롭게 기재해 주세요.</p>
+  <div style="font-weight:700;font-size:10pt;margin-bottom:.4rem;">신랑 측</div>
+  <table>
+    <thead><tr><th style="width:8%">No</th><th>안내 내용</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><div class="f" contenteditable="true" data-ph="예: 포토존은 3층 로비에 있습니다." style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+      <tr><td>2</td><td><div class="f" contenteditable="true" data-ph="예: 답례품은 출구에서 수령하실 수 있습니다." style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+      <tr><td>3</td><td><div class="f" contenteditable="true" data-ph="예: 신랑·신부 테이블 위치 안내" style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section" style="page-break-before:always;">
+  <div class="section-title"><span class="icon">📢</span> A-5. 하객에게 추가 안내할 내용</div>
+  <p style="font-size:9pt;color:var(--muted);margin-bottom:.75rem;">축의대에서 하객분들께 직접 안내해 드릴 내용을 자유롭게 기재해 주세요.</p>
+  <div style="font-weight:700;font-size:10pt;margin-bottom:.4rem;">신부 측</div>
+  <table>
+    <thead><tr><th style="width:8%">No</th><th>안내 내용</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><div class="f" contenteditable="true" data-ph="예: 포토존은 3층 로비에 있습니다." style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+      <tr><td>2</td><td><div class="f" contenteditable="true" data-ph="예: 답례품은 출구에서 수령하실 수 있습니다." style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+      <tr><td>3</td><td><div class="f" contenteditable="true" data-ph="예: 신랑·신부 테이블 위치 안내" style="min-height:1.8rem;border-bottom:none;"></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">👤</span> B. 인수 대상자 정보</div>
+  <p style="font-size:9pt;color:var(--mid);margin-bottom:.5rem;">
+    서비스 종료 후 축의금 및 기록물을 인계받을 분의 정보를 기재합니다.<br>
+    인수 시 <strong>① 신분증 실물 대조 + ② 사전 등록 전화번호 유선 확인 + ③ 인수인계 확인서 서명</strong>의 3단계 확인을 거칩니다.
+  </p>
+  <div class="info-box" style="font-size:8.5pt;margin-bottom:.75rem;">
+    ⚠️ <strong>인수자 지정 안내:</strong> 원칙적으로 신랑·신부 본인은 인수자로 지정하실 수 없습니다. 형제·자매·친척 등 당일 여유가 있는 분으로 지정해 주시기 바랍니다.
+  </div>
+  <p style="font-size:8.5pt;color:var(--mid);margin-bottom:.6rem;">※ 한 측 서비스만 이용 시, 해당하지 않는 쪽 표는 공란으로 두세요.</p>
+
+  <div style="font-weight:700;font-size:10pt;margin-bottom:.35rem;">신랑 측</div>
+  <table class="b-table" style="margin-bottom:1rem;">
+    <thead>
+      <tr>
+        <th style="width:13%">구분</th>
+        <th style="width:15%">성명</th>
+        <th style="width:14%">본인과의 관계</th>
+        <th style="width:7%">성별</th>
+        <th style="width:20%">전화번호</th>
+        <th>신분증 종류<br><span style="font-weight:300;font-size:8pt;">(인수인계 시 확인 가능한 신분증 선택)</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b-row-header">1순위 인수자</td>
+        <td data-label="성명"><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td data-label="본인과의 관계"><div class="f" contenteditable="true" data-ph="예: 오빠, 친척"></div></td>
+        <td data-label="성별"><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td data-label="전화번호"><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td data-label="신분증 종류">
+          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
+          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.15rem;">
+            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
+            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="b-row-header">2순위 인수자<br><span style="font-size:8pt;font-weight:400;">(1순위 부재 시)</span></td>
+        <td data-label="성명"><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td data-label="본인과의 관계"><div class="f" contenteditable="true" data-ph="예: 언니, 삼촌"></div></td>
+        <td data-label="성별"><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td data-label="전화번호"><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td data-label="신분증 종류">
+          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
+          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.15rem;">
+            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
+            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="b-row-header">비상 연락자<br><span style="font-size:8pt;font-weight:400;">(긴급 연락 전용)</span></td>
+        <td data-label="성명"><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td data-label="본인과의 관계"><div class="f" contenteditable="true" data-ph="예: 부모님, 형제"></div></td>
+        <td data-label="성별"><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td data-label="전화번호"><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td data-label="비고" style="font-size:8.5pt;color:var(--muted)">승인 권한 없음, 긴급 연락 전용</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="font-weight:700;font-size:10pt;margin-bottom:.35rem;">신부 측</div>
+  <table class="b-table">
+    <thead>
+      <tr>
+        <th style="width:13%">구분</th>
+        <th style="width:15%">성명</th>
+        <th style="width:14%">본인과의 관계</th>
+        <th style="width:7%">성별</th>
+        <th style="width:20%">전화번호</th>
+        <th>신분증 종류<br><span style="font-weight:300;font-size:8pt;">(인수인계 시 확인 가능한 신분증 선택)</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b-row-header">1순위 인수자</td>
+        <td data-label="성명"><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td data-label="본인과의 관계"><div class="f" contenteditable="true" data-ph="예: 오빠, 친척"></div></td>
+        <td data-label="성별"><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td data-label="전화번호"><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td data-label="신분증 종류">
+          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
+          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.15rem;">
+            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
+            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="b-row-header">2순위 인수자<br><span style="font-size:8pt;font-weight:400;">(1순위 부재 시)</span></td>
+        <td data-label="성명"><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td data-label="본인과의 관계"><div class="f" contenteditable="true" data-ph="예: 언니, 삼촌"></div></td>
+        <td data-label="성별"><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td data-label="전화번호"><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td data-label="신분증 종류">
+          <label class="cl"><input type="checkbox" class="dc"> 주민등록증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 운전면허증</label>
+          <label class="cl"><input type="checkbox" class="dc"> 여권</label>
+          <div style="display:flex;align-items:center;gap:.4rem;margin-top:.15rem;">
+            <label class="cl" style="margin:0;"><input type="checkbox" class="dc"> 기타:</label>
+            <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="b-row-header">비상 연락자<br><span style="font-size:8pt;font-weight:400;">(긴급 연락 전용)</span></td>
+        <td data-label="성명"><div class="f" contenteditable="true" data-ph="성명"></div></td>
+        <td data-label="본인과의 관계"><div class="f" contenteditable="true" data-ph="예: 부모님, 형제"></div></td>
+        <td data-label="성별"><div class="f" contenteditable="true" data-ph="남/여"></div></td>
+        <td data-label="전화번호"><div class="f" contenteditable="true" data-ph="010-____-____"></div></td>
+        <td data-label="비고" style="font-size:8.5pt;color:var(--muted)">승인 권한 없음, 긴급 연락 전용</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <div class="section">
   <div class="section-title"><span class="icon">🎫</span> C. 식권 배부 기준</div>
 
-  <p style="font-size:9pt;font-weight:500;margin-bottom:.5rem;">C-1. 기본 배부 기준</p>
+  <div class="info-box" style="display:flex;align-items:center;gap:1.5rem;font-size:9pt;padding:.6rem .9rem;margin-bottom:.85rem;">
+    <strong>신랑·신부 기준</strong>
+    <label class="cl" style="margin:0;cursor:pointer;"><input type="radio" name="c-mode" value="same" checked class="dc"> 양측 기준 같음</label>
+    <label class="cl" style="margin:0;cursor:pointer;"><input type="radio" name="c-mode" value="split" class="dc"> 기준 다름 (신랑측·신부측 각각 입력)</label>
+  </div>
+
+  <div id="c-unified">
+    <p style="font-size:9pt;font-weight:500;margin-bottom:.5rem;">C-1. 기본 배부 기준</p>
+    <table>
+      <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>식권 배부 기준 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(택 1)</span></td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="ticket-basis"> 축의금 납부자에 한해 배부</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-basis"> 모든 하객에게 배부</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-basis"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>1인당 식권 수량</td>
+          <td>
+            <div class="opts-col">
+              <div class="opts">
+                <label class="cl"><input type="radio" class="dc" name="ticket-count"> 1매</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count"> 2매</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count"> 봉투 수량대로</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count"> 요청 수량대로 (상식적인 수량)</label>
+              </div>
+              <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-count"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>잔여 식권 처리</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="ticket-remain"> 인수 대상자에게 함께 전달</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-remain"> 예식장에 반환</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-remain"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-2. 축의금 없이 식권만 요청하는 하객 대응 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+    <table>
+      <thead><tr><th style="width:35%">상황</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>축의금 없이 식권만 요청</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="no-cash"> 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="no-cash"> 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</label>
+              <label class="cl"><input type="radio" class="dc" name="no-cash"> 혼주 확인 후 판단</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="no-cash"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>봉투가 비어있는 경우<br><span style="font-size:8.5pt;color:var(--muted);">(비상식적인 소액 포함)</span></td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부 (소란 방지)</label>
+              <label class="cl"><input type="radio" class="dc" name="empty-env"> 혼주 즉시 유선 확인 후 판단</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="empty-env"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-3. 계좌이체 주장 하객 응대 기준 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+    <table>
+      <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>이체 내역 확인 여부</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="transfer"> 하객 이체 화면(캡처) 제시 요청 후 확인</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer"> 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer"> 이체 확인 없이 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer"> 혼주 확인 후 판단</label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>이체 확인용 계좌<br><span style="font-size:8.5pt;color:var(--muted)">(확인 선택 시 기재)</span></td>
+          <td>
+            <div style="display:flex;flex-direction:column;gap:.35rem;font-size:9pt;">
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">① 본인</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">② 아버지</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">③ 어머니</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="font-size:8.5pt;">📌 메리세이프는 이체 사실의 진위를 최종 확인할 의무를 부담하지 않으며, 고객이 선택한 기준에 따라 응대합니다.</div>
+  </div>
+
+  <div id="c-split" style="display:none;">
+    <div style="font-weight:700;font-size:10pt;margin-bottom:.4rem;">신랑 측</div>
+    <p style="font-size:9pt;font-weight:500;margin-bottom:.5rem;">C-1. 기본 배부 기준</p>
+    <table>
+      <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>식권 배부 기준 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(택 1)</span></td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="ticket-basis-g"> 축의금 납부자에 한해 배부</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-basis-g"> 모든 하객에게 배부</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-basis-g"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>1인당 식권 수량</td>
+          <td>
+            <div class="opts-col">
+              <div class="opts">
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-g"> 1매</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-g"> 2매</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-g"> 봉투 수량대로</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-g"> 요청 수량대로 (상식적인 수량)</label>
+              </div>
+              <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-count-g"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>잔여 식권 처리</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="ticket-remain-g"> 인수 대상자에게 함께 전달</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-remain-g"> 예식장에 반환</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-remain-g"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-2. 축의금 없이 식권만 요청하는 하객 대응 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+    <table>
+      <thead><tr><th style="width:35%">상황</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>축의금 없이 식권만 요청</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="no-cash-g"> 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="no-cash-g"> 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</label>
+              <label class="cl"><input type="radio" class="dc" name="no-cash-g"> 혼주 확인 후 판단</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="no-cash-g"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>봉투가 비어있는 경우<br><span style="font-size:8.5pt;color:var(--muted);">(비상식적인 소액 포함)</span></td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="empty-env-g"> 명단 기록, 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="empty-env-g"> 명단 기록, 식권 배부 (소란 방지)</label>
+              <label class="cl"><input type="radio" class="dc" name="empty-env-g"> 혼주 즉시 유선 확인 후 판단</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="empty-env-g"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-3. 계좌이체 주장 하객 응대 기준 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+    <table>
+      <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>이체 내역 확인 여부</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="transfer-g"> 하객 이체 화면(캡처) 제시 요청 후 확인</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer-g"> 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer-g"> 이체 확인 없이 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer-g"> 혼주 확인 후 판단</label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>이체 확인용 계좌<br><span style="font-size:8.5pt;color:var(--muted)">(확인 선택 시 기재)</span></td>
+          <td>
+            <div style="display:flex;flex-direction:column;gap:.35rem;font-size:9pt;">
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">① 본인</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">② 아버지</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">③ 어머니</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="font-size:8.5pt;margin-bottom:1rem;">📌 메리세이프는 이체 사실의 진위를 최종 확인할 의무를 부담하지 않으며, 고객이 선택한 기준에 따라 응대합니다.</div>
+
+    <div style="font-weight:700;font-size:10pt;margin-bottom:.4rem;">신부 측</div>
+    <p style="font-size:9pt;font-weight:500;margin-bottom:.5rem;">C-1. 기본 배부 기준</p>
+    <table>
+      <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>식권 배부 기준 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(택 1)</span></td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="ticket-basis-b"> 축의금 납부자에 한해 배부</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-basis-b"> 모든 하객에게 배부</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-basis-b"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>1인당 식권 수량</td>
+          <td>
+            <div class="opts-col">
+              <div class="opts">
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-b"> 1매</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-b"> 2매</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-b"> 봉투 수량대로</label>
+                <label class="cl"><input type="radio" class="dc" name="ticket-count-b"> 요청 수량대로 (상식적인 수량)</label>
+              </div>
+              <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-count-b"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>잔여 식권 처리</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="ticket-remain-b"> 인수 대상자에게 함께 전달</label>
+              <label class="cl"><input type="radio" class="dc" name="ticket-remain-b"> 예식장에 반환</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-remain-b"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-2. 축의금 없이 식권만 요청하는 하객 대응 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+    <table>
+      <thead><tr><th style="width:35%">상황</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>축의금 없이 식권만 요청</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="no-cash-b"> 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="no-cash-b"> 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</label>
+              <label class="cl"><input type="radio" class="dc" name="no-cash-b"> 혼주 확인 후 판단</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="no-cash-b"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>봉투가 비어있는 경우<br><span style="font-size:8.5pt;color:var(--muted);">(비상식적인 소액 포함)</span></td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="empty-env-b"> 명단 기록, 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="empty-env-b"> 명단 기록, 식권 배부 (소란 방지)</label>
+              <label class="cl"><input type="radio" class="dc" name="empty-env-b"> 혼주 즉시 유선 확인 후 판단</label>
+              <div style="display:flex;align-items:center;gap:.4rem;">
+                <label class="cl" style="margin:0;"><input type="radio" class="dc" name="empty-env-b"> 기타:</label>
+                <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-3. 계좌이체 주장 하객 응대 기준 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+    <table>
+      <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>이체 내역 확인 여부</td>
+          <td>
+            <div class="opts-col">
+              <label class="cl"><input type="radio" class="dc" name="transfer-b"> 하객 이체 화면(캡처) 제시 요청 후 확인</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer-b"> 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer-b"> 이체 확인 없이 식권 배부하지 않음</label>
+              <label class="cl"><input type="radio" class="dc" name="transfer-b"> 혼주 확인 후 판단</label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>이체 확인용 계좌<br><span style="font-size:8.5pt;color:var(--muted)">(확인 선택 시 기재)</span></td>
+          <td>
+            <div style="display:flex;flex-direction:column;gap:.35rem;font-size:9pt;">
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">① 본인</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">② 아버지</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+              <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;">
+                <span style="min-width:4.5rem;color:var(--muted);">③ 어머니</span>
+                <span>예금주:</span><div class="f" contenteditable="true" data-ph="성함" style="min-width:70px;"></div>
+                <span>은행:</span><div class="f" contenteditable="true" data-ph="예: 우리은행" style="min-width:80px;"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="font-size:8.5pt;">📌 메리세이프는 이체 사실의 진위를 최종 확인할 의무를 부담하지 않으며, 고객이 선택한 기준에 따라 응대합니다.</div>
+  </div>
+
+  <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-4. 답례품 및 유아 식권 기준</p>
   <table>
-    <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
+    <thead><tr><th style="width:35%">항목</th><th>고객 선택 / 기재</th></tr></thead>
     <tbody>
       <tr>
-        <td>식권 배부 기준 <span style="font-weight:300;color:var(--muted);font-size:8pt;">(택 1)</span></td>
+        <td>답례품 준비 여부</td>
         <td>
-          <div class="opts-col">
-            <label class="cl"><input type="radio" class="dc" name="ticket-basis"> 축의금 납부자에 한해 배부</label>
-            <label class="cl"><input type="radio" class="dc" name="ticket-basis"> 모든 하객에게 배부</label>
-            <div style="display:flex;align-items:center;gap:.4rem;">
-              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-basis"> 기타:</label>
-              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
-            </div>
+          <div class="opts">
+            <label class="cl"><input type="radio" class="dc" name="gift"> 예 (준비함)</label>
+            <label class="cl"><input type="radio" class="dc" name="gift"> 아니오 (없음)</label>
           </div>
         </td>
       </tr>
       <tr>
-        <td>1인당 식권 수량</td>
-        <td>
-          <div class="opts-col">
-            <div class="opts">
-              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 1매</label>
-              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 2매</label>
-              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 봉투 수량대로</label>
-              <label class="cl"><input type="radio" class="dc" name="ticket-count"> 요청 수량대로 (상식적인 수량)</label>
-            </div>
-            <div style="display:flex;align-items:center;gap:.4rem;margin-top:.2rem;">
-              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-count"> 기타:</label>
-              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
-            </div>
-          </div>
-        </td>
+        <td>답례품 수취 기준</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 식권 1장 = 답례품 1개 제공" style="min-height:1.8rem;"></div></td>
       </tr>
       <tr>
-        <td>잔여 식권 처리</td>
-        <td>
-          <div class="opts-col">
-            <label class="cl"><input type="radio" class="dc" name="ticket-remain"> 인수 대상자에게 함께 전달</label>
-            <label class="cl"><input type="radio" class="dc" name="ticket-remain"> 예식장에 반환</label>
-            <div style="display:flex;align-items:center;gap:.4rem;">
-              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="ticket-remain"> 기타:</label>
-              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
-            </div>
-          </div>
-        </td>
+        <td>유아 식권 배부 기준</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 만 5세 미만 식권 불필요" style="min-height:1.8rem;"></div></td>
+      </tr>
+      <tr>
+        <td>유아 식권 구분 기준</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 유아 식권 별도 제작 / 반 잘라서 배부" style="min-height:1.8rem;"></div></td>
       </tr>
     </tbody>
   </table>
 
-  <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-2. 축의금 없이 식권만 요청하는 하객 대응 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
+  <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-5. 신부님 도우미 확인 사항</p>
   <table>
-    <thead><tr><th style="width:35%">상황</th><th>고객 선택</th></tr></thead>
+    <thead><tr><th style="width:35%">항목</th><th>고객 선택 / 기재</th></tr></thead>
     <tbody>
       <tr>
-        <td>현금 없이 식권만 요청</td>
+        <td>도우미 식권 보유 여부</td>
         <td>
-          <div class="opts-col">
-            <label class="cl"><input type="radio" class="dc" name="no-cash"> 식권 배부하지 않음</label>
-            <label class="cl"><input type="radio" class="dc" name="no-cash"> 소란 방지를 위해 배부 (명단에 '축의금 미납' 기록)</label>
-            <label class="cl"><input type="radio" class="dc" name="no-cash"> 혼주 확인 후 판단</label>
-            <div style="display:flex;align-items:center;gap:.4rem;">
-              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="no-cash"> 기타:</label>
-              <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
-            </div>
+          <div class="opts">
+            <label class="cl"><input type="radio" class="dc" name="helper-ticket"> 예 (별도 소지)</label>
+            <label class="cl"><input type="radio" class="dc" name="helper-ticket"> 아니오 (없음)</label>
           </div>
         </td>
       </tr>
       <tr>
-        <td>봉투가 비어있는 경우<br><span style="font-size:8.5pt;color:var(--muted);">(비상식적인 소액 포함)</span></td>
+        <td>소지 식권 수량</td>
+        <td><div class="f" contenteditable="true" data-ph="예: 약 ____ 장" style="min-height:1.8rem;"></div></td>
+      </tr>
+      <tr>
+        <td>식권 추가 요청 시 대응</td>
         <td>
           <div class="opts-col">
-            <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부하지 않음</label>
-            <label class="cl"><input type="radio" class="dc" name="empty-env"> 명단 기록, 식권 배부 (소란 방지)</label>
-            <label class="cl"><input type="radio" class="dc" name="empty-env"> 혼주 즉시 유선 확인 후 판단</label>
+            <label class="cl"><input type="radio" class="dc" name="helper-extra"> 배부 (수량 확인 및 서명 후 배부)</label>
+            <label class="cl"><input type="radio" class="dc" name="helper-extra"> 배부하지 않음</label>
             <div style="display:flex;align-items:center;gap:.4rem;">
-              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="empty-env"> 기타:</label>
+              <label class="cl" style="margin:0;"><input type="radio" class="dc" name="helper-extra"> 기타:</label>
               <div class="f" contenteditable="true" data-ph="직접 입력" style="flex:1;"></div>
             </div>
           </div>
@@ -363,68 +928,10 @@
       </tr>
     </tbody>
   </table>
-  <p style="font-size:9pt;font-weight:500;margin:.85rem 0 .5rem;">C-3. 계좌이체 주장 하객 응대 기준 <span style="font-weight:300;color:var(--muted)">(택 1)</span></p>
-  <table>
-    <thead><tr><th style="width:35%">항목</th><th>고객 선택</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>이체 내역 확인 여부</td>
-        <td>
-          <div class="opts-col">
-            <label class="cl"><input type="radio" class="dc" name="transfer"> 하객 이체 화면(캡처) 제시 요청 후 확인</label>
-            <label class="cl"><input type="radio" class="dc" name="transfer"> 이체 확인 없이 명단에 '이체 주장' 기록 후 배부</label>
-            <label class="cl"><input type="radio" class="dc" name="transfer"> 이체 확인 없이 식권 배부하지 않음</label>
-            <label class="cl"><input type="radio" class="dc" name="transfer"> 혼주 확인 후 판단</label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>이체 확인용 계좌<br><span style="font-size:8.5pt;color:var(--muted)">(확인 선택 시 기재)</span></td>
-        <td>
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;font-size:9pt;">
-            <span>예금주:</span><div class="f" contenteditable="true" data-ph="____" style="min-width:80px;"></div>
-            <span>은행:</span><div class="f" contenteditable="true" data-ph="____" style="min-width:80px;"></div>
-            <span>계좌번호:</span><div class="f" contenteditable="true" data-ph="_______________" style="min-width:140px;"></div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="info-box" style="font-size:8.5pt;">
-    📌 메리세이프는 이체 사실의 진위를 최종 확인할 의무를 부담하지 않으며, 고객이 선택한 기준에 따라 응대합니다.
-  </div>
 </div>
 
-<!-- D. 돌발상황 안내 -->
 <div class="section">
-  <div class="section-title"><span class="icon">⚠️</span> D. 돌발상황 안내 — 봉투 절취·교체 실제 사례</div>
-  <p style="font-size:9pt;color:var(--mid);margin-bottom:.75rem;">발생할 수 있는 사례입니다.</p>
-  <div class="situation">
-    <div class="situation-head">사례 ① 봉투 들고 사라지기</div>
-    <div class="situation-body">접수대 혼잡 틈을 노려 하객으로 위장한 자가 테이블 위 봉투를 집어 들고 도주한 사례. 메리세이프는 그 어떤 상황에도 2인 모두 축의대를 비우지 않습니다.</div>
-  </div>
-  <div class="situation">
-    <div class="situation-head">사례 ② 빈 봉투 교체 (바꿔치기)</div>
-    <div class="situation-body">미리 준비한 동일한 외형의 빈 봉투(또는 소액 봉투)로 접수대 근처에서 바꿔치기 하는 사례. 피해액이 수십만 원에 달한 경우도 있습니다. 메리세이프는 축의금 봉투를 받으면 지체 없이 넘버링을 하여 바꿔치기를 할 수 없도록 차단합니다.</div>
-  </div>
-  <div class="situation">
-    <div class="situation-head">사례 ③ "내가 맡아둔다"며 접근</div>
-    <div class="situation-body">친척·지인으로 위장하여 "잠깐 보관하겠다"며 다른 하객의 봉투를 빼앗아 가는 수법. 접수 직원 외 제3자에게는 절대 봉투를 넘기지 않습니다.</div>
-  </div>
-  <div class="situation">
-    <div class="situation-head">사례 ④ "혼주 가족이 보냈다"며 중간 인계 요청</div>
-    <div class="situation-body">행사 도중 일부를 미리 달라고 요청하는 경우. 메리세이프는 사전 지정된 인수자 외에는 어떤 경우에도 중간 인계를 하지 않습니다.</div>
-  </div>
-  <div class="warn-box">
-    🔒 <strong>축의금 중간 인출 불가 원칙:</strong> 인수인계가 완료되기 전까지는 축의금에서 금액을 미리 인출하여 전달드리지 않습니다. 이는 혼주님 또는 가족분의 요청이 있더라도 예외 없이 동일하게 적용되는 원칙입니다.<br>
-    <span style="font-size:8.5pt;">해당 기준은 축의금 관리의 정확성과 안전한 정산을 위한 조치이니 양해 부탁드립니다.</span><br>
-    <span style="font-size:8.5pt;">→ 또한 행사 중 현금이 필요한 상황에 대비하여, 시작 전 별도의 현금(약 20~30만 원)을 미리 준비해 두시기를 권장드립니다.</span>
-  </div>
-</div>
-
-<!-- E. 기타 특별 요청 사항 -->
-<div class="section">
-  <div class="section-title"><span class="icon">📝</span> E. 기타 특별 요청 사항</div>
+  <div class="section-title"><span class="icon">📝</span> D. 기타 특별 요청 사항</div>
   <table>
     <thead><tr><th style="width:8%">No</th><th>특별 요청 내용 (서비스 범위 내 수용 가능한 사항에 한함)</th></tr></thead>
     <tbody>
@@ -435,11 +942,30 @@
   </table>
 </div>
 
+<div class="section">
+  <div class="section-title"><span class="icon">⚠️</span> E. 돌발상황 안내 — 봉투 절취·교체 실제 사례</div>
+  <div class="situation">
+    <div class="situation-head">사례 ① 봉투 들고 사라지기</div>
+    <div class="situation-body">접수대 혼잡 틈을 노려 하객으로 위장한 자가 테이블 위 봉투를 집어 들고 도주한 사례. 메리세이프는 그 어떤 상황에도 2인 모두 축의대를 비우지 않습니다.</div>
+  </div>
+  <div class="situation">
+    <div class="situation-head">사례 ② 빈 봉투 교체 (바꿔치기)</div>
+    <div class="situation-body">미리 준비한 동일한 외형의 빈 봉투로 바꿔치기 하는 사례. 메리세이프는 봉투를 받으면 지체 없이 넘버링을 하여 바꿔치기를 차단합니다.</div>
+  </div>
+  <div class="situation">
+    <div class="situation-head">사례 ③ "내가 맡아둔다"며 접근</div>
+    <div class="situation-body">친척·지인으로 위장하여 봉투를 빼앗아 가는 수법. 접수 직원 외 제3자에게는 절대 봉투를 넘기지 않습니다.</div>
+  </div>
+  <div class="situation">
+    <div class="situation-head">사례 ④ "혼주 가족이 보냈다"며 중간 인계 요청</div>
+    <div class="situation-body">행사 도중 일부를 미리 달라고 요청하는 경우. 메리세이프는 사전 지정된 인수자 외에는 어떤 경우에도 중간 인계를 하지 않습니다.</div>
+  </div>
+  <div class="warn-box">
+    🔒 <strong>축의금 중간 인출 불가 원칙:</strong> 인수인계가 완료되기 전까지는 축의금에서 금액을 미리 인출하여 전달드리지 않습니다. 혼주님 또는 가족분의 요청이 있더라도 예외 없이 적용됩니다.<br>
+    <span style="font-size:8.5pt;">→ 행사 중 현금이 필요한 상황에 대비하여, 시작 전 별도의 현금(약 20~30만 원)을 미리 준비해 두시기를 권장드립니다.</span>
+  </div>
+</div>
 
-
-<!-- ══════════════════════════════════════════════
-     문서 2: 개인정보 수집·이용 동의서
-══════════════════════════════════════════════ -->
 <div class="page-break">
 <div class="doc-header">
   <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
@@ -497,7 +1023,6 @@
 </div>
 </div>
 
-<!-- 비동의 팝업 -->
 <div id="privacy-block-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;align-items:center;justify-content:center;">
   <div style="background:#fff;max-width:360px;width:90%;padding:2.5rem 2rem;text-align:center;border-top:4px solid #C62828;">
     <p style="font-size:1.1rem;font-weight:600;color:#C62828;margin-bottom:.75rem;">⚠️ 서비스 이용 제한</p>
@@ -506,16 +1031,20 @@
   </div>
 </div>
 
-<!-- 촬영 섹션 차단 오버레이 -->
+<div id="validation-alert" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9500;align-items:center;justify-content:center;">
+  <div style="background:#fff;max-width:360px;width:90%;padding:2.5rem 2rem;text-align:center;border-top:4px solid #C62828;">
+    <p style="font-size:1.1rem;font-weight:600;color:#C62828;margin-bottom:.75rem;">⚠️ 필수 동의 필요</p>
+    <p id="validation-alert-msg" style="font-size:.95rem;color:#444;line-height:1.7;margin-bottom:1.5rem;"></p>
+    <button onclick="document.getElementById('validation-alert').style.display='none'" style="background:#1C1C1C;color:#fff;border:none;padding:.6rem 2rem;font-size:.95rem;cursor:pointer;font-family:inherit;width:100%;">확인</button>
+  </div>
+</div>
+
 <div id="filming-block" style="display:none;position:relative;">
   <div style="position:absolute;inset:0;background:rgba(240,240,240,.92);z-index:10;display:flex;align-items:center;justify-content:center;border:2px dashed #ccc;">
     <p style="color:#999;font-size:.95rem;text-align:center;">⚠️ 개인정보 수집·이용에 동의하셔야<br>아래 내용을 작성할 수 있습니다.</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     문서 3: 촬영(녹화) 안내 및 동의서
-══════════════════════════════════════════════ -->
 <div class="page-break" id="filming-section">
 <div class="doc-header">
   <div class="doc-logo">MARRYSAFE <span>메리세이프</span></div>
@@ -539,20 +1068,49 @@
   <div class="section-title"><span class="icon">2</span> 촬영 범위 및 방식</div>
   <div class="clause"><span class="clause-num">①</span> 촬영 장소: 축의금 접수 테이블 및 그 주변</div>
   <div class="clause"><span class="clause-num">②</span> 촬영 대상: 봉투 수령·처리·보관·인수인계 과정 (하객의 모습이 부수적으로 포함될 수 있음)</div>
-  <div class="clause"><span class="clause-num">③</span> 촬영 장비: 카메라 2대
+  <div class="clause"><span class="clause-num">③</span> 촬영 장비: 카메라 2대 (온라인 유튜브 실시간 중계)
     <div style="margin:.3rem 0 0 1.2rem;">
-      <div class="clause" style="margin-bottom:.2rem;">가) 유튜브 실시간 중계 카메라: 축의대 테이블에 밀접 설치, 유튜브(YouTube) 비공개 링크를 통해 실시간 중계</div>
-      <div class="clause">나) 오프라인 백업 카메라: 인터넷 연결 장애에 대비하여 오프라인(기기 내부 저장) 방식으로 녹화</div>
+      <div class="clause" style="margin-bottom:.2rem;">가) 근접 촬영 카메라: 축의대 테이블 위에 설치, 유튜브 비공개 링크로 실시간 중계</div>
+      <div class="clause" style="margin-bottom:.2rem;">나) 전면 촬영 카메라: 축의대 후방에 설치, 유튜브 비공개 링크로 실시간 중계</div>
+      <div class="clause" style="color:var(--mid);">※ 인터넷 연결 불가 시 오프라인 녹화로 대체될 수 있습니다.</div>
     </div>
   </div>
-  <div class="clause"><span class="clause-num">④</span> 촬영 시간: 예식 시작 1시간 전부터 인수 대상자에게 축의금이 전달되는 시점까지</div>
-  <div class="clause"><span class="clause-num">⑤</span> 영상 제공: 유튜브 비공개 링크로 제공 (열람 기간 제한 없음). 단, 원본 영상 파일은 예식일로부터 30일 후 파기되며 이후에는 유튜브 링크를 통한 열람만 가능합니다.</div>
-  <div class="clause"><span class="clause-num">⑥</span> 전파 수신 불안정 지역(지하·고층 등): 유튜브 실시간 중계가 불가한 경우 사전에 고객에게 고지하며, 2대 모두 오프라인 모드로 녹화를 진행합니다.</div>
-  <div class="clause"><span class="clause-num">⑦</span> 고지: 접수 테이블 주변에 "보안 촬영 중" 안내문을 게시하여 하객에게 촬영 사실을 고지합니다.</div>
+  <div class="clause"><span class="clause-num">④</span> 촬영 시간: 예식 시작 60분 전부터 인수 대상자에게 축의금이 전달되는 시점까지</div>
+  <div class="clause"><span class="clause-num">⑤</span> 영상 제공: 유튜브 비공개 링크로 제공 (열람 기간 제한 없음). 단, 원본 영상 파일은 예식일로부터 30일 후 파기됩니다.</div>
+  <div class="clause"><span class="clause-num">⑥</span> 전파 수신 불안정 지역: 유튜브 실시간 중계가 불가한 경우 사전에 고객에게 고지하며, 2대 모두 오프라인 모드로 녹화합니다.</div>
+  <div class="clause"><span class="clause-num">⑦</span> 고지: 접수 테이블 주변에 "보안 촬영 중" 안내문을 게시합니다.</div>
 </div>
 
 <div class="section">
-  <div class="section-title"><span class="icon">3</span> 영상 기록물 보관·파기 및 이용 제한</div>
+  <div class="section-title"><span class="icon">3</span> 유튜브 비공개 중계 — 시청 계정 사전 등록</div>
+  <p style="font-size:9pt;color:var(--muted);margin-bottom:.75rem;">실시간 중계 영상은 사전에 등록된 Gmail 계정으로만 시청 가능합니다. 아래에 Gmail 주소를 기재해 주시면 예식 전 시청 링크를 이메일로 발송해 드립니다.</p>
+  <table>
+    <thead><tr><th style="width:30%">구분</th><th>Gmail 주소 (시청 계정)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>신부측</td>
+        <td>
+          <div style="display:flex;flex-direction:column;gap:.35rem;">
+            <div style="display:flex;align-items:center;gap:.4rem;"><span style="font-size:8.5pt;color:var(--muted);white-space:nowrap;">① </span><div class="f" contenteditable="true" data-ph="example@gmail.com" style="flex:1;"></div></div>
+            <div style="display:flex;align-items:center;gap:.4rem;"><span style="font-size:8.5pt;color:var(--muted);white-space:nowrap;">② </span><div class="f" contenteditable="true" data-ph="추가 계정 (선택)" style="flex:1;"></div></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>신랑측</td>
+        <td>
+          <div style="display:flex;flex-direction:column;gap:.35rem;">
+            <div style="display:flex;align-items:center;gap:.4rem;"><span style="font-size:8.5pt;color:var(--muted);white-space:nowrap;">① </span><div class="f" contenteditable="true" data-ph="example@gmail.com" style="flex:1;"></div></div>
+            <div style="display:flex;align-items:center;gap:.4rem;"><span style="font-size:8.5pt;color:var(--muted);white-space:nowrap;">② </span><div class="f" contenteditable="true" data-ph="추가 계정 (선택)" style="flex:1;"></div></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">4</span> 영상 기록물 보관·파기 및 이용 제한</div>
   <table>
     <thead><tr><th style="width:25%">항목</th><th>내용</th></tr></thead>
     <tbody>
@@ -569,10 +1127,6 @@
 </div>
 </div>
 
-
-<!-- ══════════════════════════════════════════════
-     최종 동의 및 서명
-══════════════════════════════════════════════ -->
 <div class="page-break">
 <div class="section" style="border:2px solid var(--dark);padding:1.5rem 2rem;margin-top:1rem;">
   <p style="font-size:11pt;font-weight:600;text-align:center;margin-bottom:1.25rem;letter-spacing:.03em;">
@@ -603,11 +1157,10 @@
   © 2025 MarrySafe (메리세이프) · marrysafe.official@gmail.com · marrysafe.co.kr<br>
   본 서류는 서비스 계약과 함께 보관됩니다.
 </div>
-</div><!-- page-break -->
+</div>
 
-</div><!-- doc-page -->
+</div>
 
-<!-- ── 제출 패널 ── -->
 <div class="submit-panel" id="submit-panel">
   <span class="submit-hint">✍️ 모든 항목 작성 후 제출하세요</span>
   <button id="btn-submit">📤 서류 제출하기</button>
@@ -616,46 +1169,51 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-/* ── 개인정보 비동의 팝업 & 촬영 섹션 차단 ── */
+function showValidationAlert(msg) {
+  document.getElementById('validation-alert-msg').textContent = msg;
+  document.getElementById('validation-alert').style.display = 'flex';
+}
+
 function closePrivacyBlock() {
   document.getElementById('privacy-block-overlay').style.display = 'none';
-  // 비동의 선택 해제
   document.getElementById('privacy-no').checked = false;
   document.getElementById('privacy-yes').checked = false;
 }
 
+document.querySelectorAll('input[name="c-mode"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    var isSplit = this.value === 'split';
+    document.getElementById('c-unified').style.display = isSplit ? 'none' : '';
+    document.getElementById('c-split').style.display = isSplit ? '' : 'none';
+  });
+});
+
 document.getElementById('privacy-no').addEventListener('change', function() {
   if (this.checked) {
-    // 팝업 표시
-    const overlay = document.getElementById('privacy-block-overlay');
-    overlay.style.display = 'flex';
-    // 촬영 섹션 비활성화
-    const filmingSection = document.getElementById('filming-section');
-    filmingSection.style.position = 'relative';
-    filmingSection.style.pointerEvents = 'none';
-    filmingSection.style.opacity = '0.4';
-    filmingSection.style.userSelect = 'none';
+    document.getElementById('privacy-block-overlay').style.display = 'flex';
+    const fs = document.getElementById('filming-section');
+    fs.style.position = 'relative';
+    fs.style.pointerEvents = 'none';
+    fs.style.opacity = '0.4';
+    fs.style.userSelect = 'none';
     document.getElementById('filming-block').style.display = 'block';
   }
 });
 
 document.getElementById('privacy-yes').addEventListener('change', function() {
   if (this.checked) {
-    // 촬영 섹션 다시 활성화
-    const filmingSection = document.getElementById('filming-section');
-    filmingSection.style.pointerEvents = '';
-    filmingSection.style.opacity = '';
-    filmingSection.style.userSelect = '';
+    const fs = document.getElementById('filming-section');
+    fs.style.pointerEvents = '';
+    fs.style.opacity = '';
+    fs.style.userSelect = '';
     document.getElementById('filming-block').style.display = 'none';
   }
 });
 
-/* ── 서명 캔버스 ── */
 (function() {
   const canvas = document.getElementById('sig-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  // 해상도 보정
   const ratio = window.devicePixelRatio || 1;
   canvas.width  = canvas.offsetWidth  * ratio;
   canvas.height = canvas.offsetHeight * ratio;
@@ -664,125 +1222,107 @@ document.getElementById('privacy-yes').addEventListener('change', function() {
   ctx.lineWidth   = 2;
   ctx.lineCap     = 'round';
   ctx.lineJoin    = 'round';
-
-  let drawing = false;
-  let lastX = 0, lastY = 0;
-
+  let drawing = false, lastX = 0, lastY = 0;
   function getPos(e) {
     const rect = canvas.getBoundingClientRect();
-    const src  = e.touches ? e.touches[0] : e;
+    const src = e.touches ? e.touches[0] : e;
     return {
-      x: (src.clientX - rect.left) * (canvas.width  / rect.width  / ratio),
+      x: (src.clientX - rect.left) * (canvas.width / rect.width / ratio),
       y: (src.clientY - rect.top)  * (canvas.height / rect.height / ratio)
     };
   }
-  function start(e) {
-    e.preventDefault();
-    drawing = true;
-    const p = getPos(e);
-    lastX = p.x; lastY = p.y;
-    ctx.beginPath();
-    ctx.arc(lastX, lastY, .8, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  function move(e) {
-    e.preventDefault();
-    if (!drawing) return;
-    const p = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-    lastX = p.x; lastY = p.y;
-  }
+  function start(e) { e.preventDefault(); drawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; ctx.beginPath(); ctx.arc(lastX, lastY, .8, 0, Math.PI * 2); ctx.fill(); }
+  function move(e) { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke(); lastX = p.x; lastY = p.y; }
   function stop() { drawing = false; }
-
-  canvas.addEventListener('mousedown',  start);
-  canvas.addEventListener('mousemove',  move);
-  canvas.addEventListener('mouseup',    stop);
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', stop);
   canvas.addEventListener('mouseleave', stop);
   canvas.addEventListener('touchstart', start, { passive: false });
-  canvas.addEventListener('touchmove',  move,  { passive: false });
-  canvas.addEventListener('touchend',   stop);
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', stop);
 })();
 
 window.clearSig = function() {
   const canvas = document.getElementById('sig-canvas');
-  const ctx    = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 };
 
 document.getElementById('btn-submit').addEventListener('click', async () => {
-  const btn    = document.getElementById('btn-submit');
+  const btn = document.getElementById('btn-submit');
   const result = document.getElementById('submit-result');
 
-  // ── 1. 파일명 구성에 필요한 값 가져오기 ──────────────────
-  const name     = (document.getElementById('f-name')?.innerText || '').trim() || '고객명';
-  const hall     = (document.getElementById('f-hall')?.innerText || '').trim() || '예식장';
-  const dateRaw  = (document.getElementById('f-date')?.innerText || '').trim() || '예식일';
-  const svcEl    = document.querySelector('input[name="service-type"]:checked');
-  const svc      = svcEl ? svcEl.value : '서비스유형';
+  if (!document.getElementById('privacy-yes')?.checked) {
+    showValidationAlert('개인정보 수집·이용에 동의해 주셔야 서류를 제출할 수 있습니다.');
+    return;
+  }
+  if (!document.getElementById('filming-agree')?.checked) {
+    showValidationAlert('촬영(녹화) 동의에 체크해 주셔야 서류를 제출할 수 있습니다.');
+    return;
+  }
+  const sigCanvas = document.getElementById('sig-canvas');
+  const sigCtx = sigCanvas?.getContext('2d');
+  const sigData = sigCtx ? sigCtx.getImageData(0, 0, sigCanvas.width, sigCanvas.height).data : null;
+  if (!sigData || !sigData.some(v => v !== 0)) {
+    showValidationAlert('서명(인)을 작성해 주셔야 서류를 제출할 수 있습니다.');
+    return;
+  }
 
-  // 파일명에 쓸 수 없는 문자 제거
-  const clean = s => s.replace(/[\/\\:*?"<>|\n\r]/g, '_').trim().substring(0, 40);
+  const name    = (document.getElementById('f-name')?.innerText || '').trim() || '고객명';
+  const hall    = (document.getElementById('f-hall')?.innerText || '').trim() || '예식장';
+  const dateRaw = (document.getElementById('f-date')?.innerText || '').trim() || '예식일';
+  const svcEl   = document.querySelector('input[name="service-type"]:checked');
+  const svc     = svcEl ? svcEl.value : '서비스유형';
+  const clean   = s => s.replace(/[\/\\:*?"<>|\n\r]/g, '_').trim().substring(0, 40);
   const filename = `${clean(name)}_${clean(hall)}_${clean(dateRaw)}_${clean(svc)}.pdf`;
 
-  // ── 2. 버튼 비활성화 ─────────────────────────────────────
   btn.disabled = true;
   btn.textContent = '⏳ PDF 생성 중...';
   result.textContent = '';
   result.style.color = '#fff';
 
-  // ── 3. PDF 생성을 위해 UI 요소 임시 숨김 + 스타일 초기화 ──
   const printBar   = document.getElementById('print-bar');
   const submitPane = document.getElementById('submit-panel');
   printBar.style.display   = 'none';
   submitPane.style.display = 'none';
-
-  // 스크롤 최상단으로 이동 (공백 페이지 방지)
   window.scrollTo(0, 0);
-  await new Promise(r => setTimeout(r, 120)); // 스크롤 반영 대기
+  await new Promise(r => setTimeout(r, 120));
 
   const element = document.getElementById('doc-page');
-  // 임시 스타일: 마진·그림자 제거로 캔버스 오프셋 오류 방지
-  const _prevMargin  = element.style.margin;
-  const _prevShadow  = element.style.boxShadow;
-  const _prevBodyBg  = document.body.style.background;
+  const _prevMargin = element.style.margin;
+  const _prevShadow = element.style.boxShadow;
+  const _prevBodyBg = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
-  element.style.margin     = '0';
-  element.style.boxShadow  = 'none';
-  document.body.style.background    = '#fff';
+  element.style.margin = '0';
+  element.style.boxShadow = 'none';
+  document.body.style.background = '#fff';
   document.body.style.paddingBottom = '0';
 
   try {
+    const isMobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const renderScale = isMobile ? 1.0 : 1.5;
     const opt = {
-      margin:     [10, 10, 10, 10],
-      filename:   filename,
-      image:      { type: 'jpeg', quality: 0.95 },
-      html2canvas: {
-        scale:      1.5,
-        useCORS:    true,
-        logging:    false,
-        allowTaint: true,
-        scrollX:    0,
-        scrollY:    0,
-      },
-      jsPDF: {
-        unit:        'mm',
-        format:      'a4',
-        orientation: 'portrait'
-      },
-      pagebreak: { mode: ['css', 'legacy'] }
+      margin: [10, 10, 10, 10],
+      filename: filename,
+      image: { type: 'jpeg', quality: isMobile ? 0.85 : 0.95 },
+      html2canvas: { scale: renderScale, useCORS: true, logging: false, allowTaint: true, scrollX: 0, scrollY: 0 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['css'] }
     };
 
-    const pdfArrayBuffer = await html2pdf()
-      .set(opt)
-      .from(element)
-      .outputPdf('arraybuffer');
+    let pdfArrayBuffer = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
 
-    // ── 4. ArrayBuffer → Base64 ───────────────────────────
+    const MB = 1024 * 1024;
+    if (pdfArrayBuffer.byteLength > 8 * MB) {
+      btn.textContent = '⏳ PDF 최적화 중...';
+      pdfArrayBuffer = await html2pdf().set({ ...opt, image: { type: 'jpeg', quality: 0.75 }, html2canvas: { ...opt.html2canvas, scale: 1.0 } }).from(element).outputPdf('arraybuffer');
+    }
+    if (pdfArrayBuffer.byteLength > 11 * MB) {
+      throw new Error('파일 크기가 너무 큽니다. 카카오 채널 @메리세이프로 문의해 주세요.');
+    }
+
     const bytes = new Uint8Array(pdfArrayBuffer);
-    let binary  = '';
+    let binary = '';
     const CHUNK = 8192;
     for (let i = 0; i < bytes.length; i += CHUNK) {
       binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
@@ -791,75 +1331,35 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
 
     btn.textContent = '📨 메일 전송 중...';
 
-    // ── 5. 서버 API 호출 ──────────────────────────────────
     const response = await fetch('/api/send-pdf', {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        pdfBase64:   base64,
-        filename:    filename,
-        customerName: name,
-        weddingHall:  hall,
-        weddingDate:  dateRaw,
-        serviceType:  svc
-      })
+      body: JSON.stringify({ pdfBase64: base64, filename, customerName: name, weddingHall: hall, weddingDate: dateRaw, serviceType: svc })
     });
 
     if (response.ok) {
-
-      // ── 완료 팝업 표시 함수 ──────────────────────────────
       function showDonePopup() {
         const done = document.createElement('div');
         done.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
-        done.innerHTML = `
-          <div style="background:#fff;padding:3rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #4CAF50;">
-            <div style="font-size:2.5rem;margin-bottom:1rem;">✅</div>
-            <p style="font-size:1.2rem;font-weight:700;color:#1C1C1C;margin-bottom:.75rem;">제출이 완료되었습니다</p>
-            <p style="font-size:.9rem;color:#666;line-height:1.7;margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p>
-            <button onclick="location.href='https://www.marrysafe.co.kr/'"
-              style="background:#1C1C1C;color:#fff;border:none;padding:.7rem 2.5rem;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:500;width:100%;">
-              홈으로 돌아가기
-            </button>
-          </div>`;
+        done.innerHTML = `<div style="background:#fff;padding:3rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #4CAF50;"><div style="font-size:2.5rem;margin-bottom:1rem;">✅</div><p style="font-size:1.2rem;font-weight:700;color:#1C1C1C;margin-bottom:.75rem;">제출이 완료되었습니다</p><p style="font-size:.9rem;color:#666;line-height:1.7;margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p><button onclick="location.href='https://www.marrysafe.co.kr/'" style="background:#1C1C1C;color:#fff;border:none;padding:.7rem 2.5rem;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:500;width:100%;">홈으로 돌아가기</button></div>`;
         document.body.appendChild(done);
       }
 
-      // ── PDF 저장 여부 팝업 ────────────────────────────────
       const savePopup = document.createElement('div');
       savePopup.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
-      savePopup.innerHTML = `
-        <div style="background:#fff;padding:2.5rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #1C1C1C;">
-          <div style="font-size:2rem;margin-bottom:.75rem;">📄</div>
-          <p style="font-size:1.05rem;font-weight:700;color:#1C1C1C;margin-bottom:.5rem;">PDF 파일로 저장하시겠습니까?</p>
-          <p style="font-size:.85rem;color:#888;line-height:1.6;margin-bottom:1.75rem;">작성하신 서류를 내 기기에<br>PDF로 저장할 수 있습니다.</p>
-          <div style="display:flex;gap:.75rem;">
-            <button id="pdf-save-yes"
-              style="flex:1;background:#1C1C1C;color:#fff;border:none;padding:.7rem 0;font-size:.95rem;cursor:pointer;font-family:inherit;font-weight:500;">
-              예
-            </button>
-            <button id="pdf-save-no"
-              style="flex:1;background:#fff;color:#1C1C1C;border:1.5px solid #1C1C1C;padding:.7rem 0;font-size:.95rem;cursor:pointer;font-family:inherit;font-weight:500;">
-              아니요
-            </button>
-          </div>
-        </div>`;
+      savePopup.innerHTML = `<div style="background:#fff;padding:2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #1C1C1C;"><div style="font-size:2rem;margin-bottom:.75rem;">📄</div><p style="font-size:1.05rem;font-weight:700;color:#1C1C1C;margin-bottom:.5rem;">PDF 파일로 저장하시겠습니까?</p><p style="font-size:.85rem;color:#888;line-height:1.6;margin-bottom:1.75rem;">작성하신 서류를 내 기기에<br>PDF로 저장할 수 있습니다.</p><div style="display:flex;gap:.75rem;"><button id="pdf-save-yes" style="flex:1;background:#1C1C1C;color:#fff;border:none;padding:.7rem 0;font-size:.95rem;cursor:pointer;font-family:inherit;font-weight:500;">예</button><button id="pdf-save-no" style="flex:1;background:#fff;color:#1C1C1C;border:1.5px solid #1C1C1C;padding:.7rem 0;font-size:.95rem;cursor:pointer;font-family:inherit;font-weight:500;">아니요</button></div></div>`;
       document.body.appendChild(savePopup);
 
-      // 예 → PDF 다운로드 후 완료 팝업
       document.getElementById('pdf-save-yes').addEventListener('click', () => {
-        // Blob으로 변환 후 다운로드
         const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
-        const url  = URL.createObjectURL(blob);
-        const a    = document.createElement('a');
-        a.href     = url;
-        a.download = filename;
-        a.click();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
         URL.revokeObjectURL(url);
         savePopup.remove();
         showDonePopup();
       });
 
-      // 아니요 → 바로 완료 팝업
       document.getElementById('pdf-save-no').addEventListener('click', () => {
         savePopup.remove();
         showDonePopup();
@@ -872,18 +1372,16 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
 
   } catch (e) {
     console.error(e);
-    result.textContent = '❌ 오류: ' + e.message + ' — 다시 시도해주세요.';
+    result.innerHTML = '❌ 전송 오류 — 다시 시도하거나 <a href="/merrysafe-service-doc.docx" download style="color:#FFD54F;text-decoration:underline;">워드 파일로 작성</a> 후 카카오채널로 전송해 주세요.';
     result.style.color = '#EF9A9A';
-    btn.disabled   = false;
+    btn.disabled = false;
     btn.textContent = '📤 서류 제출하기';
   } finally {
-    // 임시 스타일 복원
-    element.style.margin     = _prevMargin;
-    element.style.boxShadow  = _prevShadow;
-    document.body.style.background    = _prevBodyBg;
+    element.style.margin = _prevMargin;
+    element.style.boxShadow = _prevShadow;
+    document.body.style.background = _prevBodyBg;
     document.body.style.paddingBottom = _prevBodyPad;
-    // UI 다시 표시
-    printBar.style.display   = '';
+    printBar.style.display = '';
     submitPane.style.display = '';
   }
 });
