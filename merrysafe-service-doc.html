@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
-<style id="main-style">
+<style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
     --black:#0D0D0D; --dark:#1C1C1C; --mid:#4A4A4A;
@@ -1432,11 +1432,17 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevShadow  = element.style.boxShadow;
   const _prevBodyBg  = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
-  // html2pdf CSS 파서가 CSS 변수(--xxx)와 외부 폰트를 파싱하면 오류 발생 → 우회 후 복원
-  const styleEl = document.getElementById('main-style');
-  styleEl.setAttribute('type', 'text/plain');
-  const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
-  fontLinks.forEach(function(el) { el.parentNode && el.parentNode.removeChild(el); });
+  // html2pdf CSS 파서가 CSS 변수(--xxx)를 파싱하면 오류 발생 → 리터럴 값으로 치환 후 복원
+  const styleEl = document.querySelector('style');
+  const _origCSS = styleEl.textContent;
+  styleEl.textContent = _origCSS
+    .replace(/:root\s*\{[^}]*\}/g, ':root {}')
+    .replace(/var\(--black\)/g, '#0D0D0D')
+    .replace(/var\(--dark\)/g, '#1C1C1C')
+    .replace(/var\(--mid\)/g, '#4A4A4A')
+    .replace(/var\(--muted\)/g, '#8A8A8A')
+    .replace(/var\(--border\)/g, '#CCCCCC')
+    .replace(/var\(--bg\)/g, '#F7F7F5');
 
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
@@ -1525,8 +1531,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
           <div style="background:#fff;padding:3rem 2.5rem;text-align:center;max-width:360px;width:90%;border-top:4px solid #4CAF50;">
             <div style="font-size:2.5rem;margin-bottom:1rem;">✅</div>
             <p style="font-size:1.2rem;font-weight:700;color:#1C1C1C;margin-bottom:.75rem;">제출이 완료되었습니다</p>
-            <p style="font-size:.9rem;color:#666;line-height:1.7;
-            margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p>
+            <p style="font-size:.9rem;color:#666;line-height:1.7;margin-bottom:1.75rem;">서류를 확인한 후<br>담당자가 연락드리겠습니다.</p>
             <button onclick="location.href='https://www.marrysafe.co.kr/'"
               style="background:#1C1C1C;color:#fff;border:none;padding:.7rem 2.5rem;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:500;width:100%;">
               홈으로 돌아가기
@@ -1558,6 +1563,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
 
       // 예 → PDF 다운로드 후 완료 팝업
       document.getElementById('pdf-save-yes').addEventListener('click', () => {
+        // Blob으로 변환 후 다운로드
         const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
         const url  = URL.createObjectURL(blob);
         const a    = document.createElement('a');
@@ -1590,9 +1596,8 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     btn.disabled   = false;
     btn.textContent = '📤 서류 제출하기';
   } finally {
-    // style 타입 및 Google Fonts link 태그 복원
-    styleEl.setAttribute('type', 'text/css');
-    fontLinks.forEach(function(el) { document.head.appendChild(el); });
+    // CSS 원본 복원
+    styleEl.textContent = _origCSS;
     // 임시 스타일 복원
     element.style.margin     = _prevMargin;
     element.style.boxShadow  = _prevShadow;
