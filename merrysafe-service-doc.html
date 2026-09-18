@@ -1442,7 +1442,8 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
       .replace(/var\(--mid\)/g,   '#4A4A4A')
       .replace(/var\(--muted\)/g, '#8A8A8A')
       .replace(/var\(--border\)/g,'#CCCCCC')
-      .replace(/var\(--bg\)/g,    '#F7F7F5');
+      .replace(/var\(--bg\)/g,    '#F7F7F5')
+      .replace(/content\s*:\s*attr\([^)]*\)/g, 'content:""');
   }
   const styleEl  = document.querySelector('style');
   const _origCSS = styleEl.textContent;
