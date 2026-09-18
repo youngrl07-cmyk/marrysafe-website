@@ -1432,7 +1432,8 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevShadow  = element.style.boxShadow;
   const _prevBodyBg  = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
-  // html2canvas CSS 파서가 var(--xxx) 구문을 파싱하면 오류 발생 → 리터럴로 교체 후 복원
+  // html2canvas CSS 파서가 var(--xxx) 구문에서 오류 발생
+  // → 원본 <style>을 text/plain으로 막고, 리터럴 치환된 임시 <style>을 추가
   function _rvCss(s) {
     return s
       .replace(/:root\s*\{[^}]*\}/g, ':root {}')
@@ -1443,11 +1444,17 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
       .replace(/var\(--border\)/g,'#CCCCCC')
       .replace(/var\(--bg\)/g,    '#F7F7F5');
   }
-  const styleEl   = document.querySelector('style');
-  const _origCSS  = styleEl.textContent;
-  styleEl.textContent = _rvCss(_origCSS);
-  const _inlineEls    = Array.from(document.querySelectorAll('[style*="var(--"]'));
-  const _origInline   = _inlineEls.map(el => el.getAttribute('style'));
+  const styleEl  = document.querySelector('style');
+  const _origCSS = styleEl.textContent;
+  // 임시 style 태그: 리터럴 값으로 치환 → 브라우저가 이 CSS로 렌더링
+  const _tempStyle = document.createElement('style');
+  _tempStyle.textContent = _rvCss(_origCSS);
+  document.head.appendChild(_tempStyle);
+  // 원본 style 태그를 text/plain으로 → html2canvas CSS 파서가 이걸 건너뜀
+  styleEl.setAttribute('type', 'text/plain');
+  // 인라인 스타일도 리터럴로 치환
+  const _inlineEls  = Array.from(document.querySelectorAll('[style*="var(--"]'));
+  const _origInline = _inlineEls.map(el => el.getAttribute('style'));
   _inlineEls.forEach(el => el.setAttribute('style', _rvCss(el.getAttribute('style'))));
 
   element.style.margin     = '0';
@@ -1602,8 +1609,9 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     btn.disabled   = false;
     btn.textContent = '📤 서류 제출하기';
   } finally {
-    // CSS 변수 원본 복원
-    styleEl.textContent = _origCSS;
+    // CSS 원본 복원
+    styleEl.setAttribute('type', 'text/css');
+    document.head.removeChild(_tempStyle);
     _inlineEls.forEach(function(el, i) { el.setAttribute('style', _origInline[i]); });
     // 임시 스타일 복원
     element.style.margin     = _prevMargin;
