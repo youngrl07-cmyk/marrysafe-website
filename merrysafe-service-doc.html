@@ -1582,43 +1582,24 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevBodyPad = document.body.style.paddingBottom;
 
   // html2canvas 내부 CSS 파서가 var(--xxx)를 만나면 EOF 에러를 냄
-  // → 스타일시트를 아예 비활성화하고, onclone에서 computed style을 직접 주입
-  const _CSS_PROPS = [
-    'color','backgroundColor','opacity','visibility',
-    'fontSize','fontWeight','fontFamily','fontStyle','letterSpacing','lineHeight',
-    'textAlign','textDecoration','whiteSpace',
-    'borderTopWidth','borderTopStyle','borderTopColor',
-    'borderRightWidth','borderRightStyle','borderRightColor',
-    'borderBottomWidth','borderBottomStyle','borderBottomColor',
-    'borderLeftWidth','borderLeftStyle','borderLeftColor',
-    'borderCollapse',
-    'paddingTop','paddingRight','paddingBottom','paddingLeft',
-    'display','boxSizing','verticalAlign','tableLayout',
-    'flexDirection','flexWrap','alignItems','justifyContent','alignSelf','gap',
-    'flex','flexGrow','flexShrink','flexBasis',
-    'gridTemplateColumns','gridColumn','gridRow',
-  ];
-  const _allEls = Array.from(element.querySelectorAll('*'));
-  const _savedStyles = _allEls.map(el => {
-    const cs = window.getComputedStyle(el);
-    const s = {};
-    _CSS_PROPS.forEach(p => { s[p] = cs[p]; });
-    return s;
-  });
-
-  const styleEl = document.querySelector('style');
-  styleEl.setAttribute('type', 'text/plain');
-
-  // 인라인 var() 참조도 제거 (onclone에서 덮어쓰지만 혹시 모를 파서 오류 방지)
-  function _rvVar(s) {
-    return s
-      .replace(/var\(--black\)/g, '#0D0D0D').replace(/var\(--dark\)/g, '#1C1C1C')
-      .replace(/var\(--mid\)/g, '#4A4A4A').replace(/var\(--muted\)/g, '#8A8A8A')
-      .replace(/var\(--border\)/g, '#CCCCCC').replace(/var\(--bg\)/g, '#F7F7F5');
+  // → 스타일시트 텍스트의 var() 를 실제 값으로 치환한 뒤 html2canvas 실행
+  const _VAR_MAP = {
+    '--black':'#0D0D0D','--dark':'#1C1C1C','--mid':'#4A4A4A',
+    '--muted':'#8A8A8A','--border':'#CCCCCC','--bg':'#F7F7F5'
+  };
+  function _replaceVars(s) {
+    return s.replace(/var\((--[^)]+)\)/g, function(_, name) {
+      return _VAR_MAP[name] || _;
+    });
   }
+  const styleEl = document.querySelector('style');
+  const _origCSS = styleEl.textContent;
+  styleEl.textContent = _replaceVars(_origCSS);
+
+  // 인라인 style 속성에 남은 var() 도 치환
   const _inlineEls  = Array.from(document.querySelectorAll('[style*="var(--"]'));
   const _origInline = _inlineEls.map(el => el.getAttribute('style'));
-  _inlineEls.forEach(el => el.setAttribute('style', _rvVar(el.getAttribute('style'))));
+  _inlineEls.forEach(el => el.setAttribute('style', _replaceVars(el.getAttribute('style'))));
 
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
@@ -1641,14 +1622,6 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
         allowTaint: true,
         scrollX:    0,
         scrollY:    0,
-        onclone: function(clonedDoc) {
-          const clonedEl = clonedDoc.getElementById('doc-page');
-          if (!clonedEl) return;
-          const clonedEls = Array.from(clonedEl.querySelectorAll('*'));
-          clonedEls.forEach(function(el, i) {
-            if (_savedStyles[i]) Object.assign(el.style, _savedStyles[i]);
-          });
-        },
       },
       jsPDF: {
         unit:        'mm',
@@ -1783,7 +1756,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     btn.textContent = '📤 서류 제출하기';
   } finally {
     // CSS 원본 복원
-    styleEl.setAttribute('type', 'text/css');
+    styleEl.textContent = _origCSS;
     _inlineEls.forEach(function(el, i) { el.setAttribute('style', _origInline[i]); });
     // 임시 스타일 복원
     element.style.margin     = _prevMargin;
