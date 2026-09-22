@@ -1582,20 +1582,9 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevBodyPad = document.body.style.paddingBottom;
 
   // html2canvas CSS 파서가 var() 를 만나면 EOF 에러를 냄
-  // → 스타일시트 var() 를 실제값으로 치환, Google Fonts 링크 비활성화
+  // → onclone 콜백에서 복사본의 스타일시트를 교체 (타이밍 문제 없음)
   const _VAR_MAP = {'--dark':'#1C1C1C','--mid':'#4A4A4A','--muted':'#8A8A8A','--border':'#CCCCCC','--black':'#0D0D0D','--bg':'#F7F7F5'};
-  const styleEl = document.querySelector('style');
-  const _origCSS = styleEl.textContent;
-  styleEl.textContent = _origCSS.replace(/var\((--[^)]+)\)/g, function(_,n){ return _VAR_MAP[n]||'inherit'; });
-
-  const _fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
-  const _origRels  = _fontLinks.map(l => l.rel);
-  _fontLinks.forEach(l => { l.rel = 'disabled-stylesheet'; });
-
-  // 인라인 var() 도 치환
-  const _inlineEls  = Array.from(document.querySelectorAll('[style*="var(--"]'));
-  const _origInlineStyles = _inlineEls.map(el => el.getAttribute('style'));
-  _inlineEls.forEach(el => el.setAttribute('style', el.getAttribute('style').replace(/var\((--[^)]+)\)/g, function(_,n){ return _VAR_MAP[n]||'inherit'; })));
+  function _rv(s){ return s.replace(/var\((--[^)]+)\)/g,function(_,n){return _VAR_MAP[n]||'inherit';}); }
 
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
@@ -1619,6 +1608,13 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
         scrollX:     0,
         scrollY:     0,
         windowWidth: 794,
+        onclone: function(clonedDoc) {
+          // 복사본의 스타일시트에서 var() 를 실제값으로 치환
+          var cs = clonedDoc.querySelector('style');
+          if (cs) cs.textContent = _rv(cs.textContent);
+          // Google Fonts 링크 비활성화
+          clonedDoc.querySelectorAll('link[rel="stylesheet"]').forEach(function(l){ l.rel='disabled'; });
+        },
       },
       jsPDF: {
         unit:        'mm',
@@ -1752,10 +1748,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     btn.disabled   = false;
     btn.textContent = '📤 서류 제출하기';
   } finally {
-    // CSS 원본 복원
-    styleEl.textContent = _origCSS;
-    _fontLinks.forEach(function(l, i) { l.rel = _origRels[i]; });
-    _inlineEls.forEach(function(el, i) { el.setAttribute('style', _origInlineStyles[i]); });
+    // onclone 방식이므로 라이브 DOM 복원 불필요
     // 임시 스타일 복원
     element.style.margin     = _prevMargin;
     element.style.boxShadow  = _prevShadow;
