@@ -1584,7 +1584,12 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   // html2canvas CSS 파서가 var() 를 만나면 EOF 에러를 냄
   // → onclone 콜백에서 복사본의 스타일시트를 교체 (타이밍 문제 없음)
   const _VAR_MAP = {'--dark':'#1C1C1C','--mid':'#4A4A4A','--muted':'#8A8A8A','--border':'#CCCCCC','--black':'#0D0D0D','--bg':'#F7F7F5'};
-  function _rv(s){ return s.replace(/var\((--[^)]+)\)/g,function(_,n){return _VAR_MAP[n]||'inherit';}); }
+  function _rv(s){
+    // :root { --xxx: yyy } 블록 제거 (html2canvas가 custom property 선언을 파싱 못 함)
+    s = s.replace(/:root\s*\{[^}]*\}/g, '');
+    // var(--xxx) → 실제 값으로 치환
+    return s.replace(/var\((--[^)]+)\)/g,function(_,n){return _VAR_MAP[n]||'inherit';});
+  }
 
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
