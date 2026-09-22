@@ -1580,8 +1580,10 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const element = document.getElementById('doc-page');
   const _prevMargin  = element.style.margin;
   const _prevShadow  = element.style.boxShadow;
+  const _prevWidth   = element.style.width;
   const _prevBodyBg  = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
+  const _prevBodyMinW = document.body.style.minWidth;
 
   // html2canvas CSS 파서가 var() / :root / @media / fr 등을 파싱 못해 SyntaxError throw
   // → 렌더링에 필요한 최소 안전 CSS 로 통째로 교체하고 finally 에서 복원
@@ -1591,7 +1593,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
 *{box-sizing:border-box;}
 body{font-family:sans-serif;color:#1C1C1C;font-size:10pt;line-height:1.7;background:#fff;padding-bottom:0;}
 h1,h2,h3{color:#1C1C1C;}
-.doc-page{max-width:794px;margin:0 auto;padding:12mm 16mm;background:#fff;}
+.doc-page{width:794px;max-width:794px;margin:0 auto;padding:12mm 16mm;background:#fff;}
 .doc-header{text-align:center;border-bottom:2.5px solid #1C1C1C;padding-bottom:.5rem;margin-bottom:.75rem;}
 .doc-logo{font-size:16pt;font-weight:600;letter-spacing:.15em;color:#1C1C1C;}
 .doc-logo span{font-size:9.5pt;font-weight:300;color:#8A8A8A;margin-left:.5rem;}
@@ -1650,10 +1652,13 @@ strong{font-weight:700;} em{font-style:italic;}
   // CSSOM 적용 대기
   await new Promise(r => setTimeout(r, 80));
 
+  // 캡처 폭을 A4(794px)로 고정 — 뷰포트가 좁으면 내용이 세로로 늘어나 빈 페이지가 생김
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
+  element.style.width      = '794px';
   document.body.style.background    = '#fff';
   document.body.style.paddingBottom = '0';
+  document.body.style.minWidth      = '794px';
 
   try {
     // 모바일 브라우저는 캔버스 최대 높이 제한(iOS: ~8192px)이 있어 scale을 낮춤
@@ -1812,8 +1817,10 @@ strong{font-weight:700;} em{font-style:italic;}
     // 임시 스타일 복원
     element.style.margin     = _prevMargin;
     element.style.boxShadow  = _prevShadow;
+    element.style.width      = _prevWidth;
     document.body.style.background    = _prevBodyBg;
     document.body.style.paddingBottom = _prevBodyPad;
+    document.body.style.minWidth      = _prevBodyMinW;
     // UI 다시 표시
     printBar.style.display   = '';
     submitPane.style.display = '';
