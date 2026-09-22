@@ -1581,25 +1581,53 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevBodyBg  = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
 
-  // html2canvas CSS 파서가 var() / :root 커스텀 프로퍼티를 파싱 못해 SyntaxError throw
-  // → html2pdf 호출 전 라이브 DOM 스타일시트를 직접 교체하고 finally 에서 복원
-  const _VAR_MAP = {'--dark':'#1C1C1C','--mid':'#4A4A4A','--muted':'#8A8A8A','--border':'#CCCCCC','--black':'#0D0D0D','--bg':'#F7F7F5'};
-  function _rv(s){
-    s = s.replace(/:root\s*\{[^}]*\}/gs, '');           // :root 블록 제거 (multiline)
-    return s.replace(/var\((--[^)]+)\)/g,function(_,n){return _VAR_MAP[n]||'inherit';});
-  }
+  // html2canvas CSS 파서가 var() / :root / @media / fr 등을 파싱 못해 SyntaxError throw
+  // → 렌더링에 필요한 최소 안전 CSS 로 통째로 교체하고 finally 에서 복원
 
-  // 스타일시트 교체 (html2canvas 호출 전)
+  // PDF 렌더링용 안전 CSS (var/calc/fr/@media 없음)
+  const _SAFE_CSS = `
+body{font-family:sans-serif;color:#1C1C1C;font-size:10pt;line-height:1.7;background:#fff;}
+h1,h2,h3{color:#1C1C1C;}
+.doc-header{text-align:center;border-bottom:2.5px solid #1C1C1C;padding-bottom:1rem;margin-bottom:1.5rem;}
+.doc-title{font-size:16pt;font-weight:700;letter-spacing:.15em;color:#1C1C1C;}
+.doc-subtitle{font-size:9pt;color:#4A4A4A;}
+.section-title{background:#1C1C1C;color:#fff;font-size:10pt;font-weight:500;letter-spacing:.08em;padding:.45rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.section{margin-bottom:1.5rem;}
+table{border-collapse:collapse;width:100%;margin-bottom:1rem;font-size:9.5pt;}
+th{background:#F0F0EE;border:1px solid #CCCCCC;padding:.5rem .75rem;font-weight:500;text-align:left;color:#1C1C1C;}
+td{border:1px solid #CCCCCC;padding:.5rem .75rem;vertical-align:top;}
+.info-grid{display:table;width:100%;}
+.info-row{display:table-row;}
+.info-label{display:table-cell;width:35%;font-weight:500;color:#4A4A4A;padding:.4rem .5rem;border-bottom:1px solid #CCCCCC;vertical-align:top;font-size:9pt;}
+.info-cell{display:table-cell;padding:.4rem .5rem;border-bottom:1px solid #CCCCCC;vertical-align:top;font-size:9pt;}
+.info-cell.full{display:block;padding:.4rem .5rem;border-bottom:1px solid #CCCCCC;font-size:9pt;}
+.opts{display:block;} .opts-col{display:block;}
+label.cl{display:inline-flex;align-items:center;gap:.35rem;margin-right:.75rem;}
+input.dc{width:12px;height:12px;border:1.5px solid #1C1C1C;appearance:none;-webkit-appearance:none;display:inline-block;vertical-align:middle;}
+input.dc:checked{background:#1C1C1C;}
+.tip-box{border-left:3px solid #1C1C1C;background:#F7F7F5;padding:.6rem 1rem;margin:.75rem 0;font-size:9pt;}
+.warning-box{background:#FFF3E0;border:1px solid #FFB74D;padding:.75rem 1rem;margin:.75rem 0;font-size:9pt;}
+.agree-box{border:2px solid #1C1C1C;padding:1rem 1.5rem;margin:1rem 0;}
+.sign-row-3{display:flex;gap:2rem;align-items:flex-start;margin-top:1rem;}
+.sign-box{flex:1;border-bottom:1px solid #1C1C1C;}
+canvas{display:block;width:100%;}
+.footer{text-align:center;font-size:8pt;color:#8A8A8A;margin-top:2rem;padding-top:.75rem;border-top:1px solid #CCCCCC;}
+strong{font-weight:700;} em{font-style:italic;}
+.section-icon{font-size:11pt;}
+`;
+
+  // 스타일시트 교체
   const _styleEls   = Array.from(document.querySelectorAll('style'));
   const _origCSSArr = _styleEls.map(s => s.textContent);
-  _styleEls.forEach(s => { s.textContent = _rv(s.textContent); });
+  if (_styleEls[0]) _styleEls[0].textContent = _SAFE_CSS;
+  _styleEls.slice(1).forEach(s => { s.textContent = ''; });
 
-  // Google Fonts 링크 완전 제거
+  // 외부 CSS 링크 완전 제거
   const _fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
   _fontLinks.forEach(l => l.parentNode.removeChild(l));
 
-  // 브라우저 CSSOM 적용 대기
-  await new Promise(r => setTimeout(r, 50));
+  // CSSOM 적용 대기
+  await new Promise(r => setTimeout(r, 80));
 
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
