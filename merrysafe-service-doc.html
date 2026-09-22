@@ -1609,11 +1609,10 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
         scrollY:     0,
         windowWidth: 794,
         onclone: function(clonedDoc) {
-          // 복사본의 스타일시트에서 var() 를 실제값으로 치환
-          var cs = clonedDoc.querySelector('style');
-          if (cs) cs.textContent = _rv(cs.textContent);
-          // Google Fonts 링크 비활성화
-          clonedDoc.querySelectorAll('link[rel="stylesheet"]').forEach(function(l){ l.rel='disabled'; });
+          // 모든 <style> 태그의 var() 를 실제 값으로 치환
+          clonedDoc.querySelectorAll('style').forEach(function(s){ s.textContent = _rv(s.textContent); });
+          // 외부 CSS 링크 완전 제거 (rel 변경만으로는 html2canvas가 여전히 처리함)
+          clonedDoc.querySelectorAll('link[rel="stylesheet"]').forEach(function(l){ l.parentNode.removeChild(l); });
         },
       },
       jsPDF: {
