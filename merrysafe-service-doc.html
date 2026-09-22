@@ -1581,25 +1581,42 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   const _prevBodyBg  = document.body.style.background;
   const _prevBodyPad = document.body.style.paddingBottom;
 
-  // html2canvas 내부 CSS 파서가 var(--xxx)를 만나면 EOF 에러를 냄
-  // → 스타일시트 텍스트의 var() 를 실제 값으로 치환한 뒤 html2canvas 실행
-  const _VAR_MAP = {
-    '--black':'#0D0D0D','--dark':'#1C1C1C','--mid':'#4A4A4A',
-    '--muted':'#8A8A8A','--border':'#CCCCCC','--bg':'#F7F7F5'
-  };
-  function _replaceVars(s) {
-    return s.replace(/var\((--[^)]+)\)/g, function(_, name) {
-      return _VAR_MAP[name] || _;
+  // html2canvas CSS 파서가 var()/Google Fonts 등을 만나면 EOF 에러를 냄
+  // → 모든 요소에 computed style을 인라인으로 주입, 스타일시트 완전 비활성화
+  const _PROPS = [
+    'color','backgroundColor','opacity',
+    'fontSize','fontWeight','fontFamily','fontStyle','letterSpacing','lineHeight',
+    'textAlign','textDecoration','whiteSpace','textTransform',
+    'borderTopWidth','borderTopStyle','borderTopColor',
+    'borderRightWidth','borderRightStyle','borderRightColor',
+    'borderBottomWidth','borderBottomStyle','borderBottomColor',
+    'borderLeftWidth','borderLeftStyle','borderLeftColor',
+    'borderCollapse','borderRadius',
+    'paddingTop','paddingRight','paddingBottom','paddingLeft',
+    'marginTop','marginRight','marginBottom','marginLeft',
+    'display','boxSizing','verticalAlign','tableLayout','width','height',
+    'flexDirection','flexWrap','alignItems','justifyContent','gap',
+    'gridTemplateColumns',
+  ];
+  const _allEls = Array.from(element.querySelectorAll('*'));
+  const _origInlineStyles = _allEls.map(el => el.getAttribute('style') || '');
+  _allEls.forEach(function(el) {
+    const cs = window.getComputedStyle(el);
+    const parts = [];
+    _PROPS.forEach(function(p) {
+      const v = cs[p];
+      if (v) parts.push(p.replace(/([A-Z])/g, '-$1').toLowerCase() + ':' + v);
     });
-  }
+    if (parts.length) el.setAttribute('style', parts.join(';'));
+  });
+
+  // 스타일시트 및 외부 폰트 링크 비활성화 (html2canvas CSS 파서 우회)
   const styleEl = document.querySelector('style');
   const _origCSS = styleEl.textContent;
-  styleEl.textContent = _replaceVars(_origCSS);
-
-  // 인라인 style 속성에 남은 var() 도 치환
-  const _inlineEls  = Array.from(document.querySelectorAll('[style*="var(--"]'));
-  const _origInline = _inlineEls.map(el => el.getAttribute('style'));
-  _inlineEls.forEach(el => el.setAttribute('style', _replaceVars(el.getAttribute('style'))));
+  styleEl.textContent = '';
+  const _fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+  const _origRels  = _fontLinks.map(l => l.rel);
+  _fontLinks.forEach(l => { l.rel = 'disabled-stylesheet'; });
 
   element.style.margin     = '0';
   element.style.boxShadow  = 'none';
@@ -1757,7 +1774,11 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   } finally {
     // CSS 원본 복원
     styleEl.textContent = _origCSS;
-    _inlineEls.forEach(function(el, i) { el.setAttribute('style', _origInline[i]); });
+    _fontLinks.forEach(function(l, i) { l.rel = _origRels[i]; });
+    _allEls.forEach(function(el, i) {
+      const orig = _origInlineStyles[i];
+      if (orig) el.setAttribute('style', orig); else el.removeAttribute('style');
+    });
     // 임시 스타일 복원
     element.style.margin     = _prevMargin;
     element.style.boxShadow  = _prevShadow;
