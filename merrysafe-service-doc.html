@@ -1568,8 +1568,10 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   // ── 3. PDF 생성을 위해 UI 요소 임시 숨김 + 스타일 초기화 ──
   const printBar   = document.getElementById('print-bar');
   const submitPane = document.getElementById('submit-panel');
+  const validAlert = document.getElementById('validation-alert');
   printBar.style.display   = 'none';
   submitPane.style.display = 'none';
+  if (validAlert) validAlert.style.display = 'none';
 
   // 스크롤 최상단으로 이동 (공백 페이지 방지)
   window.scrollTo(0, 0);
@@ -1632,6 +1634,7 @@ canvas{display:block;max-width:100%;max-height:120px;}
 .clause-num{font-weight:500;margin-right:.3rem;}
 strong{font-weight:700;} em{font-style:italic;}
 .print-bar{display:none!important;} .submit-panel{display:none!important;}
+#validation-alert{display:none!important;}
 `;
 
   // 스타일시트 교체
