@@ -1661,9 +1661,21 @@ strong{font-weight:700;} em{font-style:italic;}
   document.body.style.minWidth      = '794px';
 
   try {
-    // 모바일 브라우저는 캔버스 최대 높이 제한(iOS: ~8192px)이 있어 scale을 낮춤
-    const isMobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const renderScale = isMobile ? 1.0 : 1.5;
+    // Safari/iOS 는 캔버스 최대 높이(~8192px)·면적(~16.7M px²) 제한이 낮아
+    // 초과하면 캔버스가 비어 빈 PDF 가 만들어진다 → 한도 안에 들도록 scale 을 낮춤
+    const _ua      = navigator.userAgent;
+    const isIOS    = /iPad|iPhone|iPod/.test(_ua) || (/Macintosh/.test(_ua) && navigator.maxTouchPoints > 1);
+    const isSafari = isIOS || (/Safari/.test(_ua) && !/Chrome|Chromium|Edg|OPR|Android/.test(_ua));
+    const isMobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(_ua);
+
+    const _maxH    = isSafari ?  7800 : 30000;
+    const _maxArea = isSafari ? 15e6  : 200e6;
+    const _cssH    = element.scrollHeight || element.offsetHeight || 1;
+    const renderScale = Math.min(
+      isMobile ? 1.0 : 1.5,
+      _maxH / _cssH,
+      Math.sqrt(_maxArea / (794 * _cssH))
+    );
 
     const opt = {
       margin:     [10, 10, 10, 10],
@@ -1697,7 +1709,7 @@ strong{font-weight:700;} em{font-style:italic;}
       btn.textContent = '⏳ PDF 최적화 중...';
       const optLow = { ...opt,
         image: { type: 'jpeg', quality: 0.75 },
-        html2canvas: { ...opt.html2canvas, scale: 1.0 }
+        html2canvas: { ...opt.html2canvas, scale: Math.min(1.0, renderScale) }
       };
       pdfArrayBuffer = await html2pdf()
         .set(optLow)
