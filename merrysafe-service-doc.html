@@ -1660,6 +1660,13 @@ strong{font-weight:700;} em{font-style:italic;}
   document.body.style.paddingBottom = '0';
   document.body.style.minWidth      = '794px';
 
+  // 폭 고정으로 좁은 화면에 가로 스크롤이 생기므로, 캡처 직전 원점으로 되돌린다.
+  // (가로로 스크롤된 상태로 캡처되면 문서 왼쪽이 잘려 나간다)
+  window.scrollTo(0, 0);
+  document.documentElement.scrollLeft = 0;
+  document.body.scrollLeft            = 0;
+  await new Promise(r => setTimeout(r, 150));
+
   try {
     // Safari/iOS 는 캔버스 최대 높이(~8192px)·면적(~16.7M px²) 제한이 낮아
     // 초과하면 캔버스가 비어 빈 PDF 가 만들어진다 → 한도 안에 들도록 scale 을 낮춤
@@ -1686,6 +1693,9 @@ strong{font-weight:700;} em{font-style:italic;}
         useCORS:     true,
         logging:     false,
         allowTaint:  true,
+        x:           0,
+        y:           0,
+        width:       794,
         scrollX:     0,
         scrollY:     0,
         windowWidth: 794,
