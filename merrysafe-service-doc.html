@@ -1708,10 +1708,29 @@ strong{font-weight:700;} em{font-style:italic;}
       pagebreak: { mode: ['css'] }
     };
 
-    let pdfArrayBuffer = await html2pdf()
-      .set(opt)
-      .from(element)
-      .outputPdf('arraybuffer');
+    // 캔버스를 먼저 만들어 실제 크기를 확인한다. 브라우저가 복제본을 원본보다 크게
+    // 그리는 경우가 있어 예측한 scale 만으로는 Safari 한도를 넘길 수 있다.
+    // (toCanvas 뒤 toPdf 로 이어가므로 초과하지 않으면 재렌더 비용은 없다)
+    const _CANVAS_MAX_H    = isSafari ? 8000 : 30000;
+    const _CANVAS_MAX_AREA = isSafari ? 16e6 : 200e6;
+
+    let worker = html2pdf().set(opt).from(element);
+    let canvas = await worker.toCanvas().get('canvas');
+
+    if (canvas.height > _CANVAS_MAX_H ||
+        canvas.width * canvas.height > _CANVAS_MAX_AREA) {
+      const shrink = Math.min(
+        _CANVAS_MAX_H / canvas.height,
+        Math.sqrt(_CANVAS_MAX_AREA / (canvas.width * canvas.height))
+      ) * 0.97;
+      const optFit = { ...opt,
+        html2canvas: { ...opt.html2canvas, scale: renderScale * shrink }
+      };
+      worker = html2pdf().set(optFit).from(element);
+      canvas = await worker.toCanvas().get('canvas');
+    }
+
+    let pdfArrayBuffer = await worker.toPdf().outputPdf('arraybuffer');
 
     // ── 3-1. 크기 초과 시 품질 낮춰 재생성 (서버 제한 15MB 대비 여유 확보) ──
     const MB = 1024 * 1024;
