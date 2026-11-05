@@ -88,7 +88,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ success: true, pdfBase64 });
   } catch (error) {
     console.error('send-pdf error:', error);
-    return res.status(500).json({ error: error.message, node: process.version });
+    return res.status(500).json({ error: error.message });
   }
 };
 
