@@ -24,10 +24,11 @@ async function renderPdf(docHtml) {
     const page = await browser.newPage();
     await page.setContent(docHtml, { waitUntil: 'networkidle0', timeout: 30000 });
     await page.evaluateHandle('document.fonts.ready');
+    // 문서 HTML 이 @page{size:A4;margin:12mm 10mm} 를 들고 오므로 그 설정을 그대로 쓴다.
+    // (로컬 크롬에서 빈 페이지 없이 13페이지로 검증된 조합)
     return await page.pdf({
-      format: 'A4',
       printBackground: true,
-      margin: { top: '12mm', right: '10mm', bottom: '12mm', left: '10mm' },
+      preferCSSPageSize: true,
     });
   } finally {
     await browser.close();
@@ -69,7 +70,14 @@ module.exports = async function handler(req, res) {
       throw new Error(`GAS error ${gasRes.status}: ${text.substring(0, 100)}`);
     }
 
-    return res.status(200).json({ success: true });
+    // 고객이 "PDF 로 저장" 을 누를 수 있도록 서버가 만든 PDF 를 돌려준다.
+    // 단 응답 본문 한도(약 4.5MB)를 넘기면 전송 자체가 실패하므로, 큰 파일은 생략한다.
+    // (메일은 이미 발송됐고, 화면은 pdfBase64 가 없으면 저장 단계를 건너뛴다)
+    const RESPONSE_PDF_LIMIT = 3 * 1024 * 1024;
+    const pdfBase64 = payload.pdfBase64 && payload.pdfBase64.length <= RESPONSE_PDF_LIMIT
+      ? payload.pdfBase64
+      : undefined;
+    return res.status(200).json({ success: true, pdfBase64 });
   } catch (error) {
     console.error('send-pdf error:', error);
     return res.status(500).json({ error: error.message });
