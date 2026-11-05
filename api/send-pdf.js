@@ -5,6 +5,14 @@ const FONT_URLS = [
   'https://raw.githubusercontent.com/googlefonts/noto-cjk/main/Sans/OTF/Korean/NotoSansCJKkr-Regular.otf',
 ];
 
+// @sparticuz/chromium 은 AWS_EXECUTION_ENV / AWS_LAMBDA_JS_RUNTIME 값을 보고
+// 공유 라이브러리(al2023.tar.br)를 풀고 LD_LIBRARY_PATH 를 잡는다.
+// Vercel 람다에는 이 값이 없어서 두 단계를 모두 건너뛰고,
+// 크로미움이 libnss3.so 를 찾지 못해 실행에 실패한다. 표식을 채워 준다.
+if (process.platform === 'linux' && !process.env.AWS_EXECUTION_ENV) {
+  process.env.AWS_LAMBDA_JS_RUNTIME = process.env.AWS_LAMBDA_JS_RUNTIME || 'nodejs22.x';
+}
+
 async function renderPdf(docHtml) {
   const chromium = (await import('@sparticuz/chromium')).default;
   const puppeteer = await import('puppeteer-core');
